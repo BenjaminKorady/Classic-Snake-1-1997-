@@ -17,13 +17,17 @@ Snake::Snake()
 
 void Snake::reset()
 {
+    
     PixelLocation loc(0 + Board::LARGE_PIXEL_OFFSET, 10 * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET);
+    for (int i = 0; i < nSegments; ++i) {
+        segments[i].exists = false;
+    }
+    nSegments = 9;
     for (int i = nSegments - 1; i >= 0; --i) {
         segments[i].initSegment(loc);
         loc = { loc.x + Board::CELL_INC_OFFSET, loc.y };
     }
-    foodEaten = 0;
-    nSegments = 9;
+    foodEaten = 0;    
     direction = { 0, 0 };
     moveBuffered = false;
 }

@@ -62,6 +62,7 @@ private:
     void drawBackground();
     void drawGameOver();
     void gameReset();
+    void updateGame();
 	/********************************/
 private:
 	MainWindow& wnd;
@@ -74,7 +75,9 @@ private:
     bool newGame = false;
     Color bgColor;
     Snake snek;
+    Snake snekCache;
     Food nom;
+    Food nomCache;
     //  Directional vector. Default is { 1, 0 } (right)
 	PixelLocation direction = { 1, 0 };
     Menu menu;

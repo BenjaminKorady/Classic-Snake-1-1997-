@@ -21,6 +21,7 @@ public:
     bool optionSelected();
     void reset();
     void showTopScore(int topScore);
+    void addLastView();
  
 private:
 

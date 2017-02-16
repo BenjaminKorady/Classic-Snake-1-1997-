@@ -48,6 +48,12 @@ PixelLocation Food::getLocation() const
 	return loc;
 }
 
+void Food::reset()
+{
+    loc = { 10 * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET, 5 * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET };
+
+}
+
     
 /**
     Relocates the food at a random location on the board avoiding the snake's body

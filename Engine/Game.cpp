@@ -27,7 +27,9 @@ Game::Game(MainWindow& wnd)
 	gfx(wnd),               //  Graphics
 	brd(gfx),               //  Board
     snek(),                 //  Snake
-    nom(),                   //  Food
+    snekCache(),
+    nom(),                  //  Food
+    nomCache(),
     menu(brd, snek, nom, wnd.kbd),
     bgColor(172, 193, 0)   // Green background color
 
@@ -46,42 +48,7 @@ void Game::Go()
 void Game::UpdateModel()
 {
     if (menuSelection == 0) {
-        if (!isGameOver) {
-            direction = snek.getNextDirection(wnd.kbd);
-            PixelLocation zero(0, 0);
-            if (direction != zero) {
-
-                //  Increments snake's idleFor value (Snake has been idle for a frame)
-                snek.incIdleFor();
-
-                //  If has been idle long enough to move (This manages the snake's speed)
-                if (snek.isTurnToMove()) {
-
-                    PixelLocation nextLocation = snek.getNextHeadLocation(direction);
-
-                    //  If snakes is not about to collide with the board from or its body
-                    if (brd.isInsideBoard(nextLocation) && !snek.isInLocation(nextLocation)) {
-
-                        //  If snake is about to eat food
-                        if (nextLocation == nom.getLocation()) {
-                            snek.grow();
-                            nom.respawn(snek);
-                            nom.draw(brd);
-                            snek.incFoodEaten();
-                        }
-
-                        snek.resetMoveBuffer();
-                        snek.move(direction, brd);
-
-                    }
-
-                    else {
-                        direction = { 0, 0 };
-                        isGameOver = true;
-                    }
-                }
-            }
-        }
+        updateGame();
     }	
 }
 
@@ -95,6 +62,9 @@ void Game::drawBackground()
 void Game::drawGameOver()
 {
     int score = snek.getFoodEaten() * snek.getSpeed();
+    if (score > topScore) {
+        topScore = score;
+    }
     brd.drawString({ 3, 3 }, "Game over!\nYour score:\n" + std::to_string(score), false);
     bool buttonPressed = false;
     while (!wnd.kbd.KeyIsEmpty()) {
@@ -108,7 +78,8 @@ void Game::drawGameOver()
         if (wnd.kbd.KeyIsPressed(VK_RETURN)) {
             if (!buttonPressed) {
                 buttonPressed = true;
-                gameReset();
+                menuSelection = -1;
+                menu.reset();
                 return;
             }
         }
@@ -119,9 +90,52 @@ void Game::gameReset()
 {
     isGameOver = false;
     snek.reset();
-    menuSelection = -1;
-    menu.reset();
+    nom.reset();
 
+}
+
+void Game::updateGame()
+{
+    if (!isGameOver) {
+        direction = snek.getNextDirection(wnd.kbd);
+        PixelLocation zero(0, 0);
+        if (direction != zero) {
+
+            //  Increments snake's idleFor value (Snake has been idle for a frame)
+            snek.incIdleFor();
+
+            //  If has been idle long enough to move (This manages the snake's speed)
+            if (snek.isTurnToMove()) {
+
+                PixelLocation nextLocation = snek.getNextHeadLocation(direction);
+
+                //  If snakes is not about to collide with the board from or its body
+                if (brd.isInsideBoard(nextLocation) && !snek.isInLocation(nextLocation)) {
+
+                    //  If snake is about to eat food
+                    if (nextLocation == nom.getLocation()) {
+                        snek.grow();
+                        nom.respawn(snek);
+                        nom.draw(brd);
+                        snek.incFoodEaten();
+                    }
+
+                    snek.resetMoveBuffer();
+                    snek.move(direction, brd);
+
+                }
+
+                else {
+                    direction = { 0, 0 };
+                    isGameOver = true;
+                    snekCache = snek;
+                    nomCache = nom;
+                    menu.addLastView();
+                    menu.initMenuItems();
+                }
+            }
+        }
+    }
 }
 
 
@@ -129,13 +143,14 @@ void Game::gameReset()
 void Game::ComposeFrame()
 {
     drawBackground();
-        if (menuSelection == -1) {
+        
+        //  Menu
+        if (menu.getSelection() == -1) {
             menu.navigate();
         }
 
-        if (menu.getSelection() == 0) {
-            menuSelection = 0;
-
+        //  New game
+        if (menu.getSelection() == 0) { 
             if (!isGameOver) {
                 brd.drawBoard();
                 snek.draw(brd);
@@ -150,16 +165,29 @@ void Game::ComposeFrame()
 
 
 
-
+        //  Top score
         else if (menu.getSelection() == 1) {
             menuSelection = 1;
             menu.showTopScore(topScore);
         }
         
-
+        //  Instructions
         else if (menu.getSelection() == 2) {
             menuSelection = 2;
             menu.showInstructions();
+        }
+
+        //  Level
+        else if (menu.getSelection() == 3) {
+            menuSelection = 3;
+        }
+
+        //  Last view
+        else if (menu.getSelection() == 4) {
+            brd.drawBoard();
+            snekCache.draw(brd);
+            nomCache.draw(brd);
+            menuSelection = 4;
         }
 
     }

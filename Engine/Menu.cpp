@@ -166,10 +166,28 @@ void Menu::reset()
 void Menu::showTopScore(int topScore)
 {
     brd.drawString({ 3, 3 }, "Top score:\n " + std::to_string(topScore), false);
-    if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(VK_ESCAPE)) {
-        menuSelection = -1;
-        reset();
+    while (!kbd.KeyIsEmpty()) {
+        const Keyboard::Event e = kbd.ReadKey();
+        if (e.IsRelease()) {
+            if (e.GetCode() == VK_RETURN) {
+                buttonPressed = false;
+            }
+        }
+
+        if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(0x57)) {
+            if (!buttonPressed) {
+                buttonPressed = true;
+                reset();
+                selectedItem = 1;
+                return;
+            }
+        }
     }
+}
+
+void Menu::addLastView()
+{
+    showLastView = true;
 }
 
 
