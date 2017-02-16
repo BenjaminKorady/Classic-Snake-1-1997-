@@ -45,8 +45,6 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-    if(menu.inputDelay > 0)
-        --menu.inputDelay;
     if (menuSelection == 0) {
         if (!isGameOver) {
             direction = snek.getNextDirection(wnd.kbd);
@@ -98,8 +96,7 @@ void Game::drawGameOver()
 {
     int score = snek.getFoodEaten() * snek.getSpeed();
     brd.drawString({ 3, 3 }, "Game over!\nYour score:\n" + std::to_string(score), false);
-    if (wnd.kbd.KeyIsPressed(VK_RETURN)) {
-        menu.blockInput(10);
+    if (wnd.kbd.KeyIsPressed(VK_RETURN)) {  //ay
         isGameOver = false;
         if (score > topScore) { topScore = score; }        
         snek.reset();
@@ -113,40 +110,37 @@ void Game::drawGameOver()
 void Game::ComposeFrame()
 {
     drawBackground();
-
-    if (menuSelection == -1 ) {       
-        menu.navigate(wnd.kbd);       
-    }
-
-    if (menu.getSelection() == 0) {
-        menuSelection = 0;
-
-        if (!isGameOver) {
-            brd.drawBoard();
-            snek.draw(brd);
-            nom.draw(brd);
+        if (menuSelection == -1) {
+            menu.navigate();
         }
-        else {
-            drawGameOver();
+
+        if (menu.getSelection() == 0) {
+            menuSelection = 0;
+
+            if (!isGameOver) {
+                brd.drawBoard();
+                snek.draw(brd);
+                nom.draw(brd);
+            }
+            else {
+                drawGameOver();
+            }
+
+
         }
-    }
 
-    else if (menu.getSelection() == 1) {
-        menuSelection = 1;
-        brd.drawString({ 3, 3 }, "Top score:\n " + std::to_string(topScore), false);
-        if (wnd.kbd.KeyIsPressed(VK_RETURN) || wnd.kbd.KeyIsPressed(VK_ESCAPE)) {
-            drawBackground();
-            menu.blockInput(10);
-            menuSelection = -1;
+
+
+
+        else if (menu.getSelection() == 1) {
+            menuSelection = 1;
+            menu.showTopScore(topScore);
         }
+        
+
+        else if (menu.getSelection() == 2) {
+            menuSelection = 2;
+            menu.showInstructions();
+        }
+
     }
-
-    else if (menu.getSelection() == 2) {
-        menuSelection = 2;
-        menu.showInstructions();
-    }
-
-  
-
-
-}

@@ -6,7 +6,8 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom)
     :
     brd(brd),
     snek(snek),
-    nom(nom)
+    nom(nom),
+    kbd(kbd)
 {
     initMenuItems();
 }
@@ -61,30 +62,23 @@ void Menu::initMenuItems()
 
 }
 
-void Menu::navigate(Keyboard & kbd)
+void Menu::navigate()
 {
     int option = -1;
-    while ( !kbd.KeyIsEmpty())
-         {
-         	// get an event from the queue
-             	const Keyboard::Event e = kbd.ReadKey();
-         	// check if it is a release event
-            	if (e.IsRelease())
-             	{
-             		// check if the event was for the up arrow, down arrow, W, S, key
-                 		if (e.GetCode() == VK_UP || e.GetCode() == VK_DOWN || e.GetCode() == 0x53 || e.GetCode() == 0x57)
-                 		{
-                            buttonPressed = false;
-                     	}
-             	}
-         }
+    while ( !kbd.KeyIsEmpty() ) {         	
+        const Keyboard::Event e = kbd.ReadKey();
+        if (e.IsRelease()) {
+            if (e.GetCode() == VK_UP || e.GetCode() == VK_DOWN || e.GetCode() == 0x53 || e.GetCode() == 0x57) {
+                buttonPressed = false;
+            }             	
+        }
     
-    if (kbd.KeyIsPressed(VK_UP) || kbd.KeyIsPressed(0x57)) {
-        if (!buttonPressed) {
-            buttonPressed = true;
-            if (selectedItem != 0) {
-                --selectedItem;
-            }
+        if (kbd.KeyIsPressed(VK_UP) || kbd.KeyIsPressed(0x57)) {
+            if (!buttonPressed) {
+                buttonPressed = true;
+                if (selectedItem != 0) {
+                    --selectedItem;
+                }
             else {
                 if (--firstItem == -1) {
                     firstItem = nMenuItems - 1;
@@ -110,18 +104,18 @@ void Menu::navigate(Keyboard & kbd)
 
     if (kbd.KeyIsPressed(VK_RETURN)) {
         if (!buttonPressed) {
-            if (inputDelay <= 0) {
-                buttonPressed = true;
-                confirmSelection = true;
-                menuSelection = 0;
-                return;
-            }
+            buttonPressed = true;
+            confirmSelection = true;
+            menuSelection = 0;
+            return;            
         }
     }
 
   
 
    
+    
+    }
     draw();
 }
 
@@ -148,10 +142,6 @@ void Menu::showInstructions()
     //ke grow longer by directing it to the food.Use the keys 2,4,6 and 8. You cannot stop the snake or make it go backwards. Try not to hit the walls or the tail.")
     brd.drawString({ 2, 2 }, "Make the snake\ngrow longer by\ndirecting it to", false);
 }
-void Menu::blockInput(int delay)
-{
-    inputDelay = delay;
-}
 int Menu::getSelection()
 {
     if (confirmSelection)
@@ -171,6 +161,15 @@ void Menu::backToMenu()
     buttonPressed = false;
     menuSelection = -1;
     confirmSelection = false;
+}
+
+void Menu::showTopScore(int topScore)
+{
+    brd.drawString({ 3, 3 }, "Top score:\n " + std::to_string(topScore), false);
+    if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(VK_ESCAPE)) {
+        menuSelection = -1;
+        backToMenu();
+    }
 }
 
 

@@ -14,15 +14,13 @@ public:
     void draw();
     void drawItem(MenuItem itemIn, int position, bool selected);
     void initMenuItems();
-    void navigate(Keyboard &kbd);
+    void navigate();
     void drawSideBar(int height);
     void showInstructions();
-    void blockInput(int delay);
     int getSelection();
     bool optionSelected();
     void backToMenu();
-    int inputDelay = 0;
-   // brd.drawString({ 27, 39 }, "Select", false);
+    void showTopScore(int topScore);
  
 private:
 
@@ -33,6 +31,7 @@ private:
     };
 
     MenuItem item[5];
+    Keyboard &kbd;
 
     bool showLastView = false;
     bool initialized = false;
