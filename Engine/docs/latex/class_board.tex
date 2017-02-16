@@ -1,0 +1,153 @@
+\hypertarget{class_board}{}\section{Board Class Reference}
+\label{class_board}\index{Board@{Board}}
+
+
+{\ttfamily \#include $<$Board.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_board_a46374cb53089d5abbf7609234dca4828}{Board} (\hyperlink{class_graphics}{Graphics} \&gfx)
+\item 
+void \hyperlink{class_board_a3bfb1c528ae857f74b9ff3b3ba8d1911}{Draw\+Pixel} (const \hyperlink{class_pixel_location}{Pixel\+Location} \&loc)
+\item 
+void \hyperlink{class_board_a13216aad741156a095cf4509026a6649}{Draw\+Board} ()
+\item 
+bool \hyperlink{class_board_af00a708a0b6f2744b4494bd0d5fe0221}{is\+Inside\+Board} (const \hyperlink{class_pixel_location}{Pixel\+Location} loc) const
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_board_a492fe7c6d55d277f69dc67c2c08539ac}\label{class_board_a492fe7c6d55d277f69dc67c2c08539ac}} 
+static constexpr int {\bfseries C\+E\+L\+L\+S\+\_\+X} = 20
+\item 
+\mbox{\Hypertarget{class_board_ad3b92faba492e95825f4018d41a0d977}\label{class_board_ad3b92faba492e95825f4018d41a0d977}} 
+static constexpr int {\bfseries C\+E\+L\+L\+S\+\_\+Y} = 11
+\item 
+\mbox{\Hypertarget{class_board_ae512439f91443ec636ea6633a72ada06}\label{class_board_ae512439f91443ec636ea6633a72ada06}} 
+static constexpr int {\bfseries S\+C\+R\+E\+E\+N\+\_\+\+W\+I\+D\+TH} = Graphics\+::\+Screen\+Width
+\item 
+\mbox{\Hypertarget{class_board_acdf9873415951e78df3fbae321381fd5}\label{class_board_acdf9873415951e78df3fbae321381fd5}} 
+static constexpr int {\bfseries S\+C\+R\+E\+E\+N\+\_\+\+H\+E\+I\+G\+HT} = Graphics\+::\+Screen\+Height
+\item 
+\mbox{\Hypertarget{class_board_a01a6846968fd31e332f19e1978f27e0d}\label{class_board_a01a6846968fd31e332f19e1978f27e0d}} 
+static constexpr int {\bfseries C\+E\+L\+L\+\_\+\+S\+I\+ZE} = 3
+\item 
+\mbox{\Hypertarget{class_board_a51e465bda972205b4c2e1e3b0fab6732}\label{class_board_a51e465bda972205b4c2e1e3b0fab6732}} 
+static constexpr int {\bfseries C\+E\+L\+L\+\_\+\+L\+A\+R\+G\+E\+\_\+\+P\+I\+X\+E\+L\+\_\+\+O\+F\+F\+S\+ET} = 1
+\item 
+\mbox{\Hypertarget{class_board_a6915825e595c8a98ee5d083212a4f4c8}\label{class_board_a6915825e595c8a98ee5d083212a4f4c8}} 
+static constexpr int {\bfseries C\+E\+L\+L\+\_\+\+I\+N\+C\+\_\+\+O\+F\+F\+S\+ET} = C\+E\+L\+L\+\_\+\+S\+I\+ZE + C\+E\+L\+L\+\_\+\+L\+A\+R\+G\+E\+\_\+\+P\+I\+X\+E\+L\+\_\+\+O\+F\+F\+S\+ET
+\item 
+static constexpr int {\bfseries G\+R\+I\+D\+\_\+\+W\+I\+D\+TH}
+\item 
+static constexpr int {\bfseries G\+R\+I\+D\+\_\+\+H\+E\+I\+G\+HT}
+\item 
+\mbox{\Hypertarget{class_board_a619774ab886154a3d5a74cf98ac42c69}\label{class_board_a619774ab886154a3d5a74cf98ac42c69}} 
+static constexpr int {\bfseries L\+A\+R\+G\+E\+\_\+\+P\+I\+X\+E\+L\+\_\+\+D\+I\+M\+E\+N\+S\+I\+ON} = S\+C\+R\+E\+E\+N\+\_\+\+W\+I\+D\+TH / G\+R\+I\+D\+\_\+\+W\+I\+D\+TH
+\item 
+\mbox{\Hypertarget{class_board_ae9697a8aec0c7287651f758590e286c2}\label{class_board_ae9697a8aec0c7287651f758590e286c2}} 
+static constexpr int {\bfseries L\+A\+R\+G\+E\+\_\+\+P\+I\+X\+E\+L\+\_\+\+O\+F\+F\+S\+ET} = 2
+\item 
+\mbox{\Hypertarget{class_board_a40ede8b5ef707e33c5e5423376ba0680}\label{class_board_a40ede8b5ef707e33c5e5423376ba0680}} 
+static constexpr int {\bfseries unused\+PixelsX} = S\+C\+R\+E\+E\+N\+\_\+\+W\+I\+D\+TH -\/ (L\+A\+R\+G\+E\+\_\+\+P\+I\+X\+E\+L\+\_\+\+D\+I\+M\+E\+N\+S\+I\+ON) $\ast$ G\+R\+I\+D\+\_\+\+W\+I\+D\+TH
+\item 
+\mbox{\Hypertarget{class_board_a4e101f3a2d9dc6f1b001bb7764d58ff7}\label{class_board_a4e101f3a2d9dc6f1b001bb7764d58ff7}} 
+static constexpr int {\bfseries unused\+PixelsY} = S\+C\+R\+E\+E\+N\+\_\+\+H\+E\+I\+G\+HT -\/ (L\+A\+R\+G\+E\+\_\+\+P\+I\+X\+E\+L\+\_\+\+D\+I\+M\+E\+N\+S\+I\+ON) $\ast$ G\+R\+I\+D\+\_\+\+H\+E\+I\+G\+HT
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_snake}{Snake} game Board.\+cpp Purpose\+: Manages the gaming board
+
+\begin{DoxyAuthor}{Author}
+\+: Benjamin Korady 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+\+: 1.\+0 11/02/2017 
+\end{DoxyVersion}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_board_a46374cb53089d5abbf7609234dca4828}\label{class_board_a46374cb53089d5abbf7609234dca4828}} 
+\index{Board@{Board}!Board@{Board}}
+\index{Board@{Board}!Board@{Board}}
+\subsubsection{\texorpdfstring{Board()}{Board()}}
+{\footnotesize\ttfamily Board\+::\+Board (\begin{DoxyParamCaption}\item[{\hyperlink{class_graphics}{Graphics} \&}]{gfx }\end{DoxyParamCaption})}
+
+Constructs a game board object Initializes background color to light green and pixel color to dark green / black
+
+
+\begin{DoxyParams}{Parameters}
+{\em gfx} & \hyperlink{class_graphics}{Graphics} processor reference \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_board_a13216aad741156a095cf4509026a6649}\label{class_board_a13216aad741156a095cf4509026a6649}} 
+\index{Board@{Board}!Draw\+Board@{Draw\+Board}}
+\index{Draw\+Board@{Draw\+Board}!Board@{Board}}
+\subsubsection{\texorpdfstring{Draw\+Board()}{DrawBoard()}}
+{\footnotesize\ttfamily void Board\+::\+Draw\+Board (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Draws the game board and background fill \mbox{\Hypertarget{class_board_a3bfb1c528ae857f74b9ff3b3ba8d1911}\label{class_board_a3bfb1c528ae857f74b9ff3b3ba8d1911}} 
+\index{Board@{Board}!Draw\+Pixel@{Draw\+Pixel}}
+\index{Draw\+Pixel@{Draw\+Pixel}!Board@{Board}}
+\subsubsection{\texorpdfstring{Draw\+Pixel()}{DrawPixel()}}
+{\footnotesize\ttfamily void Board\+::\+Draw\+Pixel (\begin{DoxyParamCaption}\item[{const \hyperlink{class_pixel_location}{Pixel\+Location} \&}]{loc }\end{DoxyParamCaption})}
+
+Draws a large pixel to the screen (9 pc monitor pixels = 1 phone screen pixel) \href{http://i.imgur.com/RkFVcAk.png}{\tt http\+://i.\+imgur.\+com/\+Rk\+F\+Vc\+Ak.\+png}
+
+
+\begin{DoxyParams}{Parameters}
+{\em loc} & The location on the screen where the pixel is to be drawn \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_board_af00a708a0b6f2744b4494bd0d5fe0221}\label{class_board_af00a708a0b6f2744b4494bd0d5fe0221}} 
+\index{Board@{Board}!is\+Inside\+Board@{is\+Inside\+Board}}
+\index{is\+Inside\+Board@{is\+Inside\+Board}!Board@{Board}}
+\subsubsection{\texorpdfstring{is\+Inside\+Board()}{isInsideBoard()}}
+{\footnotesize\ttfamily bool Board\+::is\+Inside\+Board (\begin{DoxyParamCaption}\item[{const \hyperlink{class_pixel_location}{Pixel\+Location}}]{loc }\end{DoxyParamCaption}) const}
+
+Checks if input location is inside the game board
+
+
+\begin{DoxyParams}{Parameters}
+{\em loc} & The input location to check against the game board \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_board_aff34c4b148c4ea0ee9fe7254a529ceee}\label{class_board_aff34c4b148c4ea0ee9fe7254a529ceee}} 
+\index{Board@{Board}!G\+R\+I\+D\+\_\+\+H\+E\+I\+G\+HT@{G\+R\+I\+D\+\_\+\+H\+E\+I\+G\+HT}}
+\index{G\+R\+I\+D\+\_\+\+H\+E\+I\+G\+HT@{G\+R\+I\+D\+\_\+\+H\+E\+I\+G\+HT}!Board@{Board}}
+\subsubsection{\texorpdfstring{G\+R\+I\+D\+\_\+\+H\+E\+I\+G\+HT}{GRID\_HEIGHT}}
+{\footnotesize\ttfamily constexpr int Board\+::\+G\+R\+I\+D\+\_\+\+H\+E\+I\+G\+HT\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= CELLS\_Y * CELL\_SIZE + (CELLS\_Y - 1) * CELL\_LARGE\_PIXEL\_OFFSET + 2 * CELL\_LARGE\_PIXEL\_OFFSET
+                                       + 2 * CELL\_LARGE\_PIXEL\_OFFSET
+\end{DoxyCode}
+\mbox{\Hypertarget{class_board_ae781948bea97fe9c0469b10b0f61bf7d}\label{class_board_ae781948bea97fe9c0469b10b0f61bf7d}} 
+\index{Board@{Board}!G\+R\+I\+D\+\_\+\+W\+I\+D\+TH@{G\+R\+I\+D\+\_\+\+W\+I\+D\+TH}}
+\index{G\+R\+I\+D\+\_\+\+W\+I\+D\+TH@{G\+R\+I\+D\+\_\+\+W\+I\+D\+TH}!Board@{Board}}
+\subsubsection{\texorpdfstring{G\+R\+I\+D\+\_\+\+W\+I\+D\+TH}{GRID\_WIDTH}}
+{\footnotesize\ttfamily constexpr int Board\+::\+G\+R\+I\+D\+\_\+\+W\+I\+D\+TH\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= CELLS\_X * CELL\_SIZE + (CELLS\_X-1) * CELL\_LARGE\_PIXEL\_OFFSET + 2 * CELL\_LARGE\_PIXEL\_OFFSET
+                                      + 2 * CELL\_LARGE\_PIXEL\_OFFSET
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Board.\+h\item 
+Board.\+cpp\end{DoxyCompactItemize}
