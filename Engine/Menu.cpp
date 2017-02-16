@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <string>
 
-Menu::Menu(Board &brd, Snake &snek, Food &nom)
+Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     :
     brd(brd),
     snek(snek),

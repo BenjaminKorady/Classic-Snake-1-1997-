@@ -28,7 +28,7 @@ Game::Game(MainWindow& wnd)
 	brd(gfx),               //  Board
     snek(),                 //  Snake
     nom(),                   //  Food
-    menu(brd, snek, nom),
+    menu(brd, snek, nom, wnd.kbd),
     bgColor(172, 193, 0)   // Green background color
 
 

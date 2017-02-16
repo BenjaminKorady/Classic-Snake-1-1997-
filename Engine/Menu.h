@@ -10,7 +10,7 @@ class Menu {
 private:
     class MenuItem;
 public:
-    Menu(Board &brd, Snake &snek, Food &nom);
+    Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd);
     void draw();
     void drawItem(MenuItem itemIn, int position, bool selected);
     void initMenuItems();
