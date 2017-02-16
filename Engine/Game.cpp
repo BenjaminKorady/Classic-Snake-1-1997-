@@ -96,13 +96,32 @@ void Game::drawGameOver()
 {
     int score = snek.getFoodEaten() * snek.getSpeed();
     brd.drawString({ 3, 3 }, "Game over!\nYour score:\n" + std::to_string(score), false);
-    if (wnd.kbd.KeyIsPressed(VK_RETURN)) {  //ay
-        isGameOver = false;
-        if (score > topScore) { topScore = score; }        
-        snek.reset();
-        menuSelection = -1;
-        menu.backToMenu();        
+    bool buttonPressed = false;
+    while (!wnd.kbd.KeyIsEmpty()) {
+        const Keyboard::Event e = wnd.kbd.ReadKey();
+        if (e.IsRelease()) {
+            if (e.GetCode() == VK_RETURN) {
+                buttonPressed = false;
+            }
+        }
+
+        if (wnd.kbd.KeyIsPressed(VK_RETURN)) {
+            if (!buttonPressed) {
+                buttonPressed = true;
+                gameReset();
+                return;
+            }
+        }
     }
+}
+
+void Game::gameReset()
+{
+    isGameOver = false;
+    snek.reset();
+    menuSelection = -1;
+    menu.reset();
+
 }
 
 

@@ -64,7 +64,7 @@ void Menu::initMenuItems()
 
 void Menu::navigate()
 {
-    int option = -1;
+    
     while ( !kbd.KeyIsEmpty() ) {         	
         const Keyboard::Event e = kbd.ReadKey();
         if (e.IsRelease()) {
@@ -154,7 +154,7 @@ bool Menu::optionSelected()
     return confirmSelection;
 }
 
-void Menu::backToMenu()
+void Menu::reset()
 {
     selectedItem = 0;
     firstItem = 0;
@@ -168,7 +168,7 @@ void Menu::showTopScore(int topScore)
     brd.drawString({ 3, 3 }, "Top score:\n " + std::to_string(topScore), false);
     if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(VK_ESCAPE)) {
         menuSelection = -1;
-        backToMenu();
+        reset();
     }
 }
 

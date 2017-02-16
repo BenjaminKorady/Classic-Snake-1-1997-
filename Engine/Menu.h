@@ -19,7 +19,7 @@ public:
     void showInstructions();
     int getSelection();
     bool optionSelected();
-    void backToMenu();
+    void reset();
     void showTopScore(int topScore);
  
 private:

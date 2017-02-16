@@ -61,6 +61,7 @@ private:
 	/*  User Functions              */
     void drawBackground();
     void drawGameOver();
+    void gameReset();
 	/********************************/
 private:
 	MainWindow& wnd;
