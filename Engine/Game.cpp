@@ -47,7 +47,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-    if (menuSelection == 0) {
+    if (menu.getSelection() == 0) {
         updateGame();
     }	
 }
