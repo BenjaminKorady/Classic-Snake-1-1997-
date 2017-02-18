@@ -58,7 +58,13 @@ void Menu::initMenuItems()
         initialized = true;
     }
 
-    showLastView ? item[3].next = &item[4] : item[3].next = &item[0];
+    if (showLastView) {
+        item[3].next = &item[4]; 
+        nMenuItems = 5;
+    }
+    else {
+        item[3].next = &item[0];
+    }
 
 }
 
@@ -79,7 +85,7 @@ void Menu::navigate()
                 if (selectedItem != 0) {
                     --selectedItem;
                 }
-            else {
+                else {
                 if (--firstItem == -1) {
                     firstItem = nMenuItems - 1;
                 }

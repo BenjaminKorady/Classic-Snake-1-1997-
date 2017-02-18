@@ -38,7 +38,7 @@ private:
     bool initialized = false;
     int selectedItem = 0;
     int firstItem = 0;
-    int nMenuItems = 4 + int(showLastView);
+    int nMenuItems = 4;
     bool buttonPressed = false;
     bool confirmSelection = false;   
     int menuSelection = -1;

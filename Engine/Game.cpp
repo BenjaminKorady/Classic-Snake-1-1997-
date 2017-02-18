@@ -47,9 +47,9 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-    if (menu.getSelection() == 0) {
+    if(!inMenu) {
         updateGame();
-    }	
+    }
 }
 
 void Game::drawBackground()
@@ -80,6 +80,7 @@ void Game::drawGameOver()
                 buttonPressed = true;
                 menuSelection = -1;
                 menu.reset();
+                inMenu = true;
                 return;
             }
         }
@@ -91,7 +92,6 @@ void Game::gameReset()
     isGameOver = false;
     snek.reset();
     nom.reset();
-
 }
 
 void Game::updateGame()
@@ -136,58 +136,50 @@ void Game::updateGame()
             }
         }
     }
+
 }
-
-
 
 void Game::ComposeFrame()
 {
     drawBackground();
-        
-        //  Menu
-        if (menu.getSelection() == -1) {
-            menu.navigate();
-        }
 
+    //  Menu
+    if (inMenu) {
+        menu.navigate();
         //  New game
-        if (menu.getSelection() == 0) { 
-            if (!isGameOver) {
-                brd.drawBoard();
-                snek.draw(brd);
-                nom.draw(brd);
-            }
-            else {
-                drawGameOver();
-            }
-
-
+        if (menu.getSelection() == 0) {
+            gameReset();
+            inMenu = false;
         }
-
-
-
         //  Top score
         else if (menu.getSelection() == 1) {
-            menuSelection = 1;
             menu.showTopScore(topScore);
         }
-        
         //  Instructions
         else if (menu.getSelection() == 2) {
             menuSelection = 2;
             menu.showInstructions();
         }
-
         //  Level
         else if (menu.getSelection() == 3) {
             menuSelection = 3;
         }
-
         //  Last view
         else if (menu.getSelection() == 4) {
             brd.drawBoard();
             snekCache.draw(brd);
             nomCache.draw(brd);
-            menuSelection = 4;
         }
 
     }
+    else {
+        if (!isGameOver) {
+            brd.drawBoard();
+            snek.draw(brd);
+            nom.draw(brd);
+        }
+        else {
+            drawGameOver();
+        }
+    }
+}
