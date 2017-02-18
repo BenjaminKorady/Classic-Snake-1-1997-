@@ -72,7 +72,7 @@ void Board::clearPixelRectangle(const PixelLocation & locIn, const int width, co
 void Board::drawString(PixelLocation loc, std::string input, const bool invert)
 {
     const int LETTER_HEIGHT = 8;
-    const int RIGHT_SIDE_OFFSET = 2;
+    const int RIGHT_SIDE_OFFSET = 4;
     const int PIXEL_SPACING = 1;
     const int LETTER_SPACING = 1;
     const int LINE_SPACING = 1;
@@ -89,7 +89,7 @@ void Board::drawString(PixelLocation loc, std::string input, const bool invert)
 
     const PixelLocation originalLoc = loc;
     LetterMap letterCode;
-    const int screenWidthLimit = GRID_WIDTH + LETTER_SPACING - RIGHT_SIDE_OFFSET - loc.x;
+    const int screenWidthLimit = GRID_WIDTH + LETTER_SPACING - RIGHT_SIDE_OFFSET;
 
     if (invert) {
         drawPixelRectangle({loc.x - 2*LETTER_SPACING, loc.y - LINE_SPACING}, screenWidthLimit, LETTER_HEIGHT + 2 * LINE_SPACING, PIXEL_SPACING);
@@ -139,13 +139,13 @@ void Board::drawString(PixelLocation loc, std::string input, const bool invert)
 */
 void Board::drawBoard()
 {
-
+    const int PIXEL_SPACING = 1;
     //Draws grid frame
 	for (int y = 0; y < GRID_HEIGHT; ++y) {
 		for (int x = 0; x < GRID_WIDTH; ++x) {
 			PixelLocation loc = { x, y };
 			if (x == 0 || y == 0 || x == GRID_WIDTH-1 || y == GRID_HEIGHT-1)
-				drawPixel(loc, 0);
+				drawPixel(loc, PIXEL_SPACING);
 		}
 	}
 }

@@ -127,7 +127,7 @@ void Menu::navigate()
 
 void Menu::drawSideBar(int height)
 {
-    const int pixelSpacing = 0;
+    const int pixelSpacing = 1;
     const int selectorHeight = 7;
     const int rightSideOffset = 1;
 
@@ -256,14 +256,84 @@ void Menu::drawInstructions()
     brd.drawString({ 2, 22 }, asd[scrollBarPos + 2], false);
     brd.drawString({ 2, 32 }, asd[scrollBarPos + 3], false);
 
-    drawSideBar((ceil(brd.GRID_HEIGHT - SELECTOR_HEIGHT) / (SCREEN_POSSIBILITIES)) * ((scrollBarPos) % (SCREEN_POSSIBILITIES)));
+    drawSideBar(int(ceil(brd.GRID_HEIGHT - SELECTOR_HEIGHT) / (SCREEN_POSSIBILITIES)) * ((scrollBarPos) % (SCREEN_POSSIBILITIES)));
     returnToMenu();
   
 }
 
-void Menu::drawLevel()
+void Menu::drawLevel(Snake& snek)
 {
-    returnToMenu();
+    brd.drawString({ 2, 2 }, "Level:", false);
+    const int MAX_SPEED = 9;
+
+    //  Handle keyboard input
+    while (!kbd.KeyIsEmpty()) {
+        const Keyboard::Event e = kbd.ReadKey();
+        if (e.IsRelease()) {
+            if (e.GetCode() == VK_UP || e.GetCode() == VK_DOWN || e.GetCode() == 0x53 || e.GetCode() == 0x57 || e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
+                buttonPressed = false;
+            }
+        }
+
+        if (kbd.KeyIsPressed(VK_UP) || kbd.KeyIsPressed(0x57)) {
+            if (!buttonPressed) {
+                buttonPressed = true;
+                if (snek.speedLevel != MAX_SPEED) {
+                    ++snek.speedLevel;
+                }
+            }
+        }
+
+        if (kbd.KeyIsPressed(VK_DOWN) || kbd.KeyIsPressed(0x53)) {
+            if (!buttonPressed) {
+                buttonPressed = true;
+                if (snek.speedLevel != 1) {
+                    --snek.speedLevel;
+                }
+            }
+
+        }
+
+        if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(VK_ESCAPE)) {
+            if (!buttonPressed) {
+                buttonPressed = true;
+                reset();
+                return;
+            }
+        }
+    }
+
+    for (int i = 0; i < snek.speedLevel; ++i) {
+        drawLevelBar(i, true);
+    }
+    for (int i = snek.speedLevel; i < MAX_SPEED; ++i) {
+        drawLevelBar(i, false);
+    }
+
+
+    brd.drawString({ 25, 39 }, "Accept", false);
+
+    snek.updateSpeed();
+}
+
+void Menu::drawLevelBar(int barNum, bool fill)
+{
+    const int PIXEL_SPACING = 1;
+    const int X_LEFT = 2;
+    const int Y_LOW = 36;
+    const int BAR_X_SPACING = 3;
+    const int BAR_Y_SPACING = 2;
+    const int BAR_WIDTH = 5;
+    const int BAR_HEIGHT = 9;
+
+    brd.drawPixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum, Y_LOW - BAR_HEIGHT - BAR_Y_SPACING*barNum }, 1, BAR_HEIGHT + BAR_Y_SPACING*barNum, PIXEL_SPACING);
+    brd.drawPixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum + 1, Y_LOW - BAR_HEIGHT - BAR_Y_SPACING*barNum }, BAR_WIDTH - 1, 1, PIXEL_SPACING);
+    
+    for (int y = Y_LOW; y < Y_LOW + BAR_HEIGHT + BAR_Y_SPACING*barNum; y += 2) {
+        if (fill) {
+            brd.drawPixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum + 1, y - BAR_HEIGHT - BAR_Y_SPACING*barNum }, BAR_WIDTH - 1, 1, PIXEL_SPACING);
+        }
+    }
 }
 
 

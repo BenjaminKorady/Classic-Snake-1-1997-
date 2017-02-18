@@ -26,7 +26,7 @@ public:
     void addLastView();
     void drawLastView(const Snake& snekCache, const Food& nomCache);
     void drawInstructions();
-    void drawLevel();
+    void drawLevel(Snake& snek);
 
 private:
 
@@ -52,5 +52,7 @@ private:
     Food nom;
     Snake snek;
     Board brd;
+
+    void drawLevelBar(int barNum, bool fill);
 
 };

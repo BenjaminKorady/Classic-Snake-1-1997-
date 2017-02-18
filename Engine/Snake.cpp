@@ -104,10 +104,32 @@ void Snake::resetFoodEaten()
     foodEaten = 0;
 }
 
-int Snake::getSpeed()
+void Snake::updateSpeed()
 {
-    return speedLevel;
+    switch (speedLevel) {
+    case 9:
+        idleLimit = 4; break;
+    case 8:
+        idleLimit = 6; break;
+    case 7:
+        idleLimit = 8; break;
+    case 6:
+        idleLimit = 10; break;
+    case 5:
+        idleLimit = 13; break;
+    case 4:
+        idleLimit = 17; break;
+    case 3:
+        idleLimit = 20; break;
+    case 2:
+        idleLimit = 32; break;
+    case 1:
+        idleLimit = 50; break;
+    default:
+        idleLimit = 20;
+    }
 }
+
 
 /**
     States whether the snake can move (Has enough required frames passed for it to move?)

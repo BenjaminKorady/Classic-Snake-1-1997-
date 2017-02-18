@@ -27,9 +27,12 @@ public:
     int getFoodEaten();
     void incFoodEaten();
     void resetFoodEaten();
-    int getSpeed();
+    void updateSpeed();
     bool isTurnToMove() const;
     int getIdleLimit() const;
+
+    int speedLevel = 3;
+
 
 private:
 
@@ -55,7 +58,6 @@ private:
 private:
     //  Keeps track of how much food was eaten
     int foodEaten = 0;
-    int speedLevel = 3;
     static constexpr int MAX_SEGMENTS = Board::CELLS_X * Board::CELLS_Y;
     Segment segments[MAX_SEGMENTS];
 

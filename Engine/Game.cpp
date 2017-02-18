@@ -61,7 +61,7 @@ void Game::drawBackground()
 
 void Game::drawGameOver()
 {
-    int score = snek.getFoodEaten() * snek.getSpeed();
+    int score = snek.getFoodEaten() * snek.speedLevel;
     if (score > topScore) {
         topScore = score;
     }
@@ -162,7 +162,7 @@ void Game::ComposeFrame()
         }
         //  Level
         else if (menu.getSelection() == 3) {
-            
+            menu.drawLevel(snek);
         }
         //  Last view
         else if (menu.getSelection() == 4) {
