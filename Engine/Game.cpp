@@ -155,7 +155,7 @@ void Game::ComposeFrame()
         }
         //  Top score
         else if (menu.getSelection() == 1) {
-            menu.showTopScore(topScore);            
+            menu.drawTopScore(topScore);            
         }
         //  Instructions
         else if (menu.getSelection() == 2) {

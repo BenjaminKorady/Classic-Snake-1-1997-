@@ -129,7 +129,7 @@ void Menu::drawSideBar(int height)
 {
     const int pixelSpacing = 0;
     const int selectorHeight = 7;
-    const int rightSideOffset = 2;
+    const int rightSideOffset = 1;
 
     PixelLocation sideBarSelectorPos = { brd.GRID_WIDTH - rightSideOffset, height };
     brd.drawPixelRectangle({ brd.GRID_WIDTH - rightSideOffset, 1 }, 1, brd.GRID_HEIGHT - 1, pixelSpacing);
@@ -168,7 +168,7 @@ void Menu::reset()
     confirmSelection = false;
 }
 
-void Menu::showTopScore(int topScore)
+void Menu::drawTopScore(int topScore)
 {
     brd.drawString({ 3, 3 }, "Top score:\n " + std::to_string(topScore), false);
     while (!kbd.KeyIsEmpty()) {
@@ -179,7 +179,7 @@ void Menu::showTopScore(int topScore)
             }
         }
 
-        if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(0x57)) {
+        if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(VK_ESCAPE)) {
             if (!buttonPressed) {
                 buttonPressed = true;
                 reset();
@@ -207,7 +207,7 @@ void Menu::drawLastView(const Snake& snekCache, const Food& nomCache)
             }
         }
  
-        if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(0x57)) {
+        if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(VK_ESCAPE)) {
             if (!buttonPressed) {
                 buttonPressed = true;
                 reset();

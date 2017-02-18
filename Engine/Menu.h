@@ -20,7 +20,7 @@ public:
     int getSelection();
     bool optionSelected();
     void reset();
-    void showTopScore(int topScore);
+    void drawTopScore(int topScore);
     void addLastView();
     void drawLastView(const Snake& snekCache, const Food& nomCache);
  
