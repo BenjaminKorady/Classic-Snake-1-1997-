@@ -148,6 +148,7 @@ void Menu::showInstructions()
     //ke grow longer by directing it to the food.Use the keys 2,4,6 and 8. You cannot stop the snake or make it go backwards. Try not to hit the walls or the tail.")
     brd.drawString({ 2, 2 }, "Make the snake\ngrow longer by\ndirecting it to", false);
 }
+
 int Menu::getSelection()
 {
     if (confirmSelection)
@@ -162,8 +163,6 @@ bool Menu::optionSelected()
 
 void Menu::reset()
 {
-    selectedItem = 0;
-    firstItem = 0;
     buttonPressed = false;
     menuSelection = -1;
     confirmSelection = false;
@@ -184,7 +183,6 @@ void Menu::showTopScore(int topScore)
             if (!buttonPressed) {
                 buttonPressed = true;
                 reset();
-                selectedItem = 1;
                 return;
             }
         }
@@ -194,6 +192,30 @@ void Menu::showTopScore(int topScore)
 void Menu::addLastView()
 {
     showLastView = true;
+}
+
+void Menu::drawLastView(const Snake& snekCache, const Food& nomCache)
+{
+    brd.drawBoard();
+    snekCache.draw(brd);
+    nomCache.draw(brd);
+    while (!kbd.KeyIsEmpty()) {
+        const Keyboard::Event e = kbd.ReadKey();
+        if (e.IsRelease()) {
+            if (e.GetCode() == VK_RETURN) {
+                buttonPressed = false;
+            }
+        }
+ 
+        if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(0x57)) {
+            if (!buttonPressed) {
+                buttonPressed = true;
+                reset();
+                return;
+            }
+        }
+    }
+ 
 }
 
 

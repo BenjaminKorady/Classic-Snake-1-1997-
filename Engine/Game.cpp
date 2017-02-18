@@ -145,15 +145,17 @@ void Game::ComposeFrame()
 
     //  Menu
     if (inMenu) {
-        menu.navigate();
+        if (menu.getSelection() == -1) {
+            menu.navigate();
+        }
         //  New game
         if (menu.getSelection() == 0) {
-            gameReset();
+            gameReset();        
             inMenu = false;
         }
         //  Top score
         else if (menu.getSelection() == 1) {
-            menu.showTopScore(topScore);
+            menu.showTopScore(topScore);            
         }
         //  Instructions
         else if (menu.getSelection() == 2) {
@@ -166,9 +168,7 @@ void Game::ComposeFrame()
         }
         //  Last view
         else if (menu.getSelection() == 4) {
-            brd.drawBoard();
-            snekCache.draw(brd);
-            nomCache.draw(brd);
+            menu.drawLastView(snekCache, nomCache);
         }
 
     }

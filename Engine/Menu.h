@@ -22,6 +22,7 @@ public:
     void reset();
     void showTopScore(int topScore);
     void addLastView();
+    void drawLastView(const Snake& snekCache, const Food& nomCache);
  
 private:
 
