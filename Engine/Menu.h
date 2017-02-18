@@ -16,14 +16,16 @@ public:
     void initMenuItems();
     void navigate();
     void drawSideBar(int height);
-    void showInstructions();
     int getSelection();
     bool optionSelected();
     void reset();
+    void returnToMenu();
     void drawTopScore(int topScore);
     void addLastView();
     void drawLastView(const Snake& snekCache, const Food& nomCache);
- 
+    void drawInstructions();
+    void drawLevel();
+
 private:
 
     class MenuItem {

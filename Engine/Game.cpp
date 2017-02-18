@@ -159,12 +159,11 @@ void Game::ComposeFrame()
         }
         //  Instructions
         else if (menu.getSelection() == 2) {
-            menuSelection = 2;
-            menu.showInstructions();
+            menu.drawInstructions();
         }
         //  Level
         else if (menu.getSelection() == 3) {
-            menuSelection = 3;
+            
         }
         //  Last view
         else if (menu.getSelection() == 4) {

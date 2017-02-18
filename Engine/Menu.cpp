@@ -45,8 +45,8 @@ void Menu::drawItem(MenuItem itemIn, int position, bool selected)
 void Menu::initMenuItems()
 {
     if (!initialized) {
-        item[0].label = "New Game";
-        item[1].label = "Top Score";
+        item[0].label = "New game";
+        item[1].label = "Top score";
         item[2].label = "Instructions";
         item[3].label = "Level";
         item[4].label = "Last view";
@@ -142,13 +142,6 @@ void Menu::drawSideBar(int height)
 
 }
 
-void Menu::showInstructions()
-{
-    drawSideBar(7);
-    //ke grow longer by directing it to the food.Use the keys 2,4,6 and 8. You cannot stop the snake or make it go backwards. Try not to hit the walls or the tail.")
-    brd.drawString({ 2, 2 }, "Make the snake\ngrow longer by\ndirecting it to", false);
-}
-
 int Menu::getSelection()
 {
     if (confirmSelection)
@@ -168,9 +161,8 @@ void Menu::reset()
     confirmSelection = false;
 }
 
-void Menu::drawTopScore(int topScore)
+void Menu::returnToMenu()
 {
-    brd.drawString({ 3, 3 }, "Top score:\n " + std::to_string(topScore), false);
     while (!kbd.KeyIsEmpty()) {
         const Keyboard::Event e = kbd.ReadKey();
         if (e.IsRelease()) {
@@ -187,6 +179,12 @@ void Menu::drawTopScore(int topScore)
             }
         }
     }
+}
+
+void Menu::drawTopScore(int topScore)
+{
+    brd.drawString({ 3, 3 }, "Top score:\n " + std::to_string(topScore), false);
+    returnToMenu();
 }
 
 void Menu::addLastView()
@@ -199,23 +197,21 @@ void Menu::drawLastView(const Snake& snekCache, const Food& nomCache)
     brd.drawBoard();
     snekCache.draw(brd);
     nomCache.draw(brd);
-    while (!kbd.KeyIsEmpty()) {
-        const Keyboard::Event e = kbd.ReadKey();
-        if (e.IsRelease()) {
-            if (e.GetCode() == VK_RETURN) {
-                buttonPressed = false;
-            }
-        }
+    returnToMenu();
  
-        if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(VK_ESCAPE)) {
-            if (!buttonPressed) {
-                buttonPressed = true;
-                reset();
-                return;
-            }
-        }
-    }
- 
+}
+
+void Menu::drawInstructions()
+{
+    drawSideBar(7);
+    //Make the snake grow longer by directing it to the food. Use the arrow keys or W, A, S, and D. You cannot stop the snake or make it go backwards. Try not to hit the walls or the tail.")
+    brd.drawString({ 2, 2 }, "Make the snake grow ", false);
+    returnToMenu();
+}
+
+void Menu::drawLevel()
+{
+    returnToMenu();
 }
 
 
