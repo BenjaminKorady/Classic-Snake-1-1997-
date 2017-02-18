@@ -203,10 +203,61 @@ void Menu::drawLastView(const Snake& snekCache, const Food& nomCache)
 
 void Menu::drawInstructions()
 {
-    drawSideBar(7);
-    //Make the snake grow longer by directing it to the food. Use the arrow keys or W, A, S, and D. You cannot stop the snake or make it go backwards. Try not to hit the walls or the tail.")
-    brd.drawString({ 2, 2 }, "Make the snake grow ", false);
+    const int ARRAY_SIZE = 14;
+    const int SELECTOR_HEIGHT = 7;
+    const int SHOW_LINES = 3;
+    const int RIGHT_SIDE_OFFSET = 2;
+
+    std::string asd[ARRAY_SIZE] = { "" };
+    LetterMap::splitStringByLimit(asd, "Make the snake grow longer by directing it to the food. Use the arrow keys or W, A, S, and D. You cannot stop the snake or make it go backwards. Try not to hit the walls or the tail.\n", 83, 2);
+
+    //  Handle keyboard input
+    while (!kbd.KeyIsEmpty()) {
+        const Keyboard::Event e = kbd.ReadKey();
+        if (e.IsRelease()) {
+            if (e.GetCode() == VK_UP || e.GetCode() == VK_DOWN || e.GetCode() == 0x53 || e.GetCode() == 0x57 || e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
+                buttonPressed = false;
+            }
+        }
+
+        if (kbd.KeyIsPressed(VK_UP) || kbd.KeyIsPressed(0x57)) {
+            if (!buttonPressed) {
+                buttonPressed = true;
+                if (scrollBarPos != 0) {
+                    --scrollBarPos;
+                }
+            }
+        }
+
+        if (kbd.KeyIsPressed(VK_DOWN) || kbd.KeyIsPressed(0x53)) {
+            if (!buttonPressed) {
+                buttonPressed = true;
+                if (scrollBarPos != ARRAY_SIZE - SHOW_LINES - 1) {
+                    ++scrollBarPos;
+                }
+            }
+
+        }
+
+        if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(VK_ESCAPE)) {
+            if (!buttonPressed) {
+                buttonPressed = true;
+                scrollBarPos = 0;
+                reset();
+                return;
+            }
+        }
+
+    }
+
+    brd.drawString({ 2, 2 }, asd[scrollBarPos], false);
+    brd.drawString({ 2, 12 }, asd[scrollBarPos+1], false);
+    brd.drawString({ 2, 22 }, asd[scrollBarPos+2], false);
+    brd.drawString({ 2, 32 }, asd[scrollBarPos + 3], false);
+
+    drawSideBar(((brd.GRID_HEIGHT) / (ARRAY_SIZE - SHOW_LINES)) * ((scrollBarPos) % (ARRAY_SIZE - SHOW_LINES)));
     returnToMenu();
+  
 }
 
 void Menu::drawLevel()

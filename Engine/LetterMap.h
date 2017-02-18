@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 class LetterMap {
 public:
 
@@ -7,8 +9,8 @@ public:
 
     void set(char c);
     ~LetterMap();
-
-
+    
+    static int splitStringByLimit(std::string* out, std::string str, const int limit, const int letterSpacing);
     int width;
     int height;
     char value;

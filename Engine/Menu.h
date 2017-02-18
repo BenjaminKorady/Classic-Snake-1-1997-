@@ -5,6 +5,7 @@
 #include "Keyboard.h"
 #include "Snake.h"
 #include "Food.h"
+#include "LetterMap.h"
 
 class Menu {
 private:
@@ -45,6 +46,7 @@ private:
     bool buttonPressed = false;
     bool confirmSelection = false;   
     int menuSelection = -1;
+    int scrollBarPos = 0;
 
     Food nom;
     Snake snek;

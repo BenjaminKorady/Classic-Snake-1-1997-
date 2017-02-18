@@ -169,3 +169,29 @@ LetterMap::~LetterMap()
     delete[] map;
 }
 
+int LetterMap::splitStringByLimit(std::string* out, std::string str, const int limit, const int letterSpacing)
+{
+    LetterMap letter;
+    int limitCounter = 0;
+    int i = 0;
+    std::string word = "";
+    for (std::string::iterator it = str.begin(); it < str.end(); ++it) {
+        letter.set(*it);
+        limitCounter += letter.width + letterSpacing;
+        if (limitCounter <= limit - letterSpacing) {
+            if (letter.value == ' ' || letter.value == '\n') {
+                out[i] += word;
+                word = "";
+            }
+            word += letter.value;
+        }
+
+        else {
+            ++i;
+            limitCounter = 0;
+            --it;
+        }
+    }
+    return i + 1;
+}
+

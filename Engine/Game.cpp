@@ -20,7 +20,7 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
-
+#include "LetterMap.h"
 Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),               //  Window
@@ -142,7 +142,6 @@ void Game::updateGame()
 void Game::ComposeFrame()
 {
     drawBackground();
-
     //  Menu
     if (inMenu) {
         if (menu.getSelection() == -1) {

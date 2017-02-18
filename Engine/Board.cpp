@@ -98,14 +98,13 @@ void Board::drawString(PixelLocation loc, std::string input, const bool invert)
     for (std::string::iterator it = input.begin(); it < input.end(); ++it) {
 
         PixelLocation current = loc;
-        switch (*it) {            
-            case '\n':
-                loc.y = current.y + LETTER_HEIGHT + 2 * LINE_SPACING;
-                loc.x = originalLoc.x;
-                goto dontDraw;
-            default:
-                letterCode.set(*it);
-            
+
+        letterCode.set(*it);
+
+        if (letterCode.value == '\n') {
+            loc.y = current.y + LETTER_HEIGHT + 2 * LINE_SPACING;
+            loc.x = originalLoc.x;
+            goto dontDraw;
         }
         
         if (letterCode.width + loc.x <= screenWidthLimit) {
