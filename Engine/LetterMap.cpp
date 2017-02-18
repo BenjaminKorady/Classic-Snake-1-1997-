@@ -153,9 +153,13 @@ void LetterMap::set(char c)
         case ' ':
             set(2, 8, "0000000000000000"); break;
         case ':':
-            set(1, 8, "00010010"); break;
+            set(2, 8, "0000111100111100"); break;
         case '!':
             set(2, 8, "1111111111001100"); break;
+        case '.':
+            set(2, 8, "0000000000111100"); break;
+        case ',':
+            set(2, 8, "0000000000011110"); break;
         default:
             set(0, 0, ""); break;
         }
@@ -173,22 +177,27 @@ int LetterMap::splitStringByLimit(std::string* out, std::string str, const int l
 {
     LetterMap letter;
     int limitCounter = 0;
+    int tempLimitCounter = 0;
     int i = 0;
     std::string word = "";
     for (std::string::iterator it = str.begin(); it < str.end(); ++it) {
         letter.set(*it);
         limitCounter += letter.width + letterSpacing;
+        tempLimitCounter += letter.width + letterSpacing;
         if (limitCounter <= limit - letterSpacing) {
             if (letter.value == ' ' || letter.value == '\n') {
-                out[i] += word;
+                out[i] += word + ' ';
                 word = "";
+                tempLimitCounter = 0;
             }
-            word += letter.value;
+            else {
+                word += letter.value;
+            }
         }
 
         else {
             ++i;
-            limitCounter = 0;
+            limitCounter = tempLimitCounter;
             --it;
         }
     }

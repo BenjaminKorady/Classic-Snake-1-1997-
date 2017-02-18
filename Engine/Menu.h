@@ -6,6 +6,7 @@
 #include "Snake.h"
 #include "Food.h"
 #include "LetterMap.h"
+#include <math.h>
 
 class Menu {
 private:

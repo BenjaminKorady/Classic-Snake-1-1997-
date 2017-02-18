@@ -203,13 +203,14 @@ void Menu::drawLastView(const Snake& snekCache, const Food& nomCache)
 
 void Menu::drawInstructions()
 {
-    const int ARRAY_SIZE = 14;
+    const int ARRAY_SIZE = 15;
     const int SELECTOR_HEIGHT = 7;
-    const int SHOW_LINES = 3;
+    const int LINES_ON_SCREEN = 4;
+    const int SCREEN_POSSIBILITIES = ARRAY_SIZE - LINES_ON_SCREEN + 1;
     const int RIGHT_SIDE_OFFSET = 2;
 
     std::string asd[ARRAY_SIZE] = { "" };
-    LetterMap::splitStringByLimit(asd, "Make the snake grow longer by directing it to the food. Use the arrow keys or W, A, S, and D. You cannot stop the snake or make it go backwards. Try not to hit the walls or the tail.\n", 83, 2);
+    LetterMap::splitStringByLimit(asd, "Make the snake grow longer by directing it to the food. Use the arrow keys or W, A, S, and D. You cannot stop the snake or make it go backwards. Try not to hit the walls or the tail.\n", 77, 1);
 
     //  Handle keyboard input
     while (!kbd.KeyIsEmpty()) {
@@ -232,7 +233,7 @@ void Menu::drawInstructions()
         if (kbd.KeyIsPressed(VK_DOWN) || kbd.KeyIsPressed(0x53)) {
             if (!buttonPressed) {
                 buttonPressed = true;
-                if (scrollBarPos != ARRAY_SIZE - SHOW_LINES - 1) {
+                if (scrollBarPos != ARRAY_SIZE - LINES_ON_SCREEN) {
                     ++scrollBarPos;
                 }
             }
@@ -251,11 +252,11 @@ void Menu::drawInstructions()
     }
 
     brd.drawString({ 2, 2 }, asd[scrollBarPos], false);
-    brd.drawString({ 2, 12 }, asd[scrollBarPos+1], false);
-    brd.drawString({ 2, 22 }, asd[scrollBarPos+2], false);
+    brd.drawString({ 2, 12 }, asd[scrollBarPos + 1], false);
+    brd.drawString({ 2, 22 }, asd[scrollBarPos + 2], false);
     brd.drawString({ 2, 32 }, asd[scrollBarPos + 3], false);
 
-    drawSideBar(((brd.GRID_HEIGHT) / (ARRAY_SIZE - SHOW_LINES)) * ((scrollBarPos) % (ARRAY_SIZE - SHOW_LINES)));
+    drawSideBar((ceil(brd.GRID_HEIGHT - SELECTOR_HEIGHT) / (SCREEN_POSSIBILITIES)) * ((scrollBarPos) % (SCREEN_POSSIBILITIES)));
     returnToMenu();
   
 }
