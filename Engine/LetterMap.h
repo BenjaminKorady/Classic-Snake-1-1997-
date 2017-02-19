@@ -12,10 +12,10 @@ public:
     
     static int splitStringByLimit(std::string* out, std::string str, const int limit, const int letterSpacing);
     int width;
-    int height;
+    static constexpr int height = 8;
     char value;
     bool *map;
 
 private:
-    void set(int widthIn, int heightIn, char* string);
+    void set(int widthIn, char* string);
 };

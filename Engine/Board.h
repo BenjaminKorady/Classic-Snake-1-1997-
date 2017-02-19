@@ -24,15 +24,15 @@ public:
 	void drawBoard();
 	bool isInsideBoard(const PixelLocation loc) const;
 
-    //Gaming grid is 20x11 cells
+    //  Gaming grid is 20x11 cells
     static constexpr int CELLS_X = 20;
     static constexpr int CELLS_Y = 11;
     
-    //800x600 px screen (normally)
+    //  800x600 px screen (normally)
     static constexpr int SCREEN_WIDTH = Graphics::ScreenWidth;
     static constexpr int SCREEN_HEIGHT = Graphics::ScreenHeight;
 
-    //To figure out how big each cell is going to be:
+    //  To figure out how big each cell is going to be:
     //  Screen's width needs to fit 20 cells
     //  Screen's height needs to fit 11 cells
     //  800 / 20 = 40       SCREEN_WIDTH / CELLS_X
@@ -53,7 +53,7 @@ public:
     //  And if the snake segments were connected, the 1x3 line of pixels inbetween them 
     //  was filled with black pixels as well:
     //    http://i.imgur.com/FEP30q6.png
-    //  So the game frame on X axis fills 20 cells of 3x3 pixels (20x3), each separated by
+    //  So the game frame on the X-axis fills 20 cells of 3x3 pixels (20x3), each separated by
     //  a single pixel (20*3 + 19*1). The frame itself is 1 pixel wide on each side 
     //  (20*3 + 19*1 + 2) and the frame is also separated from the cells by 1 pixel on each
     //  side (20*3 + 19*1 + 2 + 2) = 83
