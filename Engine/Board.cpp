@@ -103,64 +103,53 @@ void Board::clearPixelRectangle(const PixelLocation & locIn, const int width, co
 */
 void Board::drawString(PixelLocation loc, std::string input, const bool invert)
 {
-    const int LETTER_HEIGHT = 8;
+    const int LETTER_HEIGHT = LetterMap::height;
     const int RIGHT_SIDE_OFFSET = 4;
     const int PIXEL_SPACING = 1;
     const int LETTER_SPACING = 1;
     const int LINE_SPACING = 1;
+    const PixelLocation originalLoc = loc;                                          //  Store the original input location for later use
+    LetterMap letterCode;                                                           //  A LetterMap object to keep track of where to draw pixels (See LetterMap class for more information)
+    const int screenWidthLimit = GRID_WIDTH + LETTER_SPACING - RIGHT_SIDE_OFFSET;   //  Boundary of where it is possible to draw
 
-    /*
-        LetterMap:
-                1 = drawPixel
-                0 = don't drawPixel
-
-        if invert == true
-                1 = don't drawPixel
-                0 = drawPixel
-    */
-
-    const PixelLocation originalLoc = loc;
-    LetterMap letterCode;
-    const int screenWidthLimit = GRID_WIDTH + LETTER_SPACING - RIGHT_SIDE_OFFSET;
-
+    //  Draws a black rectangle in the background if the string is to be inverted
     if (invert) {
         drawPixelRectangle({loc.x - 2*LETTER_SPACING, loc.y - LINE_SPACING}, screenWidthLimit, LETTER_HEIGHT + 2 * LINE_SPACING, PIXEL_SPACING);
     }
 
-    for (std::string::iterator it = input.begin(); it < input.end(); ++it) {
+    for (std::string::iterator it = input.begin(); it < input.end(); ++it) {        //  Iterate through each character of the string
+        PixelLocation current = loc;                                                //  Keep track of the location where pixels are drawn with "current" and "loc".
+        letterCode.set(*it);                                                        //  Maps the current char as LetterMap
 
-        PixelLocation current = loc;
-
-        letterCode.set(*it);
-
-        if (letterCode.value == '\n') {
+        //  Don't draw anything if the input char is \n. Instead shift the current location one line lower and back to the leftmost side
+        if (letterCode.value == '\n') {                                               
             loc.y = current.y + LETTER_HEIGHT + 2 * LINE_SPACING;
             loc.x = originalLoc.x;
-            goto dontDraw;
+            goto dontDraw;                                                          //  Skips the drawing part and moves to the next char
         }
         
-        if (letterCode.width + loc.x <= screenWidthLimit) {
+        //  Draws the letter based on its mapping stored in LetterMap letterCode
+        if (letterCode.width + loc.x <= screenWidthLimit) {                         //  Checks if the letter is to be drawn within the screen boundaries
             int i = 0;
-            for (int y = 0; y < LETTER_HEIGHT; ++y) {
-                for (int x = 0; x < letterCode.width; ++x) {
-                    if (letterCode.map[i++]) {
-                        invert ? clearPixel(current, PIXEL_SPACING) : drawPixel(current, PIXEL_SPACING);
+            for (int y = 0; y < LETTER_HEIGHT; ++y) {                               //  Iterate through the letter's height
+                for (int x = 0; x < letterCode.width; ++x) {                        //  Iterate through the letter's width
+                    //  the "map" member variable is a boolean value:
+                    //  1 = draw a pixel 
+                    //  0 = don't draw
+                    if (letterCode.map[i++]) {                                      
+                        //  If the string is to be inverted, clearPixel. Otherwise, drawPixel (Since if it was inverted, there is a black background drawn. Therefore, just clear from the background)
+                        invert ? clearPixel(current, PIXEL_SPACING) : drawPixel(current, PIXEL_SPACING);    
                     }
-                    current.x++;
+                    current.x++;    //  Shift current location to the right by 1 pixel
                 }
-                current.x = loc.x;
-                current.y++;
+                current.x = loc.x;  //  Set current location back to the original leftmost location of the letter's pixels
+                current.y++;        //  Shift current location 1 pixel lower
             }
-
-            loc.x += letterCode.width + LETTER_SPACING;
+            loc.x += letterCode.width + LETTER_SPACING;     //  When drawing the letter is finished, shift the location's x to where the next letter is to be drawn. So current letter's width + spacing between letters
         }
-
-    dontDraw: {
-
-        };
+    dontDraw:   //  Label, program jumps here if no letter is to be drawn
 
         current.y = loc.y;
-    
     }
 
 }

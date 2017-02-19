@@ -4,8 +4,6 @@ Manages the gaming board
 @author: Benjamin Korady
 @version: 1.0   11/02/2017
 */
-
-
 #pragma once
 
 #include "Graphics.h"
@@ -19,8 +17,6 @@ public:
     void drawPixelRectangle(const PixelLocation& locIn, const int width, const int height, int pixelSpacing);
     void clearPixelRectangle(const PixelLocation& locIn, const int width, const int height, int pixelSpacing);
     void drawString(PixelLocation loc, std::string input, const bool invert);
-
-
 	void drawBoard();
 	bool isInsideBoard(const PixelLocation loc) const;
 
@@ -40,15 +36,12 @@ public:
     //  Pick the smaller number to make cells square and ensure they fit in both X and Y.
     //  So 40x40 px would be the maximum cell size
     //  In the classic Snake, each cell was 3x3 black pixels separated by 1 blank pixel:
-    //    http://i.imgur.com/NoEEl4J.png
+    //   http://i.imgur.com/NoEEl4J.png
     static constexpr int CELL_SIZE = 3;
     static constexpr int CELL_LARGE_PIXEL_OFFSET = 1;
 
-
-
     //  The actual cell size will therefore be 4 pixels, so we store that in a new constant
     static constexpr int CELL_INC_OFFSET = CELL_SIZE + CELL_LARGE_PIXEL_OFFSET; //4
-
 
     //  And if the snake segments were connected, the 1x3 line of pixels inbetween them 
     //  was filled with black pixels as well:
@@ -90,9 +83,7 @@ public:
     //  We will use these values to place the gaming grid to the center of the screen
 
 private:
-
     Color bgColor;
 	Color pxColor;
 	Graphics& gfx;
-
 };
