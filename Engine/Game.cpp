@@ -18,22 +18,22 @@
  *	You should have received a copy of the GNU General Public License					  *
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
+
 #include "MainWindow.h"
 #include "Game.h"
 #include "LetterMap.h"
+
 Game::Game(MainWindow& wnd)
 	:
-	wnd(wnd),               //  Window
-	gfx(wnd),               //  Graphics
-	brd(gfx),               //  Board
-    snek(),                 //  Snake
+	wnd(wnd),                       //  Window
+	gfx(wnd),                       //  Graphics
+	brd(gfx),                       //  Board
+    snek(),                         //  Snake
     snekCache(),
-    nom(),                  //  Food
+    nom(),                          //  Food
     nomCache(),
-    menu(brd, snek, nom, wnd.kbd),
-    bgColor(172, 193, 0)   // Green background color
-
-
+    menu(brd, snek, nom, wnd.kbd),  //  Menu
+    bgColor(172, 193, 0)            //  Green background color
 {
 }
 
@@ -52,30 +52,42 @@ void Game::UpdateModel()
     }
 }
 
+/**
+    Draws the background fill
+*/
 void Game::drawBackground()
-{
-    //Draws background fill
+{    
     gfx.DrawRectDim(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, bgColor);
-
 }
 
+/**
+    Draws the game over screen
+*/
 void Game::drawGameOver()
 {
+    //  Calculate current score
     int score = snek.getFoodEaten() * snek.speedLevel;
+
+    //  Set topScore if it was beaten
     if (score > topScore) {
         topScore = score;
     }
+
+    //  Draw the game over message
     brd.drawString({ 3, 3 }, "Game over!\nYour score:\n" + std::to_string(score), false);
+
+    //  Handle keyboard input
     bool buttonPressed = false;
     while (!wnd.kbd.KeyIsEmpty()) {
         const Keyboard::Event e = wnd.kbd.ReadKey();
         if (e.IsRelease()) {
-            if (e.GetCode() == VK_RETURN) {
+            if (e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
                 buttonPressed = false;
             }
         }
 
-        if (wnd.kbd.KeyIsPressed(VK_RETURN)) {
+        //  Return back to the menu if Enter or Esc was pressed
+        if (wnd.kbd.KeyIsPressed(VK_RETURN) || wnd.kbd.KeyIsPressed(VK_ESCAPE)) {
             if (!buttonPressed) {
                 buttonPressed = true;
                 menuSelection = -1;
@@ -87,6 +99,9 @@ void Game::drawGameOver()
     }
 }
 
+/**
+    Resets the game functionality
+*/
 void Game::gameReset()
 {
     isGameOver = false;
@@ -94,6 +109,9 @@ void Game::gameReset()
     nom.reset();
 }
 
+/**
+    Handles the main game functionality
+*/
 void Game::updateGame()
 {
     if (!isGameOver) {
@@ -142,8 +160,11 @@ void Game::updateGame()
 void Game::ComposeFrame()
 {
     drawBackground();
-    //  Menu
+
+
     if (inMenu) {
+
+        //  Menu
         if (menu.getSelection() == -1) {
             menu.navigate();
         }
@@ -170,6 +191,8 @@ void Game::ComposeFrame()
         }
 
     }
+
+    //  Out of menu / in game
     else {
         if (!isGameOver) {
             brd.drawBoard();

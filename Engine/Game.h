@@ -32,8 +32,6 @@
  *	You should have received a copy of the GNU General Public License					  *
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
-
-
 #pragma once
 
 #include "Keyboard.h"
@@ -54,21 +52,17 @@ public:
 	Game( const Game& ) = delete;
 	Game& operator=( const Game& ) = delete;
 	void Go();
+
 private:
 	void ComposeFrame();
 	void UpdateModel();
-	/********************************/
-	/*  User Functions              */
     void drawBackground();
     void drawGameOver();
     void gameReset();
     void updateGame();
-	/********************************/
-private:
+
 	MainWindow& wnd;
 	Graphics gfx;
-	/********************************/
-	/*  User Variables              */
 	Board brd;
 	bool isPaused = true;
 	bool isGameOver = false;
@@ -78,17 +72,9 @@ private:
     Snake snekCache;
     Food nom;
     Food nomCache;
-    //  Directional vector. Default is { 1, 0 } (right)
-	PixelLocation direction = { 1, 0 };
+	PixelLocation direction = { 1, 0 };     //  Directional vector. Default is { 1, 0 } (right)
     Menu menu;
     int menuSelection = -1;
     int topScore = 0;
     bool inMenu = true;
-	/*                              */
-	/********************************/
-
-    /*
-        Anything that is in "User Variables" and "User Functions" was written by me.
-        The rest is part of the framework.
-    */
 };
