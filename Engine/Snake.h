@@ -10,7 +10,7 @@
 #include "PixelLocation.h"
 #include "Keyboard.h"
 #include "Board.h"
-#include "FrameTimer.h"
+#include <chrono>
 
 class Snake {
 
@@ -67,7 +67,7 @@ private:
     //Directional vector of the Snake. 0 by default (not moving)
     PixelLocation direction = { 0, 0 };
 
-    float movePeriod = 0.5f;
+    float movePeriod = 1.5f / speedLevel;
     std::chrono::steady_clock::time_point lastMoved = std::chrono::steady_clock::now();
 
 

@@ -44,7 +44,7 @@
 #include "PixelLocation.h"
 #include "Menu.h"
 #include <string>
-#include "FrameTimer.h"
+#include <chrono>
 
 class Game
 {
@@ -78,5 +78,4 @@ private:
     int menuSelection = -1;
     int topScore = 0;
     bool inMenu = true;
-    FrameTimer ft;
 };
