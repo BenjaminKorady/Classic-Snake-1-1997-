@@ -40,13 +40,12 @@ void Snake::reset()
 */
 void Snake::move(const PixelLocation & direction, Board & brd)
 {
-     for (int i = nSegments - 1; i > 0; --i) {
-         segments[i].follow(segments[i - 1]);
-     }
+    for (int i = nSegments - 1; i > 0; --i) {
+        segments[i].follow(segments[i - 1]);
+    }
 
-     segments[0].move(direction, brd);
-
-     idleFor = 0;
+    segments[0].move(direction, brd);
+    lastMoved = std::chrono::steady_clock::now(); 
 }
 
 /**
@@ -72,13 +71,6 @@ PixelLocation Snake::getNextHeadLocation(const PixelLocation direction) const
 	PixelLocation l(segments[0].getLocation());
 	l = l+(direction*Board::CELL_INC_OFFSET);
 	return l;
-}
-
-/**
-    Increments idleFor
-*/
-void Snake::incIdleFor() {
-    ++idleFor;
 }
 
 /**
@@ -108,25 +100,25 @@ void Snake::updateSpeed()
 {
     switch (speedLevel) {
     case 9:
-        idleLimit = 4; break;
+        
     case 8:
-        idleLimit = 6; break;
+        
     case 7:
-        idleLimit = 8; break;
+        
     case 6:
-        idleLimit = 10; break;
+        
     case 5:
-        idleLimit = 13; break;
+        
     case 4:
-        idleLimit = 17; break;
+        
     case 3:
-        idleLimit = 20; break;
+        
     case 2:
-        idleLimit = 32; break;
+        
     case 1:
-        idleLimit = 50; break;
+        
     default:
-        idleLimit = 20;
+        break;
     }
 }
 
@@ -137,14 +129,10 @@ void Snake::updateSpeed()
 
     @return is it the snake's turn to move
 */
-bool Snake::isTurnToMove() const
+bool Snake::isTurnToMove(std::chrono::steady_clock::time_point now) const
 {
-    return idleFor>=idleLimit;
-}
-
-int Snake::getIdleLimit() const
-{
-    return idleLimit;
+    std::chrono::duration<float> diff = now - lastMoved;
+    return diff.count() >= movePeriod;
 }
 
 /**

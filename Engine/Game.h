@@ -44,6 +44,7 @@
 #include "PixelLocation.h"
 #include "Menu.h"
 #include <string>
+#include "FrameTimer.h"
 
 class Game
 {
@@ -59,7 +60,7 @@ private:
     void drawBackground();
     void drawGameOver();
     void gameReset();
-    void updateGame();
+    void updateGame(std::chrono::steady_clock::time_point now);
 
 	MainWindow& wnd;
 	Graphics gfx;
@@ -77,4 +78,5 @@ private:
     int menuSelection = -1;
     int topScore = 0;
     bool inMenu = true;
+    FrameTimer ft;
 };

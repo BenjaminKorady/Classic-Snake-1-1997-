@@ -48,7 +48,8 @@ void Game::Go()
 void Game::UpdateModel()
 {
     if(!inMenu) {
-        updateGame();
+        const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+        updateGame(now);
     }
 }
 
@@ -112,18 +113,16 @@ void Game::gameReset()
 /**
     Handles the main game functionality
 */
-void Game::updateGame()
+void Game::updateGame(std::chrono::steady_clock::time_point now)
 {
     if (!isGameOver) {
         direction = snek.getNextDirection(wnd.kbd);
         PixelLocation zero(0, 0);
         if (direction != zero) {
 
-            //  Increments snake's idleFor value (Snake has been idle for a frame)
-            snek.incIdleFor();
-
             //  If has been idle long enough to move (This manages the snake's speed)
-            if (snek.isTurnToMove()) {
+            
+            if (snek.isTurnToMove(now)) {
 
                 PixelLocation nextLocation = snek.getNextHeadLocation(direction);
 

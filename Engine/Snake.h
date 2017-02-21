@@ -1,5 +1,5 @@
 /**
-    Handles the controllable Snake
+    Handles the Snake logic
 
     @author Benjamin Korady
     @version 1.0    13/02/2017
@@ -10,6 +10,7 @@
 #include "PixelLocation.h"
 #include "Keyboard.h"
 #include "Board.h"
+#include "FrameTimer.h"
 
 class Snake {
 
@@ -22,15 +23,12 @@ public:
     PixelLocation getNextDirection(Keyboard& kbd);
     bool isInLocation(const PixelLocation& loc) const;
     PixelLocation getNextHeadLocation(const PixelLocation direction) const;
-    void incIdleFor();
     void resetMoveBuffer();
     int getFoodEaten();
     void incFoodEaten();
     void resetFoodEaten();
     void updateSpeed();
-    bool isTurnToMove() const;
-    int getIdleLimit() const;
-
+    bool isTurnToMove(std::chrono::steady_clock::time_point now) const;
     int speedLevel = 3;
 
 
@@ -47,8 +45,6 @@ private:
         void draw(Board& brd, const Segment& next) const;
 
         PixelLocation getLocation() const;
-        //  As we are not working with dynamic memory. We create all the initial segments with a default value of
-        //  exists as false. When we initialize the segment, we change that value to true
         bool exists = false;
 
     private:
@@ -68,13 +64,11 @@ private:
     //  Allows smoother snake control
     bool moveBuffered = false;
 
-    //  Keeps track of how many frames the snake has been idle for
-    int idleFor = 0;
-
-    //  The amount of frames that have to pass before the snake can move
-    int idleLimit = 20;
-
     //Directional vector of the Snake. 0 by default (not moving)
     PixelLocation direction = { 0, 0 };
+
+    float movePeriod = 0.5f;
+    std::chrono::steady_clock::time_point lastMoved = std::chrono::steady_clock::now();
+
 
 };
