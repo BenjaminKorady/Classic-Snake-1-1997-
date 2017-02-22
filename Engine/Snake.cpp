@@ -98,8 +98,28 @@ void Snake::resetFoodEaten()
 
 void Snake::updateSpeed()
 {
-    const float base = 1.0f;
-    movePeriod = base / speedLevel;
+    switch (speedLevel) {
+    case 1:
+        movePeriod = 45.0 / 60.0; break;
+    case 2:
+        movePeriod = 30.0 / 60.0; break;
+    case 3:
+        movePeriod = 22.0 / 60.0; break;
+    case 4:
+        movePeriod = 19.0 / 60; break;
+    case 5: 
+        movePeriod = 17.5 / 60; break;
+    case 6:
+        movePeriod = 16.0 / 60.0; break;
+    case 7:
+        movePeriod = 12.0 / 60.0; break;
+    case 8:
+        movePeriod = 8.0 / 60.0; break;
+    case 9:
+        movePeriod = 5.0 / 60.0; break;
+    default:
+        movePeriod = 22.0 / 60.0; break;
+    }
 }
 
 

@@ -67,7 +67,11 @@ private:
     //Directional vector of the Snake. 0 by default (not moving)
     PixelLocation direction = { 0, 0 };
 
-    float movePeriod = 1.5f / speedLevel;
+    float movePeriod = 0.375f;
+    // 9: 5/60
+    // 6: 15/60
+    // 3: 22/60
+
     std::chrono::steady_clock::time_point lastMoved = std::chrono::steady_clock::now();
 
 
