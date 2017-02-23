@@ -18,7 +18,7 @@ public:
     void initMenuItems();
     void navigate();
     void drawSideBar(int height);
-    int getSelection();
+    std::string getSelection();
     bool optionSelected();
     void reset();
     void returnToMenu();
@@ -39,19 +39,18 @@ private:
 
     bool initialized = false;
     int selectedItem = 0;
-    const MenuItem& firstItem = *top;
     int nMenuItems = 0;
     const int MAX_MENU_ITEMS = 6;
     bool buttonPressed = false;
     bool confirmSelection = false;
-    int menuSelection = -1;
     int scrollBarPos = 0;
-
     MenuItem* top;
+    MenuItem* first;
     Keyboard &kbd;
     Food nom;
     Snake snek;
     Board brd;
 
     void drawLevelBar(int barNum, bool fill);
+    int selectedItemNumber();
 };

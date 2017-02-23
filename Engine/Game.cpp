@@ -168,28 +168,28 @@ void Game::ComposeFrame()
     if (inMenu) {
 
         //  Menu
-        if (menu.getSelection() == -1) {
+        if (menu.getSelection() == "No selection") {
             menu.navigate();
         }
         //  New game
-        if (menu.getSelection() == 0) {
+        if (menu.getSelection() == "New game") {
             gameReset();        
             inMenu = false;
         }
         //  Top score
-        else if (menu.getSelection() == 1) {
+        else if (menu.getSelection() == "Top score") {
             menu.drawTopScore(topScore);            
         }
         //  Instructions
-        else if (menu.getSelection() == 2) {
+        else if (menu.getSelection() == "Instructions") {
             menu.drawInstructions();
         }
         //  Level
-        else if (menu.getSelection() == 3) {
+        else if (menu.getSelection() == "Level") {
             menu.drawLevel(snek);
         }
         //  Last view
-        else if (menu.getSelection() == 4) {
+        else if (menu.getSelection() == "Last view") {
             menu.drawLastView(snekCache, nomCache);
         }
 

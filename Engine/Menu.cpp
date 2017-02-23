@@ -15,8 +15,10 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
 
     addMenuItem("Level");
     addMenuItem("Instructions");
-    addMenuItem("Top Score");
+    addMenuItem("Top score");
     addMenuItem("New game");
+
+    first = top;
 }
 
 void Menu::draw()
@@ -28,16 +30,16 @@ void Menu::draw()
     bool selected1 = (selectedItem == 1);
     bool selected2 = (selectedItem == 2);
 
-    drawItem(*top, 0, selected0);
-    drawItem(*top->next, 1, selected1);
-    drawItem(*top->next->next, 2, selected2);
+    drawItem(*first, 0, selected0);
+    drawItem(*first->next, 1, selected1);
+    drawItem(*first->next->next, 2, selected2);
 
     brd.drawString({ 27, 39 }, "Select", false);
 
     const int selectorHeight = 7;
 
     //  IT TOOK ME TOO LONG TO FIGURE OUT THIS FORMULA
-    drawSideBar(((brd.GRID_HEIGHT - selectorHeight) / nMenuItems) * ((firstItem + selectedItem) % (nMenuItems)));
+    drawSideBar(((brd.GRID_HEIGHT - selectorHeight) / nMenuItems) * ((selectedItem + selectedItemNumber()) % (nMenuItems)));
 }
 
 void Menu::drawItem(MenuItem itemIn, int position, bool selected)
@@ -54,14 +56,14 @@ void Menu::initMenuItems()
 void Menu::navigate()
 {
     
-    while ( !kbd.KeyIsEmpty() ) {         	
+    while (!kbd.KeyIsEmpty()) {
         const Keyboard::Event e = kbd.ReadKey();
         if (e.IsRelease()) {
             if (e.GetCode() == VK_UP || e.GetCode() == VK_DOWN || e.GetCode() == 0x53 || e.GetCode() == 0x57) {
                 buttonPressed = false;
-            }             	
+            }
         }
-    
+
         if (kbd.KeyIsPressed(VK_UP) || kbd.KeyIsPressed(0x57)) {
             if (!buttonPressed) {
                 buttonPressed = true;
@@ -69,42 +71,35 @@ void Menu::navigate()
                     --selectedItem;
                 }
                 else {
-                if (--firstItem == -1) {
-                    firstItem = nMenuItems - 1;
+                    first = first->previous;
                 }
             }
         }
-    }
 
-    if (kbd.KeyIsPressed(VK_DOWN) || kbd.KeyIsPressed(0x53)) {
-        if (!buttonPressed) {
-            buttonPressed = true;
-            if (selectedItem != 2) {
-                ++selectedItem;                
+        if (kbd.KeyIsPressed(VK_DOWN) || kbd.KeyIsPressed(0x53)) {
+            if (!buttonPressed) {
+                buttonPressed = true;
+                if (selectedItem != 2) {
+                    ++selectedItem;
+                }
+                else {
+                    first = first->next;
+                }
             }
-            else {
-                ++firstItem;
-                firstItem = firstItem % nMenuItems;
-                                       
-            }
+
         }
-        
-    }
 
-    if (kbd.KeyIsPressed(VK_RETURN)) {
-        if (!buttonPressed) {
-            buttonPressed = true;
-            confirmSelection = true;
-            menuSelection = 0;
-            return;            
+        if (kbd.KeyIsPressed(VK_RETURN)) {
+            if (!buttonPressed) {
+                buttonPressed = true;
+                confirmSelection = true;
+                return;
+            }
         }
     }
 
-  
-
-   
     
-    }
+
     draw();
 }
 
@@ -125,11 +120,21 @@ void Menu::drawSideBar(int height)
 
 }
 
-int Menu::getSelection()
+std::string Menu::getSelection()
 {
-    if (confirmSelection)
-        return (firstItem + selectedItem) % nMenuItems;
-    return -1;
+    if (confirmSelection) {
+        switch (selectedItem) {
+        case 0:
+            return first->label;
+        case 1:
+            return first->next->label;
+        case 2:
+            return first->next->next->label;
+        default:
+            return "No selection";
+        }
+    }
+    return "No selection";
 }
 
 bool Menu::optionSelected()
@@ -140,7 +145,6 @@ bool Menu::optionSelected()
 void Menu::reset()
 {
     buttonPressed = false;
-    menuSelection = -1;
     confirmSelection = false;
 }
 
@@ -149,7 +153,7 @@ void Menu::returnToMenu()
     while (!kbd.KeyIsEmpty()) {
         const Keyboard::Event e = kbd.ReadKey();
         if (e.IsRelease()) {
-            if (e.GetCode() == VK_RETURN) {
+            if (e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
                 buttonPressed = false;
             }
         }
@@ -223,7 +227,6 @@ void Menu::drawInstructions()
                 buttonPressed = true;
                 scrollBarPos = 0;
                 reset();
-                return;
             }
         }
 
@@ -312,6 +315,17 @@ void Menu::drawLevelBar(int barNum, bool fill)
             brd.drawPixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum + 1, y - BAR_HEIGHT - BAR_Y_SPACING*barNum }, BAR_WIDTH - 1, 1, PIXEL_SPACING);
         }
     }
+}
+
+int Menu::selectedItemNumber()
+{
+    int counter = 0;
+    MenuItem *temp = top;
+    while (temp != first) {
+        ++counter;
+        temp = temp->next;
+    }
+    return counter;
 }
 
 void Menu::addMenuItem(std::string labelIn)
