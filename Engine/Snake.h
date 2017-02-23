@@ -30,6 +30,7 @@ public:
     void updateSpeed();
     bool isTurnToMove(std::chrono::steady_clock::time_point now) const;
     int speedLevel = 3;
+    void cacheDirection();
 
 
 private:
@@ -66,6 +67,7 @@ private:
 
     //Directional vector of the Snake. 0 by default (not moving)
     PixelLocation direction = { 0, 0 };
+    PixelLocation lastDirection = { 0, 0 };
 
     float movePeriod = 0.375f;
     // 9: 5/60

@@ -13,10 +13,10 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     top->next = nullptr;
     top->previous = nullptr;
 
-    addMenuItem("Level");
-    addMenuItem("Instructions");
-    addMenuItem("Top score");
-    addMenuItem("New game");
+    addItem("Level");
+    addItem("Instructions");
+    addItem("Top score");
+    addItem("New game");
 
     first = top;
 }
@@ -328,7 +328,7 @@ int Menu::selectedItemNumber()
     return counter;
 }
 
-void Menu::addMenuItem(std::string labelIn)
+void Menu::addItem(std::string labelIn)
 {
     if (nMenuItems < MAX_MENU_ITEMS) {
         if (top->label == "") {
@@ -347,6 +347,21 @@ void Menu::addMenuItem(std::string labelIn)
             top = newItem;
         }
         ++nMenuItems;
+    }
+}
+
+void Menu::removeItem(std::string labelIn)
+{
+    MenuItem *current = top;
+    for (int i = 0; i < nMenuItems; ++i) {
+        if (current->label == labelIn) {
+            current->previous->next = current->next;
+            current->next->previous = current->previous;
+            --nMenuItems;
+            current = current->next;
+            return;
+        }
+        current = current->next;
     }
 }
 

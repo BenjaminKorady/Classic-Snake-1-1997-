@@ -26,7 +26,8 @@ public:
     void drawLastView(const Snake& snekCache, const Food& nomCache);
     void drawInstructions();
     void drawLevel(Snake& snek);
-    void addMenuItem(std::string labelIn);
+    void addItem(std::string labelIn);
+    void removeItem(std::string labelIn);
     bool hasItem(std::string labelIn);
     void goToTop();
 

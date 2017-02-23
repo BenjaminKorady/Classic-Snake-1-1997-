@@ -49,6 +49,25 @@ void Game::UpdateModel()
 {     
     if(!inMenu) {
         const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+        bool buttonPressed = false;
+        if (!isGameOver) {
+            while (!wnd.kbd.KeyIsEmpty()) {
+                const Keyboard::Event e = wnd.kbd.ReadKey();
+                if (e.IsRelease()) {
+                    if (e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
+                        buttonPressed = false;
+                    }
+                }
+                if (wnd.kbd.KeyIsPressed(VK_ESCAPE) || wnd.kbd.KeyIsPressed(VK_RETURN)) {
+                    inMenu = true;
+                    menu.addItem("Continue");
+                    menu.reset();
+                    menu.goToTop();
+                    snek.cacheDirection();
+                    return;
+                }
+            }
+        }
         updateGame(now);
     } 
 }
@@ -148,7 +167,7 @@ void Game::updateGame(std::chrono::steady_clock::time_point now)
                     snekCache = snek;
                     nomCache = nom;
                     if (!menu.hasItem("Last view")) {
-                        menu.addMenuItem("Last view");
+                        menu.addItem("Last view");
                     }
                 }
             }
@@ -189,6 +208,10 @@ void Game::ComposeFrame()
         //  Last view
         else if (menu.getSelection() == "Last view") {
             menu.drawLastView(snekCache, nomCache);
+        }
+        else if (menu.getSelection() == "Continue") {
+            inMenu = false;
+            menu.removeItem("Continue");
         }
 
     }

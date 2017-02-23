@@ -135,6 +135,11 @@ bool Snake::isTurnToMove(std::chrono::steady_clock::time_point now) const
     return diff.count() >= movePeriod;
 }
 
+void Snake::cacheDirection()
+{
+    lastDirection = direction;
+}
+
 /**
     Draws all of the snake's segments to the board
 
@@ -182,6 +187,7 @@ PixelLocation Snake::getNextDirection(Keyboard & kbd)
             }
         }
     }
+
 
     return direction;
 }
