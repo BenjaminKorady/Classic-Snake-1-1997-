@@ -23,10 +23,10 @@ public:
     void reset();
     void returnToMenu();
     void drawTopScore(int topScore);
-    void addLastView();
     void drawLastView(const Snake& snekCache, const Food& nomCache);
     void drawInstructions();
     void drawLevel(Snake& snek);
+    void addMenuItem(std::string labelIn);
 
 private:
 
@@ -34,25 +34,24 @@ private:
     public:
         std::string label;
         MenuItem* next;
+        MenuItem* previous;
     };
 
-    MenuItem item[5];
-    Keyboard &kbd;
-
-    bool showLastView = false;
     bool initialized = false;
     int selectedItem = 0;
     int firstItem = 0;
-    int nMenuItems = 4;
+    int nMenuItems = 0;
+    const int MAX_MENU_ITEMS = 6;
     bool buttonPressed = false;
-    bool confirmSelection = false;   
+    bool confirmSelection = false;
     int menuSelection = -1;
     int scrollBarPos = 0;
 
+    MenuItem* root;
+    Keyboard &kbd;
     Food nom;
     Snake snek;
     Board brd;
 
     void drawLevelBar(int barNum, bool fill);
-
 };

@@ -10,10 +10,14 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     kbd(kbd)
 {
     initMenuItems();
+    addMenuItem("New game");
+    addMenuItem("Top Score");
+    addMenuItem("Level");
 }
 
 void Menu::draw()
 {
+    /*
     assert(selectedItem >= 0 && selectedItem <= 2);
 
     bool selected0 = (selectedItem == 0);
@@ -30,7 +34,7 @@ void Menu::draw()
 
     //  IT TOOK ME TOO LONG TO FIGURE OUT THIS FORMULA
     drawSideBar(((brd.GRID_HEIGHT - selectorHeight) / nMenuItems) * ((firstItem + selectedItem) % (nMenuItems)));
-
+    */
 }
 
 void Menu::drawItem(MenuItem itemIn, int position, bool selected)
@@ -44,6 +48,11 @@ void Menu::drawItem(MenuItem itemIn, int position, bool selected)
 
 void Menu::initMenuItems()
 {
+    root = new MenuItem;
+    root->next = nullptr;
+    root->previous = nullptr;
+
+    /*
     if (!initialized) {
         item[0].label = "New game";
         item[1].label = "Top score";
@@ -65,6 +74,7 @@ void Menu::initMenuItems()
     else {
         item[3].next = &item[0];
     }
+    */
 
 }
 
@@ -185,11 +195,6 @@ void Menu::drawTopScore(int topScore)
 {
     brd.drawString({ 3, 3 }, "Top score:\n " + std::to_string(topScore), false);
     returnToMenu();
-}
-
-void Menu::addLastView()
-{
-    showLastView = true;
 }
 
 void Menu::drawLastView(const Snake& snekCache, const Food& nomCache)
@@ -334,6 +339,36 @@ void Menu::drawLevelBar(int barNum, bool fill)
             brd.drawPixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum + 1, y - BAR_HEIGHT - BAR_Y_SPACING*barNum }, BAR_WIDTH - 1, 1, PIXEL_SPACING);
         }
     }
+}
+
+void Menu::addMenuItem(std::string labelIn)
+{
+    MenuItem *newItem = new MenuItem;
+    
+
+    if (root->next == nullptr) {
+        root->next = newItem;
+        newItem->next = newItem;
+        newItem->previous = newItem;
+    }
+    else {
+        MenuItem *current = new MenuItem;
+        MenuItem *first = new MenuItem;
+        first = root->next;
+        root->next = newItem;
+        newItem->next = first;
+        current = first;
+
+        while (current->next != first) {
+            current = current->next;
+        }
+
+        newItem->previous = current;
+        current->next = newItem;
+        first->previous = newItem;
+    }
+    newItem->label = labelIn;
+
 }
 
 
