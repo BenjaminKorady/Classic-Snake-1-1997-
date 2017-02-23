@@ -27,6 +27,8 @@ public:
     void drawInstructions();
     void drawLevel(Snake& snek);
     void addMenuItem(std::string labelIn);
+    bool hasItem(std::string labelIn);
+    void goToTop();
 
 private:
 

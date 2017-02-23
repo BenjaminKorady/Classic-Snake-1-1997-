@@ -350,4 +350,23 @@ void Menu::addMenuItem(std::string labelIn)
     }
 }
 
+bool Menu::hasItem(std::string labelIn)
+{
+    MenuItem *temp = top;
+    do {
+        if (temp->label == labelIn) {
+            return true;
+        }
+        temp = temp->next;
+    } while (temp != top);
+
+    return false;
+}
+
+void Menu::goToTop()
+{
+    first = top;
+    selectedItem = 0;
+}
+
 

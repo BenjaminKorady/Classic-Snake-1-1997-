@@ -46,14 +46,11 @@ void Game::Go()
 }
 
 void Game::UpdateModel()
-{
-    
-    
+{     
     if(!inMenu) {
         const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
         updateGame(now);
-    }
-    
+    } 
 }
 
 /**
@@ -94,8 +91,8 @@ void Game::drawGameOver()
         if (wnd.kbd.KeyIsPressed(VK_RETURN) || wnd.kbd.KeyIsPressed(VK_ESCAPE)) {
             if (!buttonPressed) {
                 buttonPressed = true;
-                menuSelection = -1;
                 menu.reset();
+                menu.goToTop();
                 inMenu = true;
                 return;
             }
@@ -150,8 +147,9 @@ void Game::updateGame(std::chrono::steady_clock::time_point now)
                     isGameOver = true;
                     snekCache = snek;
                     nomCache = nom;
-                  //  menu.addLastView();
-                    menu.initMenuItems();
+                    if (!menu.hasItem("Last view")) {
+                        menu.addMenuItem("Last view");
+                    }
                 }
             }
         }
