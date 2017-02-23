@@ -47,7 +47,7 @@ private:
     int menuSelection = -1;
     int scrollBarPos = 0;
 
-    MenuItem* root;
+    MenuItem* top;
     Keyboard &kbd;
     Food nom;
     Snake snek;

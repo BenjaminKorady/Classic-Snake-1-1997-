@@ -10,10 +10,6 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     kbd(kbd)
 {
     initMenuItems();
-    addMenuItem("Level");
-    addMenuItem("Instructions");
-    addMenuItem("Top Score");
-    addMenuItem("New game");
 }
 
 void Menu::draw()
@@ -40,18 +36,20 @@ void Menu::draw()
 
 void Menu::drawItem(MenuItem itemIn, int position, bool selected)
 {
-
     const PixelLocation pos[3] = { { 2, 2 }, { 2, 12 }, {2, 22} };
-
     brd.drawString(pos[position], itemIn.label, selected);
-
 }
 
 void Menu::initMenuItems()
 {
-    root = new MenuItem;
-    root->next = nullptr;
-    root->previous = nullptr;
+    top = new MenuItem;
+    top->next = nullptr;
+    top->previous = nullptr;
+
+    addMenuItem("Level");
+    addMenuItem("Instructions");
+    addMenuItem("Top Score");
+    addMenuItem("New game");
 
     /*
     if (!initialized) {
@@ -344,25 +342,21 @@ void Menu::drawLevelBar(int barNum, bool fill)
 
 void Menu::addMenuItem(std::string labelIn)
 {
-    MenuItem *newItem = new MenuItem;
-    
-
-    if (root->next == nullptr) {
-        root->next = newItem;
-        newItem->next = newItem;
-        newItem->previous = newItem;
+    if (top->label == "") {
+        top->label = labelIn;
+        top->next = top;
+        top->previous = top;
     }
     else {
-        MenuItem *first;
-        first = root->next;
-        root->next = newItem;
-        newItem->next = first;
-        newItem->previous = first->previous;
-        first->previous->next = newItem;
-        first->previous = newItem;
-    }
-    newItem->label = labelIn;
+        MenuItem *newItem = new MenuItem;
 
+        newItem->next = top;
+        newItem->previous = top->previous;
+        top->previous->next = newItem;
+        top->previous = newItem;
+        newItem->label = labelIn;
+        top = newItem;
+    }
 }
 
 
