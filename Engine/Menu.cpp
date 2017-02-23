@@ -10,9 +10,10 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     kbd(kbd)
 {
     initMenuItems();
-    addMenuItem("New game");
-    addMenuItem("Top Score");
     addMenuItem("Level");
+    addMenuItem("Instructions");
+    addMenuItem("Top Score");
+    addMenuItem("New game");
 }
 
 void Menu::draw()
@@ -352,19 +353,12 @@ void Menu::addMenuItem(std::string labelIn)
         newItem->previous = newItem;
     }
     else {
-        MenuItem *current = new MenuItem;
-        MenuItem *first = new MenuItem;
+        MenuItem *first;
         first = root->next;
         root->next = newItem;
         newItem->next = first;
-        current = first;
-
-        while (current->next != first) {
-            current = current->next;
-        }
-
-        newItem->previous = current;
-        current->next = newItem;
+        newItem->previous = first->previous;
+        first->previous->next = newItem;
         first->previous = newItem;
     }
     newItem->label = labelIn;
