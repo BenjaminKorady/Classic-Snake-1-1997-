@@ -39,7 +39,7 @@ private:
 
     bool initialized = false;
     int selectedItem = 0;
-    int firstItem = 0;
+    const MenuItem& firstItem = *top;
     int nMenuItems = 0;
     const int MAX_MENU_ITEMS = 6;
     bool buttonPressed = false;

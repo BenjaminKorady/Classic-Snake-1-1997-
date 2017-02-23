@@ -48,12 +48,12 @@ void Game::Go()
 void Game::UpdateModel()
 {
     
-    /*
+    
     if(!inMenu) {
         const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
         updateGame(now);
     }
-    */
+    
 }
 
 /**
@@ -161,7 +161,7 @@ void Game::updateGame(std::chrono::steady_clock::time_point now)
 
 void Game::ComposeFrame()
 {
-    /*
+    
     drawBackground();
 
 
@@ -206,5 +206,5 @@ void Game::ComposeFrame()
             drawGameOver();
         }
     }
-    */
+    
 }

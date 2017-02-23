@@ -9,21 +9,28 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     nom(nom),
     kbd(kbd)
 {
-    initMenuItems();
+    top = new MenuItem;
+    top->next = nullptr;
+    top->previous = nullptr;
+
+    addMenuItem("Level");
+    addMenuItem("Instructions");
+    addMenuItem("Top Score");
+    addMenuItem("New game");
 }
 
 void Menu::draw()
 {
-    /*
+    
     assert(selectedItem >= 0 && selectedItem <= 2);
 
     bool selected0 = (selectedItem == 0);
     bool selected1 = (selectedItem == 1);
     bool selected2 = (selectedItem == 2);
 
-    drawItem(item[firstItem], 0, selected0);
-    drawItem(*item[firstItem].next, 1, selected1);
-    drawItem(*item[firstItem].next->next, 2, selected2);
+    drawItem(*top, 0, selected0);
+    drawItem(*top->next, 1, selected1);
+    drawItem(*top->next->next, 2, selected2);
 
     brd.drawString({ 27, 39 }, "Select", false);
 
@@ -31,7 +38,6 @@ void Menu::draw()
 
     //  IT TOOK ME TOO LONG TO FIGURE OUT THIS FORMULA
     drawSideBar(((brd.GRID_HEIGHT - selectorHeight) / nMenuItems) * ((firstItem + selectedItem) % (nMenuItems)));
-    */
 }
 
 void Menu::drawItem(MenuItem itemIn, int position, bool selected)
@@ -42,38 +48,6 @@ void Menu::drawItem(MenuItem itemIn, int position, bool selected)
 
 void Menu::initMenuItems()
 {
-    top = new MenuItem;
-    top->next = nullptr;
-    top->previous = nullptr;
-
-    addMenuItem("Level");
-    addMenuItem("Instructions");
-    addMenuItem("Top Score");
-    addMenuItem("New game");
-
-    /*
-    if (!initialized) {
-        item[0].label = "New game";
-        item[1].label = "Top score";
-        item[2].label = "Instructions";
-        item[3].label = "Level";
-        item[4].label = "Last view";
-        item[0].next = &item[1];
-        item[1].next = &item[2];
-        item[2].next = &item[3];
-        item[4].next = &item[0];
-
-        initialized = true;
-    }
-
-    if (showLastView) {
-        item[3].next = &item[4]; 
-        nMenuItems = 5;
-    }
-    else {
-        item[3].next = &item[0];
-    }
-    */
 
 }
 
@@ -342,20 +316,23 @@ void Menu::drawLevelBar(int barNum, bool fill)
 
 void Menu::addMenuItem(std::string labelIn)
 {
-    if (top->label == "") {
-        top->label = labelIn;
-        top->next = top;
-        top->previous = top;
-    }
-    else {
-        MenuItem *newItem = new MenuItem;
+    if (nMenuItems < MAX_MENU_ITEMS) {
+        if (top->label == "") {
+            top->label = labelIn;
+            top->next = top;
+            top->previous = top;
+        }
+        else {
+            MenuItem *newItem = new MenuItem;
 
-        newItem->next = top;
-        newItem->previous = top->previous;
-        top->previous->next = newItem;
-        top->previous = newItem;
-        newItem->label = labelIn;
-        top = newItem;
+            newItem->next = top;
+            newItem->previous = top->previous;
+            top->previous->next = newItem;
+            top->previous = newItem;
+            newItem->label = labelIn;
+            top = newItem;
+        }
+        ++nMenuItems;
     }
 }
 
