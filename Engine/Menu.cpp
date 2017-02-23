@@ -352,16 +352,14 @@ void Menu::addItem(std::string labelIn)
 
 void Menu::removeItem(std::string labelIn)
 {
-    MenuItem *current = top;
-    for (int i = 0; i < nMenuItems; ++i) {
-        if (current->label == labelIn) {
-            current->previous->next = current->next;
-            current->next->previous = current->previous;
+    int initialMenuItems = nMenuItems;
+    for (int i = 0; i < initialMenuItems; ++i) {
+        if (top->label == labelIn) {
+            top->previous->next = top->next;
+            top->next->previous = top->previous;
             --nMenuItems;
-            current = current->next;
-            return;
         }
-        current = current->next;
+        top = top->next;
     }
 }
 
