@@ -18,6 +18,7 @@ public:
 	Food(PixelLocation loc);
 	void draw(Board &brd) const;
 	PixelLocation getLocation() const;
+    void reset();
 	void respawn(const Snake & snek);
 private:
 	PixelLocation loc;

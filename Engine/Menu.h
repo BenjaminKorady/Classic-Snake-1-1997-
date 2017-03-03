@@ -5,46 +5,55 @@
 #include "Keyboard.h"
 #include "Snake.h"
 #include "Food.h"
+#include "LetterMap.h"
+#include <math.h>
 
 class Menu {
 private:
     class MenuItem;
 public:
-    Menu(Board &brd, Snake &snek, Food &nom);
+    Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd);
     void draw();
     void drawItem(MenuItem itemIn, int position, bool selected);
     void initMenuItems();
-    void navigate(Keyboard &kbd);
+    void navigate();
     void drawSideBar(int height);
-    void showInstructions();
-    void blockInput(int delay);
-    int getSelection();
+    std::string getSelection();
     bool optionSelected();
-    void backToMenu();
-    int inputDelay = 0;
-   // brd.drawString({ 27, 39 }, "Select", false);
- 
+    void reset();
+    void returnToMenu();
+    void drawTopScore(int topScore);
+    void drawLastView(const Snake& snekCache, const Food& nomCache);
+    void drawInstructions();
+    void drawLevel(Snake& snek);
+    void addItem(std::string labelIn);
+    void removeItem(std::string labelIn);
+    bool hasItem(std::string labelIn);
+    void goToTop();
+
 private:
 
     class MenuItem {
     public:
         std::string label;
         MenuItem* next;
+        MenuItem* previous;
     };
 
-    MenuItem item[5];
-
-    bool showLastView = false;
     bool initialized = false;
     int selectedItem = 0;
-    int firstItem = 0;
-    int nMenuItems = 4 + int(showLastView);
+    int nMenuItems = 0;
+    const int MAX_MENU_ITEMS = 6;
     bool buttonPressed = false;
-    bool confirmSelection = false;   
-    int menuSelection = -1;
-
+    bool confirmSelection = false;
+    int scrollBarPos = 0;
+    MenuItem* top;
+    MenuItem* first;
+    Keyboard &kbd;
     Food nom;
     Snake snek;
     Board brd;
 
+    void drawLevelBar(int barNum, bool fill);
+    int selectedItemNumber();
 };

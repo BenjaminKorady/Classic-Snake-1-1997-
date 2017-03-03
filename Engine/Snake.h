@@ -1,5 +1,5 @@
 /**
-    Handles the controllable Snake
+    Handles the Snake logic
 
     @author Benjamin Korady
     @version 1.0    13/02/2017
@@ -10,6 +10,7 @@
 #include "PixelLocation.h"
 #include "Keyboard.h"
 #include "Board.h"
+#include <chrono>
 
 class Snake {
 
@@ -22,14 +23,15 @@ public:
     PixelLocation getNextDirection(Keyboard& kbd);
     bool isInLocation(const PixelLocation& loc) const;
     PixelLocation getNextHeadLocation(const PixelLocation direction) const;
-    void incIdleFor();
     void resetMoveBuffer();
     int getFoodEaten();
     void incFoodEaten();
     void resetFoodEaten();
-    int getSpeed();
-    bool isTurnToMove() const;
-    int getIdleLimit() const;
+    void updateSpeed();
+    bool isTurnToMove(std::chrono::steady_clock::time_point now) const;
+    int speedLevel = 3;
+    void cacheDirection();
+
 
 private:
 
@@ -44,8 +46,6 @@ private:
         void draw(Board& brd, const Segment& next) const;
 
         PixelLocation getLocation() const;
-        //  As we are not working with dynamic memory. We create all the initial segments with a default value of
-        //  exists as false. When we initialize the segment, we change that value to true
         bool exists = false;
 
     private:
@@ -55,7 +55,6 @@ private:
 private:
     //  Keeps track of how much food was eaten
     int foodEaten = 0;
-    int speedLevel = 3;
     static constexpr int MAX_SEGMENTS = Board::CELLS_X * Board::CELLS_Y;
     Segment segments[MAX_SEGMENTS];
 
@@ -66,13 +65,16 @@ private:
     //  Allows smoother snake control
     bool moveBuffered = false;
 
-    //  Keeps track of how many frames the snake has been idle for
-    int idleFor = 0;
-
-    //  The amount of frames that have to pass before the snake can move
-    int idleLimit = 20;
-
     //Directional vector of the Snake. 0 by default (not moving)
     PixelLocation direction = { 0, 0 };
+    PixelLocation lastDirection = { 0, 0 };
+
+    float movePeriod = 0.375f;
+    // 9: 5/60
+    // 6: 15/60
+    // 3: 22/60
+
+    std::chrono::steady_clock::time_point lastMoved = std::chrono::steady_clock::now();
+
 
 };

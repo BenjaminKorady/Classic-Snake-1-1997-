@@ -17,13 +17,17 @@ Snake::Snake()
 
 void Snake::reset()
 {
+    
     PixelLocation loc(0 + Board::LARGE_PIXEL_OFFSET, 10 * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET);
+    for (int i = 0; i < nSegments; ++i) {
+        segments[i].exists = false;
+    }
+    nSegments = 9;
     for (int i = nSegments - 1; i >= 0; --i) {
         segments[i].initSegment(loc);
         loc = { loc.x + Board::CELL_INC_OFFSET, loc.y };
     }
-    foodEaten = 0;
-    nSegments = 9;
+    foodEaten = 0;    
     direction = { 0, 0 };
     moveBuffered = false;
 }
@@ -36,13 +40,12 @@ void Snake::reset()
 */
 void Snake::move(const PixelLocation & direction, Board & brd)
 {
-     for (int i = nSegments - 1; i > 0; --i) {
-         segments[i].follow(segments[i - 1]);
-     }
+    for (int i = nSegments - 1; i > 0; --i) {
+        segments[i].follow(segments[i - 1]);
+    }
 
-     segments[0].move(direction, brd);
-
-     idleFor = 0;
+    segments[0].move(direction, brd);
+    lastMoved = std::chrono::steady_clock::now(); 
 }
 
 /**
@@ -71,13 +74,6 @@ PixelLocation Snake::getNextHeadLocation(const PixelLocation direction) const
 }
 
 /**
-    Increments idleFor
-*/
-void Snake::incIdleFor() {
-    ++idleFor;
-}
-
-/**
     Resets moveBuffer
 */
 void Snake::resetMoveBuffer()
@@ -100,10 +96,32 @@ void Snake::resetFoodEaten()
     foodEaten = 0;
 }
 
-int Snake::getSpeed()
+void Snake::updateSpeed()
 {
-    return speedLevel;
+    switch (speedLevel) {
+    case 1:
+        movePeriod = 45.0 / 60.0; break;
+    case 2:
+        movePeriod = 30.0 / 60.0; break;
+    case 3:
+        movePeriod = 22.0 / 60.0; break;
+    case 4:
+        movePeriod = 19.0 / 60; break;
+    case 5: 
+        movePeriod = 17.5 / 60; break;
+    case 6:
+        movePeriod = 16.0 / 60.0; break;
+    case 7:
+        movePeriod = 12.0 / 60.0; break;
+    case 8:
+        movePeriod = 8.0 / 60.0; break;
+    case 9:
+        movePeriod = 5.0 / 60.0; break;
+    default:
+        movePeriod = 22.0 / 60.0; break;
+    }
 }
+
 
 /**
     States whether the snake can move (Has enough required frames passed for it to move?)
@@ -111,14 +129,15 @@ int Snake::getSpeed()
 
     @return is it the snake's turn to move
 */
-bool Snake::isTurnToMove() const
+bool Snake::isTurnToMove(std::chrono::steady_clock::time_point now) const
 {
-    return idleFor>=idleLimit;
+    std::chrono::duration<float> diff = now - lastMoved;
+    return diff.count() >= movePeriod;
 }
 
-int Snake::getIdleLimit() const
+void Snake::cacheDirection()
 {
-    return idleLimit;
+    lastDirection = direction;
 }
 
 /**
@@ -168,6 +187,7 @@ PixelLocation Snake::getNextDirection(Keyboard & kbd)
             }
         }
     }
+
 
     return direction;
 }
