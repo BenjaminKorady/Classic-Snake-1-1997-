@@ -60,7 +60,7 @@ void Game::UpdateModel()
                 }
                 if (wnd.kbd.KeyIsPressed(VK_ESCAPE) || wnd.kbd.KeyIsPressed(VK_RETURN)) {
                     inMenu = true;
-                    menu.addItem("Continue");
+                 //   menu.addItem("Continue");
                     menu.reset();
                     menu.goToTop();
                     snek.cacheDirection();
@@ -70,6 +70,9 @@ void Game::UpdateModel()
         }
         updateGame(now);
     } 
+	else {
+		menu.navigate();
+	}
 }
 
 /**
@@ -166,9 +169,9 @@ void Game::updateGame(std::chrono::steady_clock::time_point now)
                     isGameOver = true;
                     snekCache = snek;
                     nomCache = nom;
-                    if (!menu.hasItem("Last view")) {
-                        menu.addItem("Last view");
-                    }
+      //              if (!menu.hasItem("Last view")) {
+      //                  menu.addItem("Last view");
+     //               }
                 }
             }
         }
@@ -183,7 +186,9 @@ void Game::ComposeFrame()
 
 
     if (inMenu) {
-
+		menu.draw();
+/*
+	
         //  Menu
         if (menu.getSelection() == "No selection") {
             menu.navigate();
@@ -213,7 +218,7 @@ void Game::ComposeFrame()
             inMenu = false;
             menu.removeItem("Continue");
         }
-
+		*/
     }
 
     //  Out of menu / in game

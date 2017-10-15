@@ -24,7 +24,7 @@ Board::Board(Graphics & gfx)
     @param loc
     The location on the screen where the pixel is to be drawn
 */
-void Board::drawPixel(const PixelLocation & loc, int pixelSpacing)
+void Board::drawPixel(const PixelLocation & loc, int pixelSpacing) const
 {
 	gfx.DrawRectDim(loc.x * LARGE_PIXEL_DIMENSION + unusedPixelsX/2,    //  x position + half of unused pixels to center the board horizontally
                     loc.y * LARGE_PIXEL_DIMENSION + unusedPixelsY/2,    //  similarly for y to center the board veritcally
@@ -42,7 +42,7 @@ void Board::drawPixel(const PixelLocation & loc, int pixelSpacing)
     The spacing (in monitor pixels) between each large pixel
 
 */
-void Board::clearPixel(const PixelLocation & loc, int pixelSpacing)
+void Board::clearPixel(const PixelLocation & loc, int pixelSpacing)  const
 {
     gfx.DrawRectDim(loc.x* LARGE_PIXEL_DIMENSION + unusedPixelsX / 2,   //  x position + half of unused pixels to center the board horizontally
         loc.y* LARGE_PIXEL_DIMENSION + unusedPixelsY / 2,               //  similarly for y to center the board veritcally
@@ -60,7 +60,7 @@ void Board::clearPixel(const PixelLocation & loc, int pixelSpacing)
     @pixelSpacing The spacing (in monitor pixels) between each large pixel
 
 */
-void Board::drawPixelRectangle(const PixelLocation & locIn, const int width, const int height, int pixelSpacing)
+void Board::drawPixelRectangle(const PixelLocation & locIn, const int width, const int height, int pixelSpacing)  const
 {
     PixelLocation locCopy = locIn;                                      //  Create a local copy of the input location
     for (int j = 0; j < height; ++j) {                                  //  Loop through the rectangle width*height
@@ -81,7 +81,7 @@ void Board::drawPixelRectangle(const PixelLocation & locIn, const int width, con
     @param height The height of the rectangle to be drawn
     @pixelSpacing The spacing (in monitor pixels) between each large pixel
 */
-void Board::clearPixelRectangle(const PixelLocation & locIn, const int width, const int height, int pixelSpacing)
+void Board::clearPixelRectangle(const PixelLocation & locIn, const int width, const int height, int pixelSpacing)  const
 {
     PixelLocation locCopy = locIn;                                      //  Create a local copy of the input location
     for (int j = 0; j < height; ++j) {                                  //  Loop through the rectangle width*height
@@ -101,7 +101,7 @@ void Board::clearPixelRectangle(const PixelLocation & locIn, const int width, co
     @param input The string that is to be drawn
     @param invert invert the pixel colors
 */
-void Board::drawString(PixelLocation loc, std::string input, const bool invert)
+void Board::drawString(PixelLocation loc, std::string input, const bool invert) const
 {
     const int LETTER_HEIGHT = LetterMap::height;
     const int RIGHT_SIDE_OFFSET = 4;
@@ -158,7 +158,7 @@ void Board::drawString(PixelLocation loc, std::string input, const bool invert)
     Draws the game board and background fill
 
 */
-void Board::drawBoard()
+void Board::drawBoard()  const
 {
     const int PIXEL_SPACING = 1;
     //Draws grid frame

@@ -9,48 +9,47 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     nom(nom),
     kbd(kbd)
 {
-    top = new MenuItem;
-    top->next = nullptr;
-    top->previous = nullptr;
+	items.emplace_back(Item::Name::NewGame);
+	items.emplace_back(Item::Name::TopScore);
+	items.emplace_back(Item::Name::Instructions);
+	items.emplace_back(Item::Name::Level);
 
-    addItem("Level");
-    addItem("Instructions");
-    addItem("Top score");
-    addItem("New game");
-
-    first = top;
 }
 
 void Menu::draw()
 {
-    
-    assert(selectedItem >= 0 && selectedItem <= 2);
+    assert(highlightedItemNumber >= 0 && highlightedItemNumber < shownItems);
 
-    bool selected0 = (selectedItem == 0);
-    bool selected1 = (selectedItem == 1);
-    bool selected2 = (selectedItem == 2);
+	for (int i = 0; i < shownItems; ++i) {
+		drawItemName(items[i + topItemIndex], i, highlightedItemNumber == i);
+	}
 
-    drawItem(*first, 0, selected0);
-    drawItem(*first->next, 1, selected1);
-    drawItem(*first->next->next, 2, selected2);
+	static constexpr int buttonPosX = 27;
+	static constexpr int buttonPosY = 39;
 
-    brd.drawString({ 27, 39 }, "Select", false);
+    brd.drawString({ buttonPosX, buttonPosY }, "Select", false);
 
-    const int selectorHeight = 7;
+    static constexpr int selectorHeight = 7;
 
     //  IT TOOK ME TOO LONG TO FIGURE OUT THIS FORMULA
-    drawSideBar(((brd.GRID_HEIGHT - selectorHeight) / nMenuItems) * ((selectedItem + selectedItemNumber()) % (nMenuItems)));
+    drawSideBar(((brd.GRID_HEIGHT - selectorHeight) / (int)items.size()) * ((highlightedItemNumber + selectedItemNumber()) % ((int)items.size())));
 }
 
-void Menu::drawItem(MenuItem itemIn, int position, bool selected)
+void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
 {
-    const PixelLocation pos[3] = { { 2, 2 }, { 2, 12 }, {2, 22} };
-    brd.drawString(pos[position], itemIn.label, selected);
-}
+	assert(position >= 0);
+	assert(position < shownItems);
 
-void Menu::initMenuItems()
-{
+	static constexpr int yItemSpacing = 10;
+	static constexpr int startLocX = 2;
+	static constexpr int startLocY = 2;
 
+	PixelLocation pos[shownItems];
+	for (int i = 0; i < shownItems; ++i) {
+		pos[i] = { startLocX, startLocY + i*yItemSpacing };
+	}
+
+    brd.drawString(pos[position], getItemName(itemIn), isHighlighted);
 }
 
 void Menu::navigate()
@@ -67,11 +66,12 @@ void Menu::navigate()
         if (kbd.KeyIsPressed(VK_UP) || kbd.KeyIsPressed(0x57)) {
             if (!buttonPressed) {
                 buttonPressed = true;
-                if (selectedItem != 0) {
-                    --selectedItem;
+                if (highlightedItemNumber != 0) {
+                    --highlightedItemNumber;
                 }
                 else {
-                    first = first->previous;
+					topItemIndex = (int)items.size() -1;
+
                 }
             }
         }
@@ -79,11 +79,11 @@ void Menu::navigate()
         if (kbd.KeyIsPressed(VK_DOWN) || kbd.KeyIsPressed(0x53)) {
             if (!buttonPressed) {
                 buttonPressed = true;
-                if (selectedItem != 2) {
-                    ++selectedItem;
+                if (highlightedItemNumber < shownItems-1) {
+                    ++highlightedItemNumber;
                 }
                 else {
-                    first = first->next;
+					topItemIndex = (topItemIndex + 1) % (int)items.size();
                 }
             }
 
@@ -120,16 +120,29 @@ void Menu::drawSideBar(int height)
 
 }
 
-std::string Menu::getSelection()
+std::string Menu::getItemName(const Item & itemIn) const
+{
+	switch (itemIn.getName()) {
+	case Item::Name::Continue: return "Continue"; break;
+	case Item::Name::LastView: return "Last view"; break;
+	case Item::Name::NewGame: return "New game"; break;
+	case Item::Name::TopScore: return "Top score"; break;
+	case Item::Name::Instructions: return "Instructions"; break;
+	case Item::Name::Level: return "Level"; break;
+	default: return ""; break;
+	}
+}
+
+std::string Menu::getHighlightedItem()
 {
     if (confirmSelection) {
-        switch (selectedItem) {
+        switch (highlightedItemNumber) {
         case 0:
-            return first->label;
+            return "";
         case 1:
-            return first->next->label;
+            return "";
         case 2:
-            return first->next->next->label;
+            return "";
         default:
             return "No selection";
         }
@@ -319,6 +332,7 @@ void Menu::drawLevelBar(int barNum, bool fill)
 
 int Menu::selectedItemNumber()
 {
+	/*
     int counter = 0;
     MenuItem *temp = top;
     while (temp != first) {
@@ -326,60 +340,17 @@ int Menu::selectedItemNumber()
         temp = temp->next;
     }
     return counter;
+	*/
+	return 0;
 }
 
-void Menu::addItem(std::string labelIn)
-{
-    if (nMenuItems < MAX_MENU_ITEMS) {
-        if (top->label == "") {
-            top->label = labelIn;
-            top->next = top;
-            top->previous = top;
-        }
-        else {
-            MenuItem *newItem = new MenuItem;
-
-            newItem->next = top;
-            newItem->previous = top->previous;
-            top->previous->next = newItem;
-            top->previous = newItem;
-            newItem->label = labelIn;
-            top = newItem;
-        }
-        ++nMenuItems;
-    }
-}
-
-void Menu::removeItem(std::string labelIn)
-{
-    int initialMenuItems = nMenuItems;
-    for (int i = 0; i < initialMenuItems; ++i) {
-        if (top->label == labelIn) {
-            top->previous->next = top->next;
-            top->next->previous = top->previous;
-            --nMenuItems;
-        }
-        top = top->next;
-    }
-}
-
-bool Menu::hasItem(std::string labelIn)
-{
-    MenuItem *temp = top;
-    do {
-        if (temp->label == labelIn) {
-            return true;
-        }
-        temp = temp->next;
-    } while (temp != top);
-
-    return false;
-}
 
 void Menu::goToTop()
 {
+	/*
     first = top;
     selectedItem = 0;
+	*/
 }
 
 

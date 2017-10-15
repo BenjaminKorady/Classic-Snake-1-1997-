@@ -12,12 +12,12 @@ Manages the gaming board
 class Board {
 public:
 	Board(Graphics& gfx);
-	void drawPixel(const PixelLocation& loc, int pixelSpacing);
-    void clearPixel(const PixelLocation& loc, int pixelSpacing);
-    void drawPixelRectangle(const PixelLocation& locIn, const int width, const int height, int pixelSpacing);
-    void clearPixelRectangle(const PixelLocation& locIn, const int width, const int height, int pixelSpacing);
-    void drawString(PixelLocation loc, std::string input, const bool invert);
-	void drawBoard();
+	void drawPixel(const PixelLocation& loc, int pixelSpacing) const;
+    void clearPixel(const PixelLocation& loc, int pixelSpacing) const;
+    void drawPixelRectangle(const PixelLocation& locIn, const int width, const int height, int pixelSpacing) const;
+    void clearPixelRectangle(const PixelLocation& locIn, const int width, const int height, int pixelSpacing) const;
+    void drawString(PixelLocation loc, std::string input, const bool invert) const;
+	void drawBoard() const;
 	bool isInsideBoard(const PixelLocation loc) const;
 
     //  Gaming grid is 20x11 cells

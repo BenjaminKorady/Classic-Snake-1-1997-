@@ -7,53 +7,94 @@
 #include "Food.h"
 #include "LetterMap.h"
 #include <math.h>
+#include <vector>
 
 class Menu {
 private:
-    class MenuItem;
+	class Item {
+	public:
+		enum class Name {
+			Continue,
+			LastView,
+			NewGame,
+			TopScore,
+			Instructions,
+			Level,
+			None
+		};
+	public:
+		Item() = default;
+		Item(Name name)
+			:
+			name(name)
+		{}
+		Item(Name name, int positionOnScreen, bool highlighted = false)
+			:
+			name(name), positionOnScreen(positionOnScreen), highlighted(highlighted)
+		{}
+		Name getName() const {
+			return name;
+		}
+		bool isHighlighted() const {
+			return highlighted;
+		}
+		void highlight() {
+			highlighted = true;
+		}
+		int getPositionOnScreen() const {
+			return positionOnScreen;
+		}
+
+		//operators
+		void operator=(Item& rhs) {
+			name = rhs.name;
+			positionOnScreen = rhs.positionOnScreen;
+			highlighted = rhs.highlighted;
+		}
+	private:
+		Name name;
+		int positionOnScreen;
+		bool highlighted;
+	};
+
+
 public:
     Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd);
+
+	std::string getHighlightedItem();
+	bool optionSelected();
+	void reset();
+	void returnToMenu();
+	void drawTopScore(int topScore);
+	void drawLastView(const Snake& snekCache, const Food& nomCache);
+	void drawInstructions();
+	void drawLevel(Snake& snek);
+	void goToTop();
     void draw();
-    void drawItem(MenuItem itemIn, int position, bool selected);
-    void initMenuItems();
-    void navigate();
-    void drawSideBar(int height);
-    std::string getSelection();
-    bool optionSelected();
-    void reset();
-    void returnToMenu();
-    void drawTopScore(int topScore);
-    void drawLastView(const Snake& snekCache, const Food& nomCache);
-    void drawInstructions();
-    void drawLevel(Snake& snek);
-    void addItem(std::string labelIn);
-    void removeItem(std::string labelIn);
-    bool hasItem(std::string labelIn);
-    void goToTop();
+	void navigate();
+
 
 private:
+	void drawItemName(Item itemIn, int position, bool selected) const;
+	std::string getItemName(const Item& itemIn) const;
+    void drawSideBar(int height);
+	void drawLevelBar(int barNum, bool fill);
+	int selectedItemNumber();
 
-    class MenuItem {
-    public:
-        std::string label;
-        MenuItem* next;
-        MenuItem* previous;
-    };
-
-    bool initialized = false;
-    int selectedItem = 0;
-    int nMenuItems = 0;
-    const int MAX_MENU_ITEMS = 6;
+private:
+	static constexpr int shownItems = 3;
+private:
+	std::vector<Item> items;
+	Item::Name selectedItemName = Item::Name::None;
+	int topItemIndex = 0;
+	int highlightedItemNumber = 0;
     bool buttonPressed = false;
     bool confirmSelection = false;
     int scrollBarPos = 0;
-    MenuItem* top;
-    MenuItem* first;
+
     Keyboard &kbd;
     Food nom;
     Snake snek;
     Board brd;
 
-    void drawLevelBar(int barNum, bool fill);
-    int selectedItemNumber();
 };
