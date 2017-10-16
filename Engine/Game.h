@@ -77,5 +77,4 @@ private:
     Menu menu;
     int menuSelection = -1;
     int topScore = 0;
-    bool inMenu = true;
 };

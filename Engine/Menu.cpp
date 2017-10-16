@@ -21,7 +21,7 @@ void Menu::draw()
     assert(highlightedItemNumber >= 0 && highlightedItemNumber < shownItems);
 
 	for (int i = 0; i < shownItems; ++i) {
-		drawItemName(items[(i + topItemIndex)%(int)items.size()], i, highlightedItemNumber == i);
+		drawItem(items[(i + topItemIndex)%(int)items.size()], i, highlightedItemNumber == i);
 	}
 
 	static constexpr int buttonPosX = 27;
@@ -35,7 +35,7 @@ void Menu::draw()
     drawSideBar(((brd.GRID_HEIGHT - selectorHeight) / (int)items.size()) * ((highlightedItemNumber + selectedItemNumber()) % ((int)items.size())));
 }
 
-void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
+void Menu::drawItem(Item itemIn, int position, bool isHighlighted) const
 {
 	assert(position >= 0);
 	assert(position < shownItems);
@@ -49,7 +49,7 @@ void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
 		pos[i] = { startLocX, startLocY + i*yItemSpacing };
 	}
 
-    brd.drawString(pos[position], getItemName(itemIn), isHighlighted);
+    brd.drawString(pos[position], getItem(itemIn), isHighlighted);
 }
 
 void Menu::navigate()
@@ -98,7 +98,7 @@ void Menu::drawSideBar(int height)
 
 }
 
-std::string Menu::getItemName(const Item & itemIn) const
+std::string Menu::getItem(const Item & itemIn) const
 {
 	switch (itemIn) {
 	case Item::Continue: return "Continue"; break;
@@ -111,29 +111,18 @@ std::string Menu::getItemName(const Item & itemIn) const
 	}
 }
 
+Menu::Item Menu::getSelection()
+{
+	return selectedItem;
+}
+
 void Menu::reset()
 {
-    buttonPressed = false;
 }
 
 void Menu::returnToMenu()
 {
-    while (!kbd.KeyIsEmpty()) {
-        const Keyboard::Event e = kbd.ReadKey();
-        if (e.IsRelease()) {
-            if (e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
-                buttonPressed = false;
-            }
-        }
-
-        if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(VK_ESCAPE)) {
-            if (!buttonPressed) {
-                buttonPressed = true;
-                reset();
-                return;
-            }
-        }
-    }
+	selectedItem = Item::None;
 }
 
 void Menu::drawTopScore(int topScore)
@@ -301,15 +290,7 @@ int Menu::selectedItemNumber()
 
 void Menu::confirmSelection()
 {
-}
-
-
-void Menu::goToTop()
-{
-	/*
-    first = top;
-    selectedItem = 0;
-	*/
+	selectedItem = items[(topItemIndex + highlightedItemNumber) % (int)items.size()];
 }
 
 

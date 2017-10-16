@@ -47,135 +47,32 @@ void Game::Go()
 
 void Game::UpdateModel()
 {     
-    if(!inMenu) {
-        const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
-        bool buttonPressed = false;
-        if (!isGameOver) {
-            while (!wnd.kbd.KeyIsEmpty()) {
-                const Keyboard::Event e = wnd.kbd.ReadKey();
-                if (e.IsRelease()) {
-                    if (e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
-                        buttonPressed = false;
-                    }
-                }
-                if (wnd.kbd.KeyIsPressed(VK_ESCAPE) || wnd.kbd.KeyIsPressed(VK_RETURN)) {
-                    inMenu = true;
-                 //   menu.addItem("Continue");
-                    menu.reset();
-                    menu.goToTop();
-                    snek.cacheDirection();
-                    return;
-                }
-            }
-        }
-        updateGame(now);
-    } 
-	else {
-		menu.navigate();
+	switch (menu.getSelection()) {
+	case::Menu::Item::None: {
+		menu.navigate(); 
+	} break;
+	case Menu::Item::NewGame: 
+	{
+		const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+		if (isGameOver) {
+			while (!wnd.kbd.KeyIsEmpty()) {
+				const Keyboard::Event e = wnd.kbd.ReadKey();
+				if (e.IsPress()) {
+					if (e.GetCode() == VK_ESCAPE || e.GetCode() == VK_RETURN) {
+						menu.returnToMenu();
+						//   menu.addItem("Continue");
+						snek.cacheDirection();
+						return;
+					}
+				}
+			}
+		}
+		else {
+			updateGame(now);
+		}
+	} break;
+
 	}
-}
-
-/**
-    Draws the background fill
-*/
-void Game::drawBackground()
-{    
-    gfx.DrawRectDim(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, bgColor);
-}
-
-/**
-    Draws the game over screen
-*/
-void Game::drawGameOver()
-{
-    //  Calculate current score
-    int score = snek.getFoodEaten() * snek.speedLevel;
-
-    //  Set topScore if it was beaten
-    if (score > topScore) {
-        topScore = score;
-    }
-
-    //  Draw the game over message
-    brd.drawString({ 3, 3 }, "Game over!\nYour score:\n" + std::to_string(score), false);
-
-    //  Handle keyboard input
-    bool buttonPressed = false;
-    while (!wnd.kbd.KeyIsEmpty()) {
-        const Keyboard::Event e = wnd.kbd.ReadKey();
-        if (e.IsRelease()) {
-            if (e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
-                buttonPressed = false;
-            }
-        }
-
-        //  Return back to the menu if Enter or Esc was pressed
-        if (wnd.kbd.KeyIsPressed(VK_RETURN) || wnd.kbd.KeyIsPressed(VK_ESCAPE)) {
-            if (!buttonPressed) {
-                buttonPressed = true;
-                menu.reset();
-                menu.goToTop();
-                inMenu = true;
-                return;
-            }
-        }
-    }
-}
-
-/**
-    Resets the game functionality
-*/
-void Game::gameReset()
-{
-    isGameOver = false;
-    snek.reset();
-    nom.reset();
-}
-
-/**
-    Handles the main game functionality
-*/
-void Game::updateGame(std::chrono::steady_clock::time_point now)
-{
-    if (!isGameOver) {
-        direction = snek.getNextDirection(wnd.kbd);
-        PixelLocation zero(0, 0);
-        if (direction != zero) {
-
-            //  If has been idle long enough to move (This manages the snake's speed)
-            
-            if (snek.isTurnToMove(now)) {
-
-                PixelLocation nextLocation = snek.getNextHeadLocation(direction);
-
-                //  If snakes is not about to collide with the board from or its body
-                if (brd.isInsideBoard(nextLocation) && !snek.isInLocation(nextLocation)) {
-
-                    //  If snake is about to eat food
-                    if (nextLocation == nom.getLocation()) {
-                        snek.grow();
-                        nom.respawn(snek);
-                        nom.draw(brd);
-                        snek.incFoodEaten();
-                    }
-
-                    snek.resetMoveBuffer();
-                    snek.move(direction, brd);
-
-                }
-
-                else {
-                    direction = { 0, 0 };
-                    isGameOver = true;
-                    snekCache = snek;
-                    nomCache = nom;
-      //              if (!menu.hasItem("Last view")) {
-      //                  menu.addItem("Last view");
-     //               }
-                }
-            }
-        }
-    }
 
 }
 
@@ -185,43 +82,10 @@ void Game::ComposeFrame()
     drawBackground();
 
 
-    if (inMenu) {
+    if (menu.getSelection() == Menu::Item::None) {
 		menu.draw();
-/*
-	
-        //  Menu
-        if (menu.getSelection() == "No selection") {
-            menu.navigate();
-        }
-        //  New game
-        if (menu.getSelection() == "New game") {
-            gameReset();        
-            inMenu = false;
-        }
-        //  Top score
-        else if (menu.getSelection() == "Top score") {
-            menu.drawTopScore(topScore);            
-        }
-        //  Instructions
-        else if (menu.getSelection() == "Instructions") {
-            menu.drawInstructions();
-        }
-        //  Level
-        else if (menu.getSelection() == "Level") {
-            menu.drawLevel(snek);
-        }
-        //  Last view
-        else if (menu.getSelection() == "Last view") {
-            menu.drawLastView(snekCache, nomCache);
-        }
-        else if (menu.getSelection() == "Continue") {
-            inMenu = false;
-            menu.removeItem("Continue");
-        }
-		*/
     }
 
-    //  Out of menu / in game
     else {
         if (!isGameOver) {
             brd.drawBoard();
@@ -234,3 +98,102 @@ void Game::ComposeFrame()
     }
     
 }
+
+
+/**
+Draws the background fill
+*/
+void Game::drawBackground()
+{
+	gfx.DrawRectDim(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, bgColor);
+}
+
+/**
+Draws the game over screen
+*/
+void Game::drawGameOver()
+{
+	//  Calculate current score
+	int score = snek.getFoodEaten() * snek.speedLevel;
+
+	//  Set topScore if it was beaten
+	if (score > topScore) {
+		topScore = score;
+	}
+
+	//  Draw the game over message
+	brd.drawString({ 3, 3 }, "Game over!\nYour score:\n" + std::to_string(score), false);
+
+	//  Handle keyboard input
+	while (!wnd.kbd.KeyIsEmpty()) {
+		const Keyboard::Event e = wnd.kbd.ReadKey();
+		if (e.IsRelease()) {
+			if (e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
+			}
+		}
+
+		//  Return back to the menu if Enter or Esc was pressed
+		if (wnd.kbd.KeyIsPressed(VK_RETURN) || wnd.kbd.KeyIsPressed(VK_ESCAPE)) {
+				menu.reset();
+				return;
+		}
+	}
+}
+
+/**
+Resets the game functionality
+*/
+void Game::gameReset()
+{
+	isGameOver = false;
+	snek.reset();
+	nom.reset();
+}
+
+/**
+Handles the main game functionality
+*/
+void Game::updateGame(std::chrono::steady_clock::time_point now)
+{
+	if (!isGameOver) {
+		direction = snek.getNextDirection(wnd.kbd);
+		PixelLocation zero(0, 0);
+		if (direction != zero) {
+
+			//  If has been idle long enough to move (This manages the snake's speed)
+
+			if (snek.isTurnToMove(now)) {
+
+				PixelLocation nextLocation = snek.getNextHeadLocation(direction);
+
+				//  If snakes is not about to collide with the board from or its body
+				if (brd.isInsideBoard(nextLocation) && !snek.isInLocation(nextLocation)) {
+
+					//  If snake is about to eat food
+					if (nextLocation == nom.getLocation()) {
+						snek.grow();
+						nom.respawn(snek);
+						nom.draw(brd);
+						snek.incFoodEaten();
+					}
+
+					snek.resetMoveBuffer();
+					snek.move(direction, brd);
+
+				}
+
+				else {
+					direction = { 0, 0 };
+					isGameOver = true;
+					snekCache = snek;
+					nomCache = nom;
+					//              if (!menu.hasItem("Last view")) {
+					//                  menu.addItem("Last view");
+					//               }
+				}
+			}
+		}
+	}
+
+}
+
