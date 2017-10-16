@@ -1,6 +1,7 @@
 #include "Menu.h"
 #include <assert.h>
 #include <string>
+#include <iterator>
 
 Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     :
@@ -9,11 +10,10 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     nom(nom),
     kbd(kbd)
 {
-	items.emplace_back(Item::NewGame);
-	items.emplace_back(Item::TopScore);
-	items.emplace_back(Item::Instructions);
-	items.emplace_back(Item::Level);
-
+	items.push_back(Item::NewGame);
+	items.push_back(Item::TopScore);
+	items.push_back(Item::Instructions);
+	items.push_back(Item::Level);
 }
 
 void Menu::draw()
@@ -21,7 +21,7 @@ void Menu::draw()
     assert(highlightedItemNumber >= 0 && highlightedItemNumber < shownItems);
 
 	for (int i = 0; i < shownItems; ++i) {
-		drawItem(items[(i + topItemIndex)%(int)items.size()], i, highlightedItemNumber == i);
+		drawItemName(items[(i + topItemIndex)%(int)items.size()], i, highlightedItemNumber == i);
 	}
 
 	static constexpr int buttonPosX = 27;
@@ -35,7 +35,17 @@ void Menu::draw()
     drawSideBar(((brd.GRID_HEIGHT - selectorHeight) / (int)items.size()) * ((getHighlightedItemIndex()) % ((int)items.size())));
 }
 
-void Menu::drawItem(Item itemIn, int position, bool isHighlighted) const
+bool Menu::hasItem(Item itemIn) const
+{
+	for (Item i : items) {
+		if (i == itemIn) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
 {
 	assert(position >= 0);
 	assert(position < shownItems);
@@ -50,6 +60,10 @@ void Menu::drawItem(Item itemIn, int position, bool isHighlighted) const
 	}
 
     brd.drawString(pos[position], getItem(itemIn), isHighlighted);
+}
+
+void Menu::drawItem(Item itemIn) const
+{
 }
 
 void Menu::navigate()
@@ -114,6 +128,18 @@ std::string Menu::getItem(const Item & itemIn) const
 Menu::Item Menu::getSelection()
 {
 	return selectedItem;
+}
+
+void Menu::addItem(Item item)
+{
+	assert(!hasItem(item));
+	items.push_back(item);
+}
+
+void Menu::removeItem(Item item)
+{
+	assert(hasItem(item));
+	items.erase(std::remove(items.begin(), items.end(), item), items.end());
 }
 
 void Menu::reset()
@@ -282,6 +308,7 @@ int Menu::getHighlightedItemIndex()
 void Menu::confirmSelection()
 {
 	selectedItem = items[getHighlightedItemIndex()];
+	
 }
 
 

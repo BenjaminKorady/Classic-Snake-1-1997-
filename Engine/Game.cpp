@@ -48,28 +48,14 @@ void Game::Go()
 void Game::UpdateModel()
 {     
 	switch (menu.getSelection()) {
-	case::Menu::Item::None: {
+	case Menu::Item::Continue: {
+		updateGame();
+	} break;
+	case Menu::Item::None: {
 		menu.navigate(); 
 	} break;
-	case Menu::Item::NewGame: 
-	{
-		const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
-		if (isGameOver) {
-			while (!wnd.kbd.KeyIsEmpty()) {
-				const Keyboard::Event e = wnd.kbd.ReadKey();
-				if (e.IsPress()) {
-					if (e.GetCode() == VK_ESCAPE || e.GetCode() == VK_RETURN) {
-						menu.returnToMenu();
-						//   menu.addItem("Continue");
-						snek.cacheDirection();
-						return;
-					}
-				}
-			}
-		}
-		else {
-			updateGame(now);
-		}
+	case Menu::Item::NewGame: {
+		updateGame();
 	} break;
 
 	}
@@ -150,25 +136,34 @@ void Game::gameReset()
 	nom.reset();
 }
 
-/**
-Handles the main game functionality
-*/
-void Game::updateGame(std::chrono::steady_clock::time_point now)
+void Game::updateGame()
 {
 	if (!isGameOver) {
+		const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+
+		// Check for game pause
+		while (!wnd.kbd.KeyIsEmpty()) {
+			const Keyboard::Event e = wnd.kbd.ReadKey();
+			if (e.IsPress()) {
+				if (e.GetCode() == VK_ESCAPE || e.GetCode() == VK_RETURN) {
+					menu.returnToMenu();
+					if (!menu.hasItem(Menu::Item::Continue)) {
+						menu.addItem(Menu::Item::Continue);
+					}
+					snek.cacheDirection();
+					return;
+				}
+			}
+		}
+
 		direction = snek.getNextDirection(wnd.kbd);
 		PixelLocation zero(0, 0);
 		if (direction != zero) {
-
 			//  If has been idle long enough to move (This manages the snake's speed)
-
 			if (snek.isTurnToMove(now)) {
-
 				PixelLocation nextLocation = snek.getNextHeadLocation(direction);
-
-				//  If snakes is not about to collide with the board from or its body
+				//  If snake is not about to collide with the board or its body
 				if (brd.isInsideBoard(nextLocation) && !snek.isInLocation(nextLocation)) {
-
 					//  If snake is about to eat food
 					if (nextLocation == nom.getLocation()) {
 						snek.grow();
@@ -176,24 +171,36 @@ void Game::updateGame(std::chrono::steady_clock::time_point now)
 						nom.draw(brd);
 						snek.incFoodEaten();
 					}
-
 					snek.resetMoveBuffer();
 					snek.move(direction, brd);
-
 				}
 
+				// Snake dies
 				else {
 					direction = { 0, 0 };
 					isGameOver = true;
+					if (menu.hasItem(Menu::Item::Continue)) {
+						menu.removeItem(Menu::Item::Continue);
+					}
 					snekCache = snek;
 					nomCache = nom;
-					//              if (!menu.hasItem("Last view")) {
-					//                  menu.addItem("Last view");
-					//               }
+					if (!menu.hasItem(Menu::Item::LastView)) {
+						menu.addItem(Menu::Item::LastView);
+					}
 				}
 			}
 		}
 	}
-
+	else {
+		while (!wnd.kbd.KeyIsEmpty()) {
+			const Keyboard::Event e = wnd.kbd.ReadKey();
+			if (e.IsPress()) {
+				if (e.GetCode() == VK_ESCAPE || e.GetCode() == VK_RETURN) {
+					menu.returnToMenu();
+					snek.cacheDirection();
+					return;
+				}
+			}
+		}
+	}
 }
-

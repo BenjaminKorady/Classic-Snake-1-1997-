@@ -25,6 +25,10 @@ public:
     Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd);
 
 	Item getSelection();
+	bool hasItem(Item itemIn) const;
+
+	void addItem(Item item);
+	void removeItem(Item item);
 	void reset();
 	void returnToMenu();
 	void drawTopScore(int topScore);
@@ -36,7 +40,8 @@ public:
 
 
 private:
-	void drawItem(Item itemIn, int position, bool selected) const;
+	void drawItemName(Item itemIn, int position, bool selected) const;
+	void drawItem(Item itemIn) const;
 	std::string getItem(const Item& itemIn) const;
     void drawSideBar(int height);
 	void drawLevelBar(int barNum, bool fill);
@@ -53,9 +58,13 @@ private:
     bool buttonPressed = false;
     int scrollBarPos = 0;
 
+	int topScore = 0;
+
     Keyboard &kbd;
     Food nom;
     Snake snek;
     Board brd;
+
+
 
 };

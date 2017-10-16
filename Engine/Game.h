@@ -60,7 +60,7 @@ private:
     void drawBackground();
     void drawGameOver();
     void gameReset();
-    void updateGame(std::chrono::steady_clock::time_point now);
+    void updateGame();
 
 	MainWindow& wnd;
 	Graphics gfx;
