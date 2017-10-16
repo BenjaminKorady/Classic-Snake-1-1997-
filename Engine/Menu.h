@@ -11,58 +11,20 @@
 
 class Menu {
 private:
-	class Item {
-	public:
-		enum class Name {
-			Continue,
-			LastView,
-			NewGame,
-			TopScore,
-			Instructions,
-			Level,
-			None
-		};
-	public:
-		Item() = default;
-		Item(Name name)
-			:
-			name(name)
-		{}
-		Item(Name name, int positionOnScreen, bool highlighted = false)
-			:
-			name(name), positionOnScreen(positionOnScreen), highlighted(highlighted)
-		{}
-		Name getName() const {
-			return name;
-		}
-		bool isHighlighted() const {
-			return highlighted;
-		}
-		void highlight() {
-			highlighted = true;
-		}
-		int getPositionOnScreen() const {
-			return positionOnScreen;
-		}
-
-		//operators
-		void operator=(Item& rhs) {
-			name = rhs.name;
-			positionOnScreen = rhs.positionOnScreen;
-			highlighted = rhs.highlighted;
-		}
-	private:
-		Name name;
-		int positionOnScreen;
-		bool highlighted;
+	enum class Item {
+		Continue,
+		LastView,
+		NewGame,
+		TopScore,
+		Instructions,
+		Level,
+		None
 	};
 
 
 public:
     Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd);
 
-	std::string getHighlightedItem();
-	bool optionSelected();
 	void reset();
 	void returnToMenu();
 	void drawTopScore(int topScore);
@@ -80,16 +42,16 @@ private:
     void drawSideBar(int height);
 	void drawLevelBar(int barNum, bool fill);
 	int selectedItemNumber();
+	void confirmSelection();
 
 private:
 	static constexpr int shownItems = 3;
 private:
 	std::vector<Item> items;
-	Item::Name selectedItemName = Item::Name::None;
+	Item selectedItem = Item::None;
 	int topItemIndex = 0;
 	int highlightedItemNumber = 0;
     bool buttonPressed = false;
-    bool confirmSelection = false;
     int scrollBarPos = 0;
 
     Keyboard &kbd;

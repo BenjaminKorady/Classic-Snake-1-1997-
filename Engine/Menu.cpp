@@ -9,10 +9,10 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     nom(nom),
     kbd(kbd)
 {
-	items.emplace_back(Item::Name::NewGame);
-	items.emplace_back(Item::Name::TopScore);
-	items.emplace_back(Item::Name::Instructions);
-	items.emplace_back(Item::Name::Level);
+	items.emplace_back(Item::NewGame);
+	items.emplace_back(Item::TopScore);
+	items.emplace_back(Item::Instructions);
+	items.emplace_back(Item::Level);
 
 }
 
@@ -53,53 +53,32 @@ void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
 }
 
 void Menu::navigate()
-{
-    
+{ 
     while (!kbd.KeyIsEmpty()) {
         const Keyboard::Event e = kbd.ReadKey();
-        if (e.IsRelease()) {
-            if (e.GetCode() == VK_UP || e.GetCode() == VK_DOWN || e.GetCode() == 0x53 || e.GetCode() == 0x57) {
-                buttonPressed = false;
-            }
-        }
-
-        if (kbd.KeyIsPressed(VK_UP) || kbd.KeyIsPressed(0x57)) {
-            if (!buttonPressed) {
-                buttonPressed = true;
-                if (highlightedItemNumber != 0) {
-                    --highlightedItemNumber;
-                }
-                else {
-					topItemIndex = topItemIndex == 0 ? (int)items.size() - 1 : topItemIndex-1;
-                }
-            }
-        }
-
-        if (kbd.KeyIsPressed(VK_DOWN) || kbd.KeyIsPressed(0x53)) {
-            if (!buttonPressed) {
-                buttonPressed = true;
-                if (highlightedItemNumber < shownItems-1) {
-                    ++highlightedItemNumber;
-                }
-                else {
+		if (e.IsPress()) {
+			if (e.GetCode() == (VK_UP) || e.GetCode() == (0x57)) {
+				if (highlightedItemNumber != 0) {
+					--highlightedItemNumber;
+				}
+				else {
+					topItemIndex = topItemIndex == 0 ? (int)items.size() - 1 : topItemIndex - 1;
+				}
+			}
+			if (e.GetCode() == (VK_DOWN) || e.GetCode() == (0x53)) {
+				if (highlightedItemNumber < shownItems - 1) {
+					++highlightedItemNumber;
+				}
+				else {
 					topItemIndex = (topItemIndex + 1) % (int)items.size();
-                }
-            }
-
-        }
-
-        if (kbd.KeyIsPressed(VK_RETURN)) {
-            if (!buttonPressed) {
-                buttonPressed = true;
-                confirmSelection = true;
-                return;
-            }
-        }
-    }
-
-    
-
-    draw();
+				}
+			}
+			if (e.GetCode() == (VK_RETURN)) {
+				confirmSelection();
+				return;
+			}
+		}
+    }   
 }
 
 void Menu::drawSideBar(int height)
@@ -121,43 +100,20 @@ void Menu::drawSideBar(int height)
 
 std::string Menu::getItemName(const Item & itemIn) const
 {
-	switch (itemIn.getName()) {
-	case Item::Name::Continue: return "Continue"; break;
-	case Item::Name::LastView: return "Last view"; break;
-	case Item::Name::NewGame: return "New game"; break;
-	case Item::Name::TopScore: return "Top score"; break;
-	case Item::Name::Instructions: return "Instructions"; break;
-	case Item::Name::Level: return "Level"; break;
+	switch (itemIn) {
+	case Item::Continue: return "Continue"; break;
+	case Item::LastView: return "Last view"; break;
+	case Item::NewGame: return "New game"; break;
+	case Item::TopScore: return "Top score"; break;
+	case Item::Instructions: return "Instructions"; break;
+	case Item::Level: return "Level"; break;
 	default: return ""; break;
 	}
-}
-
-std::string Menu::getHighlightedItem()
-{
-    if (confirmSelection) {
-        switch (highlightedItemNumber) {
-        case 0:
-            return "";
-        case 1:
-            return "";
-        case 2:
-            return "";
-        default:
-            return "No selection";
-        }
-    }
-    return "No selection";
-}
-
-bool Menu::optionSelected()
-{
-    return confirmSelection;
 }
 
 void Menu::reset()
 {
     buttonPressed = false;
-    confirmSelection = false;
 }
 
 void Menu::returnToMenu()
@@ -341,6 +297,10 @@ int Menu::selectedItemNumber()
     return counter;
 	*/
 	return 0;
+}
+
+void Menu::confirmSelection()
+{
 }
 
 
