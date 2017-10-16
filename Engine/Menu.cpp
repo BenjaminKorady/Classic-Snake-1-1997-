@@ -21,7 +21,7 @@ void Menu::draw()
     assert(highlightedItemNumber >= 0 && highlightedItemNumber < shownItems);
 
 	for (int i = 0; i < shownItems; ++i) {
-		drawItemName(items[i + topItemIndex], i, highlightedItemNumber == i);
+		drawItemName(items[(i + topItemIndex)%(int)items.size()], i, highlightedItemNumber == i);
 	}
 
 	static constexpr int buttonPosX = 27;
@@ -70,8 +70,7 @@ void Menu::navigate()
                     --highlightedItemNumber;
                 }
                 else {
-					topItemIndex = (int)items.size() -1;
-
+					topItemIndex = topItemIndex == 0 ? (int)items.size() - 1 : topItemIndex-1;
                 }
             }
         }
