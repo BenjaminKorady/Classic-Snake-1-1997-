@@ -31,8 +31,8 @@ void Menu::draw()
 
     static constexpr int selectorHeight = 7;
 
-    //  IT TOOK ME TOO LONG TO FIGURE OUT THIS FORMULA
-    drawSideBar(((brd.GRID_HEIGHT - selectorHeight) / (int)items.size()) * ((highlightedItemNumber + selectedItemNumber()) % ((int)items.size())));
+
+    drawSideBar(((brd.GRID_HEIGHT - selectorHeight) / (int)items.size()) * ((getHighlightedItemIndex()) % ((int)items.size())));
 }
 
 void Menu::drawItem(Item itemIn, int position, bool isHighlighted) const
@@ -274,23 +274,14 @@ void Menu::drawLevelBar(int barNum, bool fill)
     }
 }
 
-int Menu::selectedItemNumber()
+int Menu::getHighlightedItemIndex()
 {
-	/*
-    int counter = 0;
-    MenuItem *temp = top;
-    while (temp != first) {
-        ++counter;
-        temp = temp->next;
-    }
-    return counter;
-	*/
-	return 0;
+	return (topItemIndex + highlightedItemNumber) % (int)items.size();
 }
 
 void Menu::confirmSelection()
 {
-	selectedItem = items[(topItemIndex + highlightedItemNumber) % (int)items.size()];
+	selectedItem = items[getHighlightedItemIndex()];
 }
 
 

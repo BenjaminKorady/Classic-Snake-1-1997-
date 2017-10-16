@@ -40,7 +40,7 @@ private:
 	std::string getItem(const Item& itemIn) const;
     void drawSideBar(int height);
 	void drawLevelBar(int barNum, bool fill);
-	int selectedItemNumber();
+	int getHighlightedItemIndex();
 	void confirmSelection();
 
 private:
