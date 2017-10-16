@@ -196,8 +196,10 @@ void Game::updateGame()
 			const Keyboard::Event e = wnd.kbd.ReadKey();
 			if (e.IsPress()) {
 				if (e.GetCode() == VK_ESCAPE || e.GetCode() == VK_RETURN) {
+
 					menu.returnToMenu();
 					snek.cacheDirection();
+					gameReset();
 					return;
 				}
 			}

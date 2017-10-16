@@ -65,9 +65,7 @@ private:
 	MainWindow& wnd;
 	Graphics gfx;
 	Board brd;
-	bool isPaused = true;
 	bool isGameOver = false;
-    bool newGame = false;
     Color bgColor;
     Snake snek;
     Snake snekCache;
