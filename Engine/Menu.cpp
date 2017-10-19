@@ -200,6 +200,8 @@ void Menu::removeItem(Item item)
 void Menu::returnToMenu()
 {
 	selectedItem = Item::None;
+	topItemIndex = 0;
+	highlightedItemNumber = 0;
 }
 
 void Menu::returnToMenuOnReturnKeyPress()
@@ -208,7 +210,7 @@ void Menu::returnToMenuOnReturnKeyPress()
 		const Keyboard::Event e = kbd.ReadKey();
 		if (e.IsPress()) {
 			if (e.GetCode() == VK_RETURN) {
-				selectedItem = Item::None;
+				returnToMenu();
 			}
 		}
 	}
