@@ -20,7 +20,8 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
 	items.push_back(Item::Level);
 }
 
-void Menu::draw()
+// TODO: Fix magic numbers here
+void Menu::draw() const
 {
     assert(highlightedItemNumber >= 0 && highlightedItemNumber < SHOWN_ITEMS);
 
@@ -33,10 +34,7 @@ void Menu::draw()
 
     brd.drawString({ buttonPosX, buttonPosY }, "Select", false);
 
-    static constexpr int selectorHeight = 7;
-
-
-    drawScrollbar(((brd.GRID_HEIGHT - selectorHeight) / (int)items.size()) * ((getHighlightedItemIndex()) % ((int)items.size())));
+    drawScrollbar(((brd.GRID_HEIGHT - SCROLLBAR_HEIGHT) / (int)items.size()) * ((getHighlightedItemIndex()) % ((int)items.size())));
 }
 
 bool Menu::hasItem(Item itemIn) const
@@ -49,6 +47,7 @@ bool Menu::hasItem(Item itemIn) const
 	return false;
 }
 
+// TODO: Fix magic numbers here
 void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
 {
 	assert(position >= 0);
@@ -66,6 +65,7 @@ void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
     brd.drawString(pos[position], getItemString(itemIn), isHighlighted);
 }
 
+// TODO: Look into this
 void Menu::navigate()
 { 
     while (!kbd.KeyIsEmpty()) {
@@ -100,6 +100,7 @@ void Menu::navigateInstructions()
 	while (!kbd.KeyIsEmpty()) {
 		const Keyboard::Event e = kbd.ReadKey();
 		if (e.IsPress()) {
+
 			if (e.GetCode() == (VK_UP) || e.GetCode() == (VK_W)) {
 				if (scrollbarPos != 0) {
 					--scrollbarPos;
@@ -112,7 +113,7 @@ void Menu::navigateInstructions()
 				}
 			}
 
-			else if (e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
+			else if (e.GetCode() == VK_RETURN) {
 				scrollbarPos = 0;
 				returnToMenu();
 			}
@@ -126,59 +127,60 @@ void Menu::navigateLevel(Snake & snek)
 	while (!kbd.KeyIsEmpty()) {
 		const Keyboard::Event e = kbd.ReadKey();
 		if (e.IsPress()) {
-
+			int snekSpeed = snek.getSpeed();
 			if (e.GetCode() == (VK_UP) || e.GetCode() == (VK_W)) {
-				if (snek.speedLevel != MAX_LEVEL) {
-					++snek.speedLevel;
+				if (snekSpeed != MAX_LEVEL) {
+					snek.setSpeed(++snekSpeed);
 				}
 			}
 
 			if (e.GetCode() == (VK_DOWN) || e.GetCode() == (VK_S)) {
-				if (snek.speedLevel != 1) {
-					--snek.speedLevel;
+				if (snekSpeed != MIN_LEVEL) {
+					snek.setSpeed(--snekSpeed);
 				}
-
 			}
-
 			if (e.GetCode() == (VK_RETURN) || e.GetCode() == (VK_ESCAPE)) {
-				snek.updateSpeed();
 				returnToMenu();
 			}
 		}
 	}
 }
 
-void Menu::drawScrollbar(int height)
+void Menu::drawScrollbar(int height) const
 {
-    const int pixelSpacing = 1;
-    const int selectorHeight = 7;
-    const int rightSideOffset = 1;
+    constexpr int PIXEL_SPACING = 1;
+    constexpr int RIGHT_OFFSET_X = 1;
+	constexpr int TOP_OFFSET_Y = 1;
 
-    PixelLocation sideBarSelectorPos = { brd.GRID_WIDTH - rightSideOffset, height };
-    brd.drawPixelRectangle({ brd.GRID_WIDTH - rightSideOffset, 1 }, 1, brd.GRID_HEIGHT - 1, pixelSpacing);
-    brd.clearPixelRectangle(sideBarSelectorPos, 1, selectorHeight, pixelSpacing);
-    brd.drawPixel({ sideBarSelectorPos.x, sideBarSelectorPos.y }, pixelSpacing);
-    brd.drawPixel({ sideBarSelectorPos.x + 1, sideBarSelectorPos.y }, pixelSpacing);
-    brd.drawPixelRectangle({ sideBarSelectorPos.x + 2, sideBarSelectorPos.y + 1 }, 1, selectorHeight - 1, pixelSpacing);
-    brd.drawPixel({ sideBarSelectorPos.x + 1, sideBarSelectorPos.y + selectorHeight }, pixelSpacing);
-    brd.drawPixel({ sideBarSelectorPos.x, sideBarSelectorPos.y + selectorHeight }, pixelSpacing);
+    PixelLocation sideBarSelectorPos = { brd.GRID_WIDTH - RIGHT_OFFSET_X, height };
+
+	{
+							
+		brd.drawPixelRectangle({ brd.GRID_WIDTH - RIGHT_OFFSET_X, TOP_OFFSET_Y }, 1, brd.GRID_HEIGHT - 1, PIXEL_SPACING);
+		brd.clearPixelRectangle(sideBarSelectorPos, 1, SCROLLBAR_HEIGHT, PIXEL_SPACING);
+		brd.drawPixel({ sideBarSelectorPos.x, sideBarSelectorPos.y }, PIXEL_SPACING);
+		brd.drawPixel({ sideBarSelectorPos.x + 1, sideBarSelectorPos.y }, PIXEL_SPACING);
+		brd.drawPixelRectangle({ sideBarSelectorPos.x + 2, sideBarSelectorPos.y + 1 }, 1, SCROLLBAR_HEIGHT - 1, PIXEL_SPACING);
+		brd.drawPixel({ sideBarSelectorPos.x + 1, sideBarSelectorPos.y + SCROLLBAR_HEIGHT }, PIXEL_SPACING);
+		brd.drawPixel({ sideBarSelectorPos.x, sideBarSelectorPos.y + SCROLLBAR_HEIGHT }, PIXEL_SPACING);
+	}
 
 }
 
 std::string Menu::getItemString(const Item & itemIn) const
 {
 	switch (itemIn) {
-	case Item::Continue: return "Continue"; break;
-	case Item::LastView: return "Last view"; break;
-	case Item::NewGame: return "New game"; break;
-	case Item::TopScore: return "Top score"; break;
-	case Item::Instructions: return "Instructions"; break;
-	case Item::Level: return "Level"; break;
-	default: return ""; break;
+	case Item::Continue: return "Continue"; 
+	case Item::LastView: return "Last view"; 
+	case Item::NewGame: return "New game"; 
+	case Item::TopScore: return "Top score"; 
+	case Item::Instructions: return "Instructions";
+	case Item::Level: return "Level";
+	default: return "";
 	}
 }
 
-Menu::Item Menu::getSelection()
+Menu::Item Menu::getSelectedItem()
 {
 	return selectedItem;
 }
@@ -212,22 +214,20 @@ void Menu::returnToMenuOnReturnKeyPress()
 	}
 }
 
-void Menu::drawTopScore(int topScore)
+void Menu::drawTopScore(int topScore) const
 {
-	constexpr int LOC_X = 3;
-	constexpr int LOC_Y = 3;
-    brd.drawString({ LOC_X, LOC_Y }, "Top score:\n " + std::to_string(topScore), false);
+    brd.drawString({ TOP_LEFT_TEXT_X, TOP_LEFT_TEXT_Y }, "Top score:\n " + std::to_string(topScore), false);
 }
 
-void Menu::drawLastView(const Snake& snekCache, const Food& nomCache)
+void Menu::drawLastView(const Snake& snekCache, const Food& nomCache) const
 {
     brd.drawBoard();
     snekCache.draw(brd);
     nomCache.draw(brd);
-    returnToMenu();
 }
 
-void Menu::drawInstructions()
+// TODO: Maybe not use scrollbarPos as index?
+void Menu::drawInstructions() const
 {
 	for (int i = 0; i < MAX_LINES_ON_SCREEN; ++i) {
 		if (scrollbarPos + i < (int)instructionsLines.size()) {
@@ -239,23 +239,22 @@ void Menu::drawInstructions()
     drawScrollbar(currentScrollbarPos);
 }
 
-void Menu::drawLevel(Snake& snek)
+// TODO: Magic numbers fix
+void Menu::drawLevel(Snake& snek) const
 {
     brd.drawString({ TOP_LEFT_TEXT_X, TOP_LEFT_TEXT_Y }, "Level:", false);
 
-    for (int i = 0; i < snek.speedLevel; ++i) {
+    for (int i = 0; i < snek.getSpeed(); ++i) {
         drawLevelBar(i, true);
     }
-    for (int i = snek.speedLevel; i < MAX_LEVEL; ++i) {
+    for (int i = snek.getSpeed(); i < MAX_LEVEL; ++i) {
         drawLevelBar(i, false);
     }
 
-    brd.drawString({ 25, 39 }, "Accept", false);
-
-    
+    brd.drawString({ 25, 39 }, "Accept", false);   
 }
 
-void Menu::drawLevelBar(int barNum, bool fill)
+void Menu::drawLevelBar(int barNum, bool fill) const
 {
     const int PIXEL_SPACING = 1;
     const int X_LEFT = 2;
@@ -275,15 +274,14 @@ void Menu::drawLevelBar(int barNum, bool fill)
     }
 }
 
-int Menu::getHighlightedItemIndex()
+int Menu::getHighlightedItemIndex() const
 {
 	return (topItemIndex + highlightedItemNumber) % (int)items.size();
 }
 
 void Menu::confirmSelection()
 {
-	selectedItem = items[getHighlightedItemIndex()];
-	
+	selectedItem = items[getHighlightedItemIndex()];	
 }
 
 

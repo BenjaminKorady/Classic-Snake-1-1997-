@@ -25,11 +25,11 @@ public:
     PixelLocation getNextHeadLocation(const PixelLocation direction) const;
     void resetMoveBuffer();
     int getFoodEaten();
+	int getSpeed() const;
+	void setSpeed(int speed);
     void incFoodEaten();
     void resetFoodEaten();
-    void updateSpeed();
     bool isTurnToMove(std::chrono::steady_clock::time_point now) const;
-    int speedLevel = 3;
     void cacheDirection();
 
 
@@ -70,6 +70,8 @@ private:
     PixelLocation lastDirection = { 0, 0 };
 
     float movePeriod = 0.375f;
+	int speedLevel = 3;
+
     // 9: 5/60
     // 6: 15/60
     // 3: 22/60

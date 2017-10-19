@@ -47,7 +47,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {     
-	switch (menu.getSelection()) {
+	switch (menu.getSelectedItem()) {
 	case Menu::Item::None: {
 		menu.navigate();
 	} break;
@@ -78,7 +78,7 @@ void Game::ComposeFrame()
 {
     drawBackground();
 
-	switch (menu.getSelection()) {
+	switch (menu.getSelectedItem()) {
 	case Menu::Item::None:
 		menu.draw();
 		break;
@@ -124,7 +124,7 @@ Draws the game over screen
 void Game::drawGameOver()
 {
 	//  Calculate current score
-	int score = snek.getFoodEaten() * snek.speedLevel;
+	int score = snek.getFoodEaten() * snek.getSpeed();
 
 	//  Set topScore if it was beaten
 	if (score > topScore) {

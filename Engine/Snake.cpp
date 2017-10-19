@@ -86,9 +86,14 @@ int Snake::getFoodEaten()
     return foodEaten;
 }
 
+int Snake::getSpeed() const
+{
+	return speedLevel;
+}
+
 void Snake::incFoodEaten()
 {
-    foodEaten++;
+	++foodEaten;
 }
 
 void Snake::resetFoodEaten()
@@ -96,9 +101,9 @@ void Snake::resetFoodEaten()
     foodEaten = 0;
 }
 
-void Snake::updateSpeed()
+void Snake::setSpeed(int speedLevelIn)
 {
-    switch (speedLevel) {
+    switch (speedLevelIn) {
     case 1:
         movePeriod = 45.0 / 60.0; break;
     case 2:
@@ -118,8 +123,12 @@ void Snake::updateSpeed()
     case 9:
         movePeriod = 5.0 / 60.0; break;
     default:
-        movePeriod = 22.0 / 60.0; break;
+        movePeriod = 22.0 / 60.0; 
+		speedLevel = 3;
+		return;
     }
+	speedLevel = speedLevelIn;
+
 }
 
 
