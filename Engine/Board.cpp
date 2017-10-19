@@ -105,7 +105,6 @@ void Board::drawString(PixelLocation loc, std::string input, const bool invert) 
 {
     const int LETTER_HEIGHT = LetterMap::height;
     const int RIGHT_SIDE_OFFSET = 4;
-    const int PIXEL_SPACING = 1;
     const int LETTER_SPACING = 1;
     const int LINE_SPACING = 1;
     const PixelLocation originalLoc = loc;                                          //  Store the original input location for later use

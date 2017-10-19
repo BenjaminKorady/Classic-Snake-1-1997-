@@ -17,7 +17,6 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
 	items.push_back(Item::Level);
 }
 
-// TODO: Fix magic numbers here
 void Menu::draw() const
 {
     assert(highlightedItemNumber >= 0 && highlightedItemNumber < SHOWN_ITEMS);
@@ -26,12 +25,12 @@ void Menu::draw() const
 		drawItemName(items[(i + topItemIndex)%(int)items.size()], i, highlightedItemNumber == i);
 	}
 
-	static constexpr int buttonPosX = 27;
-	static constexpr int buttonPosY = 39;
+	std::string confirmButton = "Select";
+	const int CONFIRM_WIDTH = LetterMap::getStringWidth(confirmButton, Board::PIXEL_SPACING);
+    brd.drawString({ (Board::GRID_WIDTH - CONFIRM_WIDTH - RIGHT_SIDE_OFFSET)/2, CONFIRM_BUTTON_Y }, confirmButton, false);
 
-    brd.drawString({ buttonPosX, buttonPosY }, "Select", false);
-
-    drawScrollbar(((brd.GRID_HEIGHT - SCROLLBAR_HEIGHT) / (int)items.size()) * ((getHighlightedItemIndex()) % ((int)items.size())));
+	int scrollbarPos = ((brd.GRID_HEIGHT - SCROLLBAR_HEIGHT) / (int)items.size()) * ((getHighlightedItemIndex()) % ((int)items.size()));
+    drawScrollbar(scrollbarPos);
 }
 
 bool Menu::hasItem(Item itemIn) const
@@ -130,12 +129,12 @@ void Menu::navigateLevel(Snake & snek)
 				}
 			}
 
-			if (e.GetCode() == (VK_DOWN) || e.GetCode() == ('S')) {
+			else if (e.GetCode() == (VK_DOWN) || e.GetCode() == ('S')) {
 				if (snekSpeed != MIN_LEVEL) {
 					snek.setSpeed(--snekSpeed);
 				}
 			}
-			if (e.GetCode() == (VK_RETURN) || e.GetCode() == (VK_ESCAPE)) {
+			else if (e.GetCode() == (VK_RETURN) || e.GetCode() == (VK_ESCAPE)) {
 				returnToMenu();
 			}
 		}
@@ -150,9 +149,8 @@ void Menu::drawScrollbar(int height) const
 
     PixelLocation sideBarSelectorPos = { brd.GRID_WIDTH - RIGHT_OFFSET_X, height };
 
-	{
-							
-		brd.drawPixelRectangle({ brd.GRID_WIDTH - RIGHT_OFFSET_X, TOP_OFFSET_Y }, 1, brd.GRID_HEIGHT - 1, PIXEL_SPACING);
+	{			
+		brd.drawPixelRectangle({ sideBarSelectorPos.x, TOP_OFFSET_Y }, 1, brd.GRID_HEIGHT - 1, PIXEL_SPACING);
 		brd.clearPixelRectangle(sideBarSelectorPos, 1, SCROLLBAR_HEIGHT, PIXEL_SPACING);
 		brd.drawPixel({ sideBarSelectorPos.x, sideBarSelectorPos.y }, PIXEL_SPACING);
 		brd.drawPixel({ sideBarSelectorPos.x + 1, sideBarSelectorPos.y }, PIXEL_SPACING);
@@ -224,7 +222,6 @@ void Menu::drawLastView(const Snake& snekCache, const Food& nomCache) const
     nomCache.draw(brd);
 }
 
-// TODO: Maybe not use scrollbarPos as index?
 void Menu::drawInstructions() const
 {
 	for (int i = 0; i < MAX_LINES_ON_SCREEN; ++i) {
@@ -237,7 +234,7 @@ void Menu::drawInstructions() const
     drawScrollbar(currentScrollbarPos);
 }
 
-// TODO: Magic numbers fix
+// TODO: Magic numbers fix (Board letter spacing = 1)
 void Menu::drawLevel(Snake& snek) const
 {
     brd.drawString({ TOP_LEFT_TEXT_X, TOP_LEFT_TEXT_Y }, "Level:", false);
@@ -249,7 +246,8 @@ void Menu::drawLevel(Snake& snek) const
         drawLevelBar(i, false);
     }
 
-    brd.drawString({ 25, 39 }, "Accept", false);   
+	int acceptWidth = LetterMap::getStringWidth("Accept", 1);
+    brd.drawString({ (Board::GRID_WIDTH - acceptWidth)/2, 39 }, "Accept", false);   
 }
 
 void Menu::drawLevelBar(int barNum, bool fill) const

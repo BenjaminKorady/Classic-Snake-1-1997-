@@ -1,5 +1,5 @@
 #include "LetterMap.h"
-
+#include <algorithm>
 LetterMap::LetterMap()
     :
     width(0)
@@ -203,5 +203,23 @@ std::vector<std::string> LetterMap::splitStringByLimit(std::string str, const in
     }
 	lines.push_back(line);
     return lines;
+}
+
+int LetterMap::getStringWidth(std::string str, const int letterSpacing)
+{
+	LetterMap letter;
+	int width = 0;
+	int maxWidth = 0;
+
+	for (std::string::iterator it = str.begin(); it < str.end(); ++it) {
+		letter.set(*it);
+		width += letter.width + letterSpacing;
+		if (letter.value == '\n') {
+			maxWidth = std::max(maxWidth, width);
+			width = 0;
+		}
+	}
+	maxWidth = std::max(maxWidth, width);
+	return maxWidth;
 }
 

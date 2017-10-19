@@ -57,7 +57,6 @@ private:
 	Item selectedItem = Item::None;
 	int topItemIndex = 0;
 	int highlightedItemNumber = 0;
-    bool buttonPressed = false;
     int scrollbarPos = 0;
 
     Keyboard& kbd;
@@ -70,6 +69,8 @@ private:
 	static constexpr int TOP_LEFT_TEXT_X = 2;
 	static constexpr int TOP_LEFT_TEXT_Y = 2;
 	static constexpr int SCROLLBAR_HEIGHT = 7;
+	static constexpr int CONFIRM_BUTTON_Y = 39;
+	static constexpr int RIGHT_SIDE_OFFSET = 4;
 
 // Level specific values
 private:
@@ -88,7 +89,6 @@ private:
 	static constexpr int LINE_START_Y = 2;
 	static constexpr int LINE_Y_SPACING = 10;
 
-	static constexpr int RIGHT_SIDE_OFFSET = 2;
 	const int MAX_INSTRUCTIONS_SCROLLBAR_POS = (int)instructionsLines.size() -1;
 
 
