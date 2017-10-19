@@ -4,9 +4,6 @@
 #include <iterator>
 #include <vector>
 
-#define VK_S 0x53
-#define VK_W 0x57
-
 Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     :
     brd(brd),
@@ -65,13 +62,12 @@ void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
     brd.drawString(pos[position], getItemString(itemIn), isHighlighted);
 }
 
-// TODO: Look into this
 void Menu::navigate()
 { 
     while (!kbd.KeyIsEmpty()) {
         const Keyboard::Event e = kbd.ReadKey();
 		if (e.IsPress()) {
-			if (e.GetCode() == (VK_UP) || e.GetCode() == (VK_W)) {
+			if (e.GetCode() == (VK_UP) || e.GetCode() == ('W')) {
 				if (highlightedItemNumber != 0) {
 					--highlightedItemNumber;
 				}
@@ -79,7 +75,7 @@ void Menu::navigate()
 					topItemIndex = topItemIndex == 0 ? (int)items.size() - 1 : topItemIndex - 1;
 				}
 			}
-			if (e.GetCode() == (VK_DOWN) || e.GetCode() == (VK_S)) {
+			if (e.GetCode() == (VK_DOWN) || e.GetCode() == ('S')) {
 				if (highlightedItemNumber < SHOWN_ITEMS - 1) {
 					++highlightedItemNumber;
 				}
@@ -101,13 +97,13 @@ void Menu::navigateInstructions()
 		const Keyboard::Event e = kbd.ReadKey();
 		if (e.IsPress()) {
 
-			if (e.GetCode() == (VK_UP) || e.GetCode() == (VK_W)) {
+			if (e.GetCode() == (VK_UP) || e.GetCode() == ('W')) {
 				if (scrollbarPos != 0) {
 					--scrollbarPos;
 				}
 			}
 
-			else if (e.GetCode() == VK_DOWN || e.GetCode() == (VK_S)) {
+			else if (e.GetCode() == VK_DOWN || e.GetCode() == ('S')) {
 				if(scrollbarPos != MAX_INSTRUCTIONS_SCROLLBAR_POS) {
 					++scrollbarPos;
 				}
@@ -128,13 +124,13 @@ void Menu::navigateLevel(Snake & snek)
 		const Keyboard::Event e = kbd.ReadKey();
 		if (e.IsPress()) {
 			int snekSpeed = snek.getSpeed();
-			if (e.GetCode() == (VK_UP) || e.GetCode() == (VK_W)) {
+			if (e.GetCode() == (VK_UP) || e.GetCode() == ('W')) {
 				if (snekSpeed != MAX_LEVEL) {
 					snek.setSpeed(++snekSpeed);
 				}
 			}
 
-			if (e.GetCode() == (VK_DOWN) || e.GetCode() == (VK_S)) {
+			if (e.GetCode() == (VK_DOWN) || e.GetCode() == ('S')) {
 				if (snekSpeed != MIN_LEVEL) {
 					snek.setSpeed(--snekSpeed);
 				}
