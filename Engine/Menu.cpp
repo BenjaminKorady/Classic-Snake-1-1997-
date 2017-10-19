@@ -32,7 +32,7 @@ void Menu::draw()
     static constexpr int selectorHeight = 7;
 
 
-    drawSideBar(((brd.GRID_HEIGHT - selectorHeight) / (int)items.size()) * ((getHighlightedItemIndex()) % ((int)items.size())));
+    drawScrollbar(((brd.GRID_HEIGHT - selectorHeight) / (int)items.size()) * ((getHighlightedItemIndex()) % ((int)items.size())));
 }
 
 bool Menu::hasItem(Item itemIn) const
@@ -59,7 +59,7 @@ void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
 		pos[i] = { startLocX, startLocY + i*yItemSpacing };
 	}
 
-    brd.drawString(pos[position], getItem(itemIn), isHighlighted);
+    brd.drawString(pos[position], drawItemString(itemIn), isHighlighted);
 }
 
 void Menu::drawItem(Item itemIn) const
@@ -95,7 +95,37 @@ void Menu::navigate()
     }   
 }
 
-void Menu::drawSideBar(int height)
+void Menu::navigateInstructions()
+{
+
+	//  Handle keyboard input
+
+	while (!kbd.KeyIsEmpty()) {
+		const Keyboard::Event e = kbd.ReadKey();
+		if (e.IsPress()) {
+			if (e.GetCode() == (VK_UP) || e.GetCode() == (0x57)) {
+				if (scrollbarPos != 0) {
+					--scrollbarPos;
+				}
+			}
+
+			else if (e.GetCode() == VK_DOWN || e.GetCode() == (0x53)) {
+//				if (scrollbarPos != ARRAY_SIZE - LINES_ON_SCREEN) {
+				if(scrollbarPos != 11) {
+					++scrollbarPos;
+				}
+			}
+
+			else if (e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
+				scrollbarPos = 0;
+				reset();
+			}
+		}
+	}
+
+}
+
+void Menu::drawScrollbar(int height)
 {
     const int pixelSpacing = 1;
     const int selectorHeight = 7;
@@ -112,7 +142,7 @@ void Menu::drawSideBar(int height)
 
 }
 
-std::string Menu::getItem(const Item & itemIn) const
+std::string Menu::drawItemString(const Item & itemIn) const
 {
 	switch (itemIn) {
 	case Item::Continue: return "Continue"; break;
@@ -133,7 +163,7 @@ Menu::Item Menu::getSelection()
 void Menu::addItem(Item item)
 {
 	assert(!hasItem(item));
-	items.push_back(item);
+	items.insert(items.begin(), item);
 }
 
 void Menu::removeItem(Item item)
@@ -154,7 +184,6 @@ void Menu::returnToMenu()
 void Menu::drawTopScore(int topScore)
 {
     brd.drawString({ 3, 3 }, "Top score:\n " + std::to_string(topScore), false);
-    returnToMenu();
 }
 
 void Menu::drawLastView(const Snake& snekCache, const Food& nomCache)
@@ -168,61 +197,30 @@ void Menu::drawLastView(const Snake& snekCache, const Food& nomCache)
 
 void Menu::drawInstructions()
 {
-    const int ARRAY_SIZE = 15;
-    const int SELECTOR_HEIGHT = 7;
-    const int LINES_ON_SCREEN = 4;
-    const int SCREEN_POSSIBILITIES = ARRAY_SIZE - LINES_ON_SCREEN + 1;
+	const int MAX_LINES_ON_SCREEN = 4;
+	const int MAX_LARGE_PIXELS_ON_SCREEN_WIDTH = 77;
+	const int LETTER_SPACING = 1;
+
+    const int SCROLLBAR_HEIGHT = 7;
     const int RIGHT_SIDE_OFFSET = 2;
 
-    std::string asd[ARRAY_SIZE] = { "" };
-    LetterMap::splitStringByLimit(asd, "Make the snake grow longer by directing it to the food. Use the arrow keys or W, A, S, and D. You cannot stop the snake or make it go backwards. Try not to hit the walls or the tail.\n", 77, 1);
+	const int LINE_START_X = 2;
+	const int LINE_START_Y = 2;
+	const int LINE_Y_SPACING = 10;
 
-    //  Handle keyboard input
-    while (!kbd.KeyIsEmpty()) {
-        const Keyboard::Event e = kbd.ReadKey();
-        if (e.IsRelease()) {
-            if (e.GetCode() == VK_UP || e.GetCode() == VK_DOWN || e.GetCode() == 0x53 || e.GetCode() == 0x57 || e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
-                buttonPressed = false;
-            }
-        }
+	const int STRING_ARRAY_SIZE = 15;
+	const int MAX_SCROLLBAR_POS = STRING_ARRAY_SIZE - MAX_LINES_ON_SCREEN + 1;
 
-        if (kbd.KeyIsPressed(VK_UP) || kbd.KeyIsPressed(0x57)) {
-            if (!buttonPressed) {
-                buttonPressed = true;
-                if (scrollBarPos != 0) {
-                    --scrollBarPos;
-                }
-            }
-        }
 
-        if (kbd.KeyIsPressed(VK_DOWN) || kbd.KeyIsPressed(0x53)) {
-            if (!buttonPressed) {
-                buttonPressed = true;
-                if (scrollBarPos != ARRAY_SIZE - LINES_ON_SCREEN) {
-                    ++scrollBarPos;
-                }
-            }
+   // std::string instructionsLines[STRING_ARRAY_SIZE] = { "" };
+    LetterMap::splitStringByLimit(instructionsLines, instructions, MAX_LARGE_PIXELS_ON_SCREEN_WIDTH, LETTER_SPACING);
 
-        }
+	for (int i = 0; i < MAX_LINES_ON_SCREEN; ++i) {
+		brd.drawString({ LINE_START_X, LINE_START_Y + LINE_Y_SPACING*i}, instructionsLines[scrollbarPos + i], false);
+	}
 
-        if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(VK_ESCAPE)) {
-            if (!buttonPressed) {
-                buttonPressed = true;
-                scrollBarPos = 0;
-                reset();
-            }
-        }
-
-    }
-
-    brd.drawString({ 2, 2 }, asd[scrollBarPos], false);
-    brd.drawString({ 2, 12 }, asd[scrollBarPos + 1], false);
-    brd.drawString({ 2, 22 }, asd[scrollBarPos + 2], false);
-    brd.drawString({ 2, 32 }, asd[scrollBarPos + 3], false);
-
-    drawSideBar(int(ceil(brd.GRID_HEIGHT - SELECTOR_HEIGHT) / (SCREEN_POSSIBILITIES)) * ((scrollBarPos) % (SCREEN_POSSIBILITIES)));
-    returnToMenu();
-  
+    drawScrollbar(int(ceil(brd.GRID_HEIGHT - SCROLLBAR_HEIGHT) / (MAX_SCROLLBAR_POS)) * ((scrollbarPos) % (MAX_SCROLLBAR_POS)));
+   
 }
 
 void Menu::drawLevel(Snake& snek)

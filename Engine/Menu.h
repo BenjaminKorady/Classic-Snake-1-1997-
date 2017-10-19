@@ -37,28 +37,29 @@ public:
 	void drawLevel(Snake& snek);
     void draw();
 	void navigate();
+	void navigateInstructions();
 
 
 private:
 	void drawItemName(Item itemIn, int position, bool selected) const;
 	void drawItem(Item itemIn) const;
-	std::string getItem(const Item& itemIn) const;
-    void drawSideBar(int height);
+	std::string drawItemString(const Item& itemIn) const;
+    void drawScrollbar(int height);
 	void drawLevelBar(int barNum, bool fill);
 	int getHighlightedItemIndex();
 	void confirmSelection();
 
 private:
 	static constexpr int shownItems = 3;
+	const std::string instructions = "Make the snake grow longer by directing it to the food. Use the arrow keys or W, A, S, and D. You cannot stop the snake or make it go backwards. Try not to hit the walls or the tail.\n";
 private:
 	std::vector<Item> items;
 	Item selectedItem = Item::None;
 	int topItemIndex = 0;
 	int highlightedItemNumber = 0;
     bool buttonPressed = false;
-    int scrollBarPos = 0;
+    int scrollbarPos = 0;
 
-	int topScore = 0;
 
     Keyboard &kbd;
     Food nom;

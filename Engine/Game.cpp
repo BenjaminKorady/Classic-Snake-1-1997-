@@ -48,15 +48,22 @@ void Game::Go()
 void Game::UpdateModel()
 {     
 	switch (menu.getSelection()) {
+	case Menu::Item::None: {
+		menu.navigate();
+	} break;
 	case Menu::Item::Continue: {
 		updateGame();
 	} break;
-	case Menu::Item::None: {
-		menu.navigate(); 
-	} break;
 	case Menu::Item::NewGame: {
+		if (menu.hasItem(Menu::Item::Continue)) {
+			menu.removeItem(Menu::Item::Continue);
+			gameReset();
+		}
 		updateGame();
 	} break;
+	case Menu::Item::Instructions: {
+
+	}
 
 	}
 
@@ -67,22 +74,34 @@ void Game::ComposeFrame()
     
     drawBackground();
 
-
-    if (menu.getSelection() == Menu::Item::None) {
+	switch (menu.getSelection()) {
+	case Menu::Item::None:
 		menu.draw();
-    }
+		break;
+	case Menu::Item::NewGame:
+	case Menu::Item::Continue:
+		if (isGameOver) {
+			drawGameOver();
+		}
+		else {
+			brd.drawBoard();
+			snek.draw(brd);
+			nom.draw(brd);
+		}
+		break;
+	case Menu::Item::Instructions:
+		menu.drawInstructions();
+		break;
+	case Menu::Item::LastView:
+		menu.drawLastView(snekCache, nomCache);
+		break;
+	case Menu::Item::Level:
+		menu.drawLevel(snek);
+		break;
+	case Menu::Item::TopScore:
+		menu.drawTopScore(topScore);
+	}
 
-    else {
-        if (!isGameOver) {
-            brd.drawBoard();
-            snek.draw(brd);
-            nom.draw(brd);
-        }
-        else {
-            drawGameOver();
-        }
-    }
-    
 }
 
 
@@ -121,6 +140,7 @@ void Game::drawGameOver()
 		//  Return back to the menu if Enter or Esc was pressed
 		if (wnd.kbd.KeyIsPressed(VK_RETURN) || wnd.kbd.KeyIsPressed(VK_ESCAPE)) {
 				menu.reset();
+				gameReset();
 				return;
 		}
 	}
@@ -196,7 +216,6 @@ void Game::updateGame()
 			const Keyboard::Event e = wnd.kbd.ReadKey();
 			if (e.IsPress()) {
 				if (e.GetCode() == VK_ESCAPE || e.GetCode() == VK_RETURN) {
-
 					menu.returnToMenu();
 					snek.cacheDirection();
 					gameReset();
