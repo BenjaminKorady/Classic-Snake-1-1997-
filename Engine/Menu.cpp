@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <string>
 #include <iterator>
+#include <vector>
 
 Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     :
@@ -110,15 +111,14 @@ void Menu::navigateInstructions()
 			}
 
 			else if (e.GetCode() == VK_DOWN || e.GetCode() == (0x53)) {
-//				if (scrollbarPos != ARRAY_SIZE - LINES_ON_SCREEN) {
-				if(scrollbarPos != 11) {
+				if(scrollbarPos != MAX_SCROLLBAR_POS) {
 					++scrollbarPos;
 				}
 			}
 
 			else if (e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
 				scrollbarPos = 0;
-				reset();
+				returnToMenu();
 			}
 		}
 	}
@@ -172,13 +172,21 @@ void Menu::removeItem(Item item)
 	items.erase(std::remove(items.begin(), items.end(), item), items.end());
 }
 
-void Menu::reset()
-{
-}
-
 void Menu::returnToMenu()
 {
 	selectedItem = Item::None;
+}
+
+void Menu::returnToMenuOnReturnKeyPress()
+{
+	while (!kbd.KeyIsEmpty()) {
+		const Keyboard::Event e = kbd.ReadKey();
+		if (e.IsPress()) {
+			if (e.GetCode() == VK_RETURN) {
+				selectedItem = Item::None;
+			}
+		}
+	}
 }
 
 void Menu::drawTopScore(int topScore)
@@ -197,26 +205,12 @@ void Menu::drawLastView(const Snake& snekCache, const Food& nomCache)
 
 void Menu::drawInstructions()
 {
-	const int MAX_LINES_ON_SCREEN = 4;
-	const int MAX_LARGE_PIXELS_ON_SCREEN_WIDTH = 77;
-	const int LETTER_SPACING = 1;
 
-    const int SCROLLBAR_HEIGHT = 7;
-    const int RIGHT_SIDE_OFFSET = 2;
-
-	const int LINE_START_X = 2;
-	const int LINE_START_Y = 2;
-	const int LINE_Y_SPACING = 10;
-
-	const int STRING_ARRAY_SIZE = 15;
-	const int MAX_SCROLLBAR_POS = STRING_ARRAY_SIZE - MAX_LINES_ON_SCREEN + 1;
-
-
-   // std::string instructionsLines[STRING_ARRAY_SIZE] = { "" };
-    LetterMap::splitStringByLimit(instructionsLines, instructions, MAX_LARGE_PIXELS_ON_SCREEN_WIDTH, LETTER_SPACING);
 
 	for (int i = 0; i < MAX_LINES_ON_SCREEN; ++i) {
-		brd.drawString({ LINE_START_X, LINE_START_Y + LINE_Y_SPACING*i}, instructionsLines[scrollbarPos + i], false);
+		if (scrollbarPos + i < (int)instructionsLines.size()) {
+			brd.drawString({ LINE_START_X, LINE_START_Y + LINE_Y_SPACING*i }, instructionsLines[scrollbarPos + i], false);
+		}
 	}
 
     drawScrollbar(int(ceil(brd.GRID_HEIGHT - SCROLLBAR_HEIGHT) / (MAX_SCROLLBAR_POS)) * ((scrollbarPos) % (MAX_SCROLLBAR_POS)));
@@ -259,7 +253,6 @@ void Menu::drawLevel(Snake& snek)
         if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(VK_ESCAPE)) {
             if (!buttonPressed) {
                 buttonPressed = true;
-                reset();
                 return;
             }
         }

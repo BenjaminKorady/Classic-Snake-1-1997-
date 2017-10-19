@@ -61,10 +61,13 @@ void Game::UpdateModel()
 		}
 		updateGame();
 	} break;
-	case Menu::Item::Instructions: {
-
-	}
-
+	case Menu::Item::Instructions:
+		menu.navigateInstructions();
+		break;
+	case Menu::Item::LastView: 
+	case Menu::Item::TopScore:
+		menu.returnToMenuOnReturnKeyPress();
+    break;
 	}
 
 }
@@ -139,7 +142,7 @@ void Game::drawGameOver()
 
 		//  Return back to the menu if Enter or Esc was pressed
 		if (wnd.kbd.KeyIsPressed(VK_RETURN) || wnd.kbd.KeyIsPressed(VK_ESCAPE)) {
-				menu.reset();
+				menu.returnToMenu();
 				gameReset();
 				return;
 		}

@@ -171,20 +171,21 @@ LetterMap::~LetterMap()
     delete[] map;
 }
 
-int LetterMap::splitStringByLimit(std::string* out, std::string str, const int limit, const int letterSpacing)
-{
+std::vector<std::string> LetterMap::splitStringByLimit(std::string str, const int limit, const int letterSpacing) {
+	std::vector<std::string> lines;
     LetterMap letter;
     int limitCounter = 0;
     int tempLimitCounter = 0;
-    int i = 0;
     std::string word = "";
+	std::string line = "";
+
     for (std::string::iterator it = str.begin(); it < str.end(); ++it) {
         letter.set(*it);
         limitCounter += letter.width + letterSpacing;
         tempLimitCounter += letter.width + letterSpacing;
         if (limitCounter <= limit - letterSpacing) {
             if (letter.value == ' ' || letter.value == '\n') {
-                out[i] += word + ' ';
+				line += word + ' ';
                 word = "";
                 tempLimitCounter = 0;
             }
@@ -194,11 +195,13 @@ int LetterMap::splitStringByLimit(std::string* out, std::string str, const int l
         }
 
         else {
-            ++i;
+			lines.push_back(line);
+			line = "";
             limitCounter = tempLimitCounter;
             --it;
         }
     }
-    return i + 1;
+	lines.push_back(line);
+    return lines;
 }
 
