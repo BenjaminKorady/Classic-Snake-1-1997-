@@ -117,13 +117,13 @@ void Menu::navigateLevel(Snake & snek)
 		if (e.IsPress()) {
 			int snekSpeed = snek.getSpeed();
 			if (e.GetCode() == (VK_UP) || e.GetCode() == ('W')) {
-				if (snekSpeed != MAX_LEVEL) {
+				if (snekSpeed != Snake::MaxSpeed) {
 					snek.setSpeed(++snekSpeed);
 				}
 			}
 
 			else if (e.GetCode() == (VK_DOWN) || e.GetCode() == ('S')) {
-				if (snekSpeed != MIN_LEVEL) {
+				if (snekSpeed != Snake::MinSpeed) {
 					snek.setSpeed(--snekSpeed);
 				}
 			}
@@ -218,12 +218,12 @@ void Menu::drawLastView(const Snake& snekCache, const Food& nomCache) const
 void Menu::drawInstructions() const
 {
 	for (int i = 0; i < MAX_LINES_ON_SCREEN; ++i) {
-		if (scrollbarPos + i < (int)instructionsLines.size()) {
+		if (scrollbarPos + i <= MAX_INSTRUCTIONS_SCROLLBAR_POS) {
 			brd.drawString({ LINE_START_X, LINE_START_Y + LINE_Y_SPACING*i }, instructionsLines[scrollbarPos + i], false);
 		}
 	}
 
-	int currentScrollbarPos = int(ceil(brd.GRID_HEIGHT - SCROLLBAR_HEIGHT) / (MAX_INSTRUCTIONS_SCROLLBAR_POS)) * ((scrollbarPos) % (MAX_INSTRUCTIONS_SCROLLBAR_POS));
+	int currentScrollbarPos = int(ceil(brd.GRID_HEIGHT - SCROLLBAR_HEIGHT) / (MAX_INSTRUCTIONS_SCROLLBAR_POS)) * ((scrollbarPos) % (MAX_INSTRUCTIONS_SCROLLBAR_POS + 1));
     drawScrollbar(currentScrollbarPos);
 }
 
@@ -234,7 +234,7 @@ void Menu::drawLevel(Snake& snek) const
     for (int i = 0; i < snek.getSpeed(); ++i) {
         drawLevelBar(i, true);
     }
-    for (int i = snek.getSpeed(); i < MAX_LEVEL; ++i) {
+    for (int i = snek.getSpeed(); i < Snake::MaxSpeed; ++i) {
         drawLevelBar(i, false);
     }
 

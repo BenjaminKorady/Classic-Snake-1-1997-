@@ -32,6 +32,9 @@ public:
     bool isTurnToMove(std::chrono::steady_clock::time_point now) const;
     void cacheDirection();
 
+	static constexpr int MaxSpeed = 9;
+	static constexpr int MinSpeed = 1;
+
 
 private:
 
