@@ -26,25 +26,25 @@ public:
 
 	Item getSelection();
 	bool hasItem(Item itemIn) const;
-
 	void addItem(Item item);
 	void removeItem(Item item);
+
 	void returnToMenu();
 	void returnToMenuOnReturnKeyPress();
+
+	void draw();
 	void drawTopScore(int topScore);
 	void drawLastView(const Snake& snekCache, const Food& nomCache);
 	void drawInstructions();
 	void drawLevel(Snake& snek);
-    void draw();
+
 	void navigate();
 	void navigateInstructions();
 	void navigateLevel(Snake& snek);
 
-
 private:
 	void drawItemName(Item itemIn, int position, bool selected) const;
-	void drawItem(Item itemIn) const;
-	std::string drawItemString(const Item& itemIn) const;
+	std::string getItemString(const Item& itemIn) const;
     void drawScrollbar(int height);
 	void drawLevelBar(int barNum, bool fill);
 	int getHighlightedItemIndex();

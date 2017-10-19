@@ -76,7 +76,6 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-    
     drawBackground();
 
 	switch (menu.getSelection()) {
@@ -105,6 +104,7 @@ void Game::ComposeFrame()
 		break;
 	case Menu::Item::TopScore:
 		menu.drawTopScore(topScore);
+		break;
 	}
 
 }

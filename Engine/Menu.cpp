@@ -4,6 +4,9 @@
 #include <iterator>
 #include <vector>
 
+#define VK_S 0x53
+#define VK_W 0x57
+
 Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     :
     brd(brd),
@@ -60,11 +63,7 @@ void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
 		pos[i] = { startLocX, startLocY + i*yItemSpacing };
 	}
 
-    brd.drawString(pos[position], drawItemString(itemIn), isHighlighted);
-}
-
-void Menu::drawItem(Item itemIn) const
-{
+    brd.drawString(pos[position], getItemString(itemIn), isHighlighted);
 }
 
 void Menu::navigate()
@@ -72,7 +71,7 @@ void Menu::navigate()
     while (!kbd.KeyIsEmpty()) {
         const Keyboard::Event e = kbd.ReadKey();
 		if (e.IsPress()) {
-			if (e.GetCode() == (VK_UP) || e.GetCode() == (0x57)) {
+			if (e.GetCode() == (VK_UP) || e.GetCode() == (VK_W)) {
 				if (highlightedItemNumber != 0) {
 					--highlightedItemNumber;
 				}
@@ -80,7 +79,7 @@ void Menu::navigate()
 					topItemIndex = topItemIndex == 0 ? (int)items.size() - 1 : topItemIndex - 1;
 				}
 			}
-			if (e.GetCode() == (VK_DOWN) || e.GetCode() == (0x53)) {
+			if (e.GetCode() == (VK_DOWN) || e.GetCode() == (VK_S)) {
 				if (highlightedItemNumber < SHOWN_ITEMS - 1) {
 					++highlightedItemNumber;
 				}
@@ -101,13 +100,13 @@ void Menu::navigateInstructions()
 	while (!kbd.KeyIsEmpty()) {
 		const Keyboard::Event e = kbd.ReadKey();
 		if (e.IsPress()) {
-			if (e.GetCode() == (VK_UP) || e.GetCode() == (0x57)) {
+			if (e.GetCode() == (VK_UP) || e.GetCode() == (VK_W)) {
 				if (scrollbarPos != 0) {
 					--scrollbarPos;
 				}
 			}
 
-			else if (e.GetCode() == VK_DOWN || e.GetCode() == (0x53)) {
+			else if (e.GetCode() == VK_DOWN || e.GetCode() == (VK_S)) {
 				if(scrollbarPos != MAX_INSTRUCTIONS_SCROLLBAR_POS) {
 					++scrollbarPos;
 				}
@@ -128,13 +127,13 @@ void Menu::navigateLevel(Snake & snek)
 		const Keyboard::Event e = kbd.ReadKey();
 		if (e.IsPress()) {
 
-			if (e.GetCode() == (VK_UP) || e.GetCode() == (0x57)) {
+			if (e.GetCode() == (VK_UP) || e.GetCode() == (VK_W)) {
 				if (snek.speedLevel != MAX_LEVEL) {
 					++snek.speedLevel;
 				}
 			}
 
-			if (e.GetCode() == (VK_DOWN) || e.GetCode() == (0x53)) {
+			if (e.GetCode() == (VK_DOWN) || e.GetCode() == (VK_S)) {
 				if (snek.speedLevel != 1) {
 					--snek.speedLevel;
 				}
@@ -166,7 +165,7 @@ void Menu::drawScrollbar(int height)
 
 }
 
-std::string Menu::drawItemString(const Item & itemIn) const
+std::string Menu::getItemString(const Item & itemIn) const
 {
 	switch (itemIn) {
 	case Item::Continue: return "Continue"; break;
