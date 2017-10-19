@@ -104,8 +104,8 @@ void Board::clearPixelRectangle(const PixelLocation & locIn, const int width, co
 void Board::drawString(PixelLocation loc, std::string input, const bool invert) const
 {
     const int LETTER_HEIGHT = LetterMap::height;
+	const int PIXEL_SPACING = 1;
     const int RIGHT_SIDE_OFFSET = 4;
-    const int LETTER_SPACING = 1;
     const int LINE_SPACING = 1;
     const PixelLocation originalLoc = loc;                                          //  Store the original input location for later use
     LetterMap letterCode;                                                           //  A LetterMap object to keep track of where to draw pixels (See LetterMap class for more information)

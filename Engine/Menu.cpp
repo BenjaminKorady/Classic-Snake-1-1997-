@@ -25,9 +25,7 @@ void Menu::draw() const
 		drawItemName(items[(i + topItemIndex)%(int)items.size()], i, highlightedItemNumber == i);
 	}
 
-	std::string confirmButton = "Select";
-	const int CONFIRM_WIDTH = LetterMap::getStringWidth(confirmButton, Board::PIXEL_SPACING);
-    brd.drawString({ (Board::GRID_WIDTH - CONFIRM_WIDTH - RIGHT_SIDE_OFFSET)/2, CONFIRM_BUTTON_Y }, confirmButton, false);
+	drawConfirmButton("Select");
 
 	int scrollbarPos = ((brd.GRID_HEIGHT - SCROLLBAR_HEIGHT) / (int)items.size()) * ((getHighlightedItemIndex()) % ((int)items.size()));
     drawScrollbar(scrollbarPos);
@@ -43,19 +41,14 @@ bool Menu::hasItem(Item itemIn) const
 	return false;
 }
 
-// TODO: Fix magic numbers here
 void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
 {
 	assert(position >= 0);
 	assert(position < SHOWN_ITEMS);
 
-	static constexpr int yItemSpacing = 10;
-	static constexpr int startLocX = 2;
-	static constexpr int startLocY = 2;
-
 	PixelLocation pos[SHOWN_ITEMS];
 	for (int i = 0; i < SHOWN_ITEMS; ++i) {
-		pos[i] = { startLocX, startLocY + i*yItemSpacing };
+		pos[i] = { LINE_START_X, LINE_START_Y + i*LINE_Y_SPACING };
 	}
 
     brd.drawString(pos[position], getItemString(itemIn), isHighlighted);
@@ -212,7 +205,7 @@ void Menu::returnToMenuOnReturnKeyPress()
 
 void Menu::drawTopScore(int topScore) const
 {
-    brd.drawString({ TOP_LEFT_TEXT_X, TOP_LEFT_TEXT_Y }, "Top score:\n " + std::to_string(topScore), false);
+    brd.drawString({ LINE_START_X, LINE_START_Y }, "Top score:\n " + std::to_string(topScore), false);
 }
 
 void Menu::drawLastView(const Snake& snekCache, const Food& nomCache) const
@@ -234,10 +227,9 @@ void Menu::drawInstructions() const
     drawScrollbar(currentScrollbarPos);
 }
 
-// TODO: Magic numbers fix (Board letter spacing = 1)
 void Menu::drawLevel(Snake& snek) const
 {
-    brd.drawString({ TOP_LEFT_TEXT_X, TOP_LEFT_TEXT_Y }, "Level:", false);
+    brd.drawString({ LINE_START_X, LINE_START_Y }, "Level:", false);
 
     for (int i = 0; i < snek.getSpeed(); ++i) {
         drawLevelBar(i, true);
@@ -246,8 +238,7 @@ void Menu::drawLevel(Snake& snek) const
         drawLevelBar(i, false);
     }
 
-	int acceptWidth = LetterMap::getStringWidth("Accept", 1);
-    brd.drawString({ (Board::GRID_WIDTH - acceptWidth)/2, 39 }, "Accept", false);   
+	drawConfirmButton("Accept");
 }
 
 void Menu::drawLevelBar(int barNum, bool fill) const
@@ -268,6 +259,12 @@ void Menu::drawLevelBar(int barNum, bool fill) const
             brd.drawPixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum + 1, y - BAR_HEIGHT - BAR_Y_SPACING*barNum }, BAR_WIDTH - 1, 1, PIXEL_SPACING);
         }
     }
+}
+
+void Menu::drawConfirmButton(std::string label) const
+{
+	const int CONFIRM_WIDTH = LetterMap::getStringWidth(label, Board::LETTER_SPACING);
+	brd.drawString({ (Board::GRID_WIDTH - RIGHT_SIDE_OFFSET - CONFIRM_WIDTH) / 2, CONFIRM_BUTTON_Y }, label, false);
 }
 
 int Menu::getHighlightedItemIndex() const

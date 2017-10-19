@@ -48,6 +48,7 @@ private:
 	std::string getItemString(const Item& itemIn) const;
     void drawScrollbar(int height) const;
 	void drawLevelBar(int barNum, bool fill) const;
+	void drawConfirmButton(std::string label) const;
 	int getHighlightedItemIndex() const;
 
 	void confirmSelection();
@@ -66,11 +67,13 @@ private:
 
 // General values
 private:
-	static constexpr int TOP_LEFT_TEXT_X = 2;
-	static constexpr int TOP_LEFT_TEXT_Y = 2;
+	static constexpr int LINE_START_X = 2;
+	static constexpr int LINE_START_Y = 2;
+	static constexpr int LINE_Y_SPACING = 10;
 	static constexpr int SCROLLBAR_HEIGHT = 7;
 	static constexpr int CONFIRM_BUTTON_Y = 39;
 	static constexpr int RIGHT_SIDE_OFFSET = 4;
+
 
 // Level specific values
 private:
@@ -85,9 +88,7 @@ private:
 	static constexpr int MAX_LINES_ON_SCREEN = 4;
 	static constexpr int MAX_PIXELS_ON_SCREEN_WIDTH = 77;
 	static constexpr int LETTER_SPACING = 1;
-	static constexpr int LINE_START_X = 2;
-	static constexpr int LINE_START_Y = 2;
-	static constexpr int LINE_Y_SPACING = 10;
+
 
 	const int MAX_INSTRUCTIONS_SCROLLBAR_POS = (int)instructionsLines.size() -1;
 

@@ -82,7 +82,7 @@ public:
 	static constexpr int unusedPixelsY = SCREEN_HEIGHT - (LARGE_PIXEL_DIMENSION) * GRID_HEIGHT; //177
     //  We will use these values to place the gaming grid to the center of the screen
 
-	static constexpr int PIXEL_SPACING = 1;
+	static constexpr int LETTER_SPACING = 1;
 
 
 private:
