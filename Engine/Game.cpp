@@ -61,9 +61,11 @@ void Game::UpdateModel()
 		}
 		updateGame();
 	} break;
+	case Menu::Item::Level: {
+		menu.navigateLevel(snek);
+	} break;
 	case Menu::Item::Instructions:
 		menu.navigateInstructions();
-		break;
 	case Menu::Item::LastView: 
 	case Menu::Item::TopScore:
 		menu.returnToMenuOnReturnKeyPress();

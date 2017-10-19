@@ -19,9 +19,9 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
 
 void Menu::draw()
 {
-    assert(highlightedItemNumber >= 0 && highlightedItemNumber < shownItems);
+    assert(highlightedItemNumber >= 0 && highlightedItemNumber < SHOWN_ITEMS);
 
-	for (int i = 0; i < shownItems; ++i) {
+	for (int i = 0; i < SHOWN_ITEMS; ++i) {
 		drawItemName(items[(i + topItemIndex)%(int)items.size()], i, highlightedItemNumber == i);
 	}
 
@@ -49,14 +49,14 @@ bool Menu::hasItem(Item itemIn) const
 void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
 {
 	assert(position >= 0);
-	assert(position < shownItems);
+	assert(position < SHOWN_ITEMS);
 
 	static constexpr int yItemSpacing = 10;
 	static constexpr int startLocX = 2;
 	static constexpr int startLocY = 2;
 
-	PixelLocation pos[shownItems];
-	for (int i = 0; i < shownItems; ++i) {
+	PixelLocation pos[SHOWN_ITEMS];
+	for (int i = 0; i < SHOWN_ITEMS; ++i) {
 		pos[i] = { startLocX, startLocY + i*yItemSpacing };
 	}
 
@@ -81,7 +81,7 @@ void Menu::navigate()
 				}
 			}
 			if (e.GetCode() == (VK_DOWN) || e.GetCode() == (0x53)) {
-				if (highlightedItemNumber < shownItems - 1) {
+				if (highlightedItemNumber < SHOWN_ITEMS - 1) {
 					++highlightedItemNumber;
 				}
 				else {
@@ -98,9 +98,6 @@ void Menu::navigate()
 
 void Menu::navigateInstructions()
 {
-
-	//  Handle keyboard input
-
 	while (!kbd.KeyIsEmpty()) {
 		const Keyboard::Event e = kbd.ReadKey();
 		if (e.IsPress()) {
@@ -111,7 +108,7 @@ void Menu::navigateInstructions()
 			}
 
 			else if (e.GetCode() == VK_DOWN || e.GetCode() == (0x53)) {
-				if(scrollbarPos != MAX_SCROLLBAR_POS) {
+				if(scrollbarPos != MAX_INSTRUCTIONS_SCROLLBAR_POS) {
 					++scrollbarPos;
 				}
 			}
@@ -123,6 +120,33 @@ void Menu::navigateInstructions()
 		}
 	}
 
+}
+
+void Menu::navigateLevel(Snake & snek)
+{
+	while (!kbd.KeyIsEmpty()) {
+		const Keyboard::Event e = kbd.ReadKey();
+		if (e.IsPress()) {
+
+			if (e.GetCode() == (VK_UP) || e.GetCode() == (0x57)) {
+				if (snek.speedLevel != MAX_LEVEL) {
+					++snek.speedLevel;
+				}
+			}
+
+			if (e.GetCode() == (VK_DOWN) || e.GetCode() == (0x53)) {
+				if (snek.speedLevel != 1) {
+					--snek.speedLevel;
+				}
+
+			}
+
+			if (e.GetCode() == (VK_RETURN) || e.GetCode() == (VK_ESCAPE)) {
+				snek.updateSpeed();
+				returnToMenu();
+			}
+		}
+	}
 }
 
 void Menu::drawScrollbar(int height)
@@ -191,7 +215,9 @@ void Menu::returnToMenuOnReturnKeyPress()
 
 void Menu::drawTopScore(int topScore)
 {
-    brd.drawString({ 3, 3 }, "Top score:\n " + std::to_string(topScore), false);
+	constexpr int LOC_X = 3;
+	constexpr int LOC_Y = 3;
+    brd.drawString({ LOC_X, LOC_Y }, "Top score:\n " + std::to_string(topScore), false);
 }
 
 void Menu::drawLastView(const Snake& snekCache, const Food& nomCache)
@@ -200,75 +226,34 @@ void Menu::drawLastView(const Snake& snekCache, const Food& nomCache)
     snekCache.draw(brd);
     nomCache.draw(brd);
     returnToMenu();
- 
 }
 
 void Menu::drawInstructions()
 {
-
-
 	for (int i = 0; i < MAX_LINES_ON_SCREEN; ++i) {
 		if (scrollbarPos + i < (int)instructionsLines.size()) {
 			brd.drawString({ LINE_START_X, LINE_START_Y + LINE_Y_SPACING*i }, instructionsLines[scrollbarPos + i], false);
 		}
 	}
 
-    drawScrollbar(int(ceil(brd.GRID_HEIGHT - SCROLLBAR_HEIGHT) / (MAX_SCROLLBAR_POS)) * ((scrollbarPos) % (MAX_SCROLLBAR_POS)));
-   
+	int currentScrollbarPos = int(ceil(brd.GRID_HEIGHT - SCROLLBAR_HEIGHT) / (MAX_INSTRUCTIONS_SCROLLBAR_POS)) * ((scrollbarPos) % (MAX_INSTRUCTIONS_SCROLLBAR_POS));
+    drawScrollbar(currentScrollbarPos);
 }
 
 void Menu::drawLevel(Snake& snek)
 {
-    brd.drawString({ 2, 2 }, "Level:", false);
-    const int MAX_SPEED = 9;
-
-    //  Handle keyboard input
-    while (!kbd.KeyIsEmpty()) {
-        const Keyboard::Event e = kbd.ReadKey();
-        if (e.IsRelease()) {
-            if (e.GetCode() == VK_UP || e.GetCode() == VK_DOWN || e.GetCode() == 0x53 || e.GetCode() == 0x57 || e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
-                buttonPressed = false;
-            }
-        }
-
-        if (kbd.KeyIsPressed(VK_UP) || kbd.KeyIsPressed(0x57)) {
-            if (!buttonPressed) {
-                buttonPressed = true;
-                if (snek.speedLevel != MAX_SPEED) {
-                    ++snek.speedLevel;
-                }
-            }
-        }
-
-        if (kbd.KeyIsPressed(VK_DOWN) || kbd.KeyIsPressed(0x53)) {
-            if (!buttonPressed) {
-                buttonPressed = true;
-                if (snek.speedLevel != 1) {
-                    --snek.speedLevel;
-                }
-            }
-
-        }
-
-        if (kbd.KeyIsPressed(VK_RETURN) || kbd.KeyIsPressed(VK_ESCAPE)) {
-            if (!buttonPressed) {
-                buttonPressed = true;
-                return;
-            }
-        }
-    }
+    brd.drawString({ TOP_LEFT_TEXT_X, TOP_LEFT_TEXT_Y }, "Level:", false);
 
     for (int i = 0; i < snek.speedLevel; ++i) {
         drawLevelBar(i, true);
     }
-    for (int i = snek.speedLevel; i < MAX_SPEED; ++i) {
+    for (int i = snek.speedLevel; i < MAX_LEVEL; ++i) {
         drawLevelBar(i, false);
     }
 
-
     brd.drawString({ 25, 39 }, "Accept", false);
 
-    snek.updateSpeed();
+    
 }
 
 void Menu::drawLevelBar(int barNum, bool fill)

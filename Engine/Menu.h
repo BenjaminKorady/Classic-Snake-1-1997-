@@ -38,6 +38,7 @@ public:
     void draw();
 	void navigate();
 	void navigateInstructions();
+	void navigateLevel(Snake& snek);
 
 
 private:
@@ -62,9 +63,18 @@ private:
     Snake& snek;
     Board& brd;
 
-// Instructions
+// General values
 private:
-	static constexpr int shownItems = 3;
+	static constexpr int TOP_LEFT_TEXT_X = 2;
+	static constexpr int TOP_LEFT_TEXT_Y = 2;
+
+// Level specific values
+private:
+	const int MAX_LEVEL = 9;
+
+// Instructions specific values
+private:
+	static constexpr int SHOWN_ITEMS = 3;
 	static constexpr int SCROLLBAR_HEIGHT = 7;
 	const std::string instructions = "Make the snake grow longer by directing it to the food. Use the arrow keys or W, A, S, and D. You cannot stop the snake or make it go backwards. Try not to hit the walls or the tail.\n";
 	const std::vector<std::string> instructionsLines = LetterMap::splitStringByLimit(instructions, MAX_PIXELS_ON_SCREEN_WIDTH, LETTER_SPACING);
@@ -76,7 +86,7 @@ private:
 	static constexpr int LINE_Y_SPACING = 10;
 
 	static constexpr int RIGHT_SIDE_OFFSET = 2;
-	const int MAX_SCROLLBAR_POS = (int)instructionsLines.size();
+	const int MAX_INSTRUCTIONS_SCROLLBAR_POS = (int)instructionsLines.size() -1;
 
 
 
