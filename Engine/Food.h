@@ -7,7 +7,6 @@ Manages the food object
 
 #pragma once
 
-#include "PixelLocation.h"
 #include "Snake.h"
 #include "Board.h"
 #include <random>
@@ -15,14 +14,15 @@ Manages the food object
 class Food {
 public:
 	Food();
-	Food(PixelLocation loc);
+	Food(Vec2_<int> tileLocation);
 	void draw(Board &brd) const;
-	PixelLocation getLocation() const;
+	Vec2_<int> getLocation() const;
     void reset();
 	void respawn(const Snake & snek);
 
 private:
-	PixelLocation loc;
+	Vec2_<int> tileLocation;
+	Vec2_<int> gridLocation = Board::convertToGridLocation(tileLocation);
 	std::mt19937 rng;
 	
 	

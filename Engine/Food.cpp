@@ -5,7 +5,7 @@
 */
 Food::Food()
 	:
-	loc((Board::CELLS_X/2) * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET, (Board::CELLS_Y/2) * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET),
+	tileLocation(Board::Grid::WIDTH/2, Board::Grid::HEIGHT/2),
 	rng(std::random_device()())
 {
 }
@@ -16,9 +16,9 @@ Food::Food()
     @param loc
     Specifies the location where the object is to be created
 */
-Food::Food(PixelLocation loc)
+Food::Food(Vec2_<int> tileLocation)
 	:
-	loc({ loc.x * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET, loc.y * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET }),
+	tileLocation(tileLocation),
 	rng(std::random_device()())
 {
 }
@@ -31,10 +31,10 @@ Food::Food(PixelLocation loc)
 */
 void Food::draw(Board &brd) const
 {
-	brd.drawPixel({ loc.x + 1, loc.y}, 2);
-	brd.drawPixel({ loc.x, loc.y +1 }, 2);
-	brd.drawPixel({ loc.x + 2, loc.y + 1 }, 2);
-	brd.drawPixel({ loc.x + 1, loc.y + 2 }, 2);
+	brd.drawLargePixel({ gridLocation.x + 1,	gridLocation.y	  }, 2);
+	brd.drawLargePixel({ gridLocation.x,		gridLocation.y + 1 }, 2);
+	brd.drawLargePixel({ gridLocation.x + 2,	gridLocation.y + 1 }, 2);
+	brd.drawLargePixel({ gridLocation.x + 1,	gridLocation.y + 2 }, 2);
 
 }
 
@@ -43,18 +43,17 @@ void Food::draw(Board &brd) const
 
     @return loc
 */
-PixelLocation Food::getLocation() const
+Vec2_<int> Food::getLocation() const
 {
-	return loc;
+	return tileLocation;
 }
 
 /**
-    Resets the food's location back to the original (10, 5)
+    Resets the food's location back to the center of the screen (10, 5)
 */
 void Food::reset()
 {
-    loc = { 10 * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET, 5 * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET };
-
+	tileLocation = { Board::Grid::WIDTH / 2, Board::Grid::HEIGHT / 2 };
 }
     
 /**
@@ -65,17 +64,14 @@ void Food::reset()
 */
 void Food::respawn(const Snake & snek)
 {
-	std::uniform_int_distribution<int> xDist(0, Board::GRID_WIDTH / Board::CELL_INC_OFFSET - 1);    //  Sets the distribution for the X location between 0 and 19
-	std::uniform_int_distribution<int> yDist(0, Board::GRID_HEIGHT / Board::CELL_INC_OFFSET - 1);   //  Sets the distribtuion for the Y location between 0 and 10
+	std::uniform_int_distribution<int> xDist(0, Board::Grid::WIDTH - 1);    //  Sets the distribution for the X location between 0 and 19
+	std::uniform_int_distribution<int> yDist(0, Board::Grid::HEIGHT - 1);   //  Sets the distribtuion for the Y location between 0 and 10
                                                                                                     //  as the grid size is 20 * 11
 	
 	do {
         //  Sets the food object's location to the newly generated location
-		loc = { 
-                xDist(rng) * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET,   
-                yDist(rng) * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET 
-              };
+		tileLocation = { xDist(rng), yDist(rng) };
         //  Generate a new location if the current location is where the snake is
-	} while (snek.isInLocation(loc));
+	} while (snek.isInLocation(tileLocation));
 
 }
