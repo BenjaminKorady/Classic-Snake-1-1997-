@@ -1,6 +1,6 @@
 #include "Snake.h"
 #include <assert.h>
-
+#include <iterator>
 
 /**
     Constructs the snake object with its head at location 0, 0
@@ -8,25 +8,16 @@
 */
 Snake::Snake()
 {
-    Vec2_<int> loc(0, Board::Grid::HEIGHT - 1);	//Initialize at the bottom of the grid
-    for (int i = nSegments - 1; i >= 0; --i) {
-        segments[i].initSegment(loc);
-        loc = { ++loc.x, loc.y };
-    }
+	reset();
 }
 
 void Snake::reset()
-{
-    
-    Vec2_<int> loc(0, Board::Grid::HEIGHT - 1);
-    for (int i = 0; i < nSegments; ++i) {
-        segments[i].exists = false;
-    }
-    nSegments = 9;
-    for (int i = nSegments - 1; i >= 0; --i) {
-        segments[i].initSegment(loc);
-        loc = { ++loc.x, loc.y };
-    }
+{ 
+	segments.clear();
+    Vec2_<int> loc(nStartingSegments-1, Board::Grid::HEIGHT - 1);
+	for (int i = 0; i < nStartingSegments; ++i) {
+		segments.push_back(Segment({ loc.x--, loc.y }));
+	}
     foodEaten = 0;    
     direction = { 0, 0 };
     moveBuffered = false;
@@ -40,7 +31,7 @@ void Snake::reset()
 */
 void Snake::move(const Vec2_<int> & direction, Board & brd)
 {
-    for (int i = nSegments - 1; i > 0; --i) {
+    for (int i = (int)segments.size() - 1; i > 0; --i) {
         segments[i].follow(segments[i - 1]);
     }
 
@@ -53,11 +44,8 @@ void Snake::move(const Vec2_<int> & direction, Board & brd)
 */
 void Snake::grow()
 {
-	Vec2_<int> lastSegmentLoc = segments[nSegments - 1].getLocation();
-	if (nSegments < MAX_SEGMENTS) {
-		++nSegments;
-	}
-	segments[nSegments - 1].initSegment(lastSegmentLoc);	
+	Vec2_<int> lastSegmentLoc = segments.back().getLocation();
+	segments.push_back(lastSegmentLoc);
 }
 
 /**
@@ -68,7 +56,7 @@ void Snake::grow()
 */
 Vec2_<int> Snake::getNextHeadLocation(const Vec2_<int> direction) const
 {
-	Vec2_<int> l(segments[0].getLocation());
+	Vec2_<int> l(segments.front().getLocation());
 	l = l+(direction);
 	return l;
 }
@@ -155,9 +143,29 @@ void Snake::cacheDirection()
     @param board object for the snake to be drawn to
 */
 void Snake::draw(Board & brd) const {
-	for (int i = nSegments-1; i >= 0; --i) {
-		segments[i].draw(brd, segments[i-1]);
+	for (int i = (int)segments.size() - 1; i >= 0; --i) {
+		segments[i].draw(brd);
 	}
+
+	/*
+	   //  Draws the spacing between the segments
+	if (hasNext) {
+		for (int j = 0; j < Board::Tile::SIZE; ++j) {
+            //  next segment is to the right
+			if (next.location.x - location.x == 1) 
+				brd.drawLargePixel({ gridLocation.x + Board::Tile::SIZE, gridLocation.y + j }, pixelSpacing);			
+           //  next segment is to the left
+			else if(next.location.x - location.x == - 1)
+				brd.drawLargePixel({ gridLocation.x - 1, gridLocation.y + j }, pixelSpacing);
+			//  next segment is below 
+			if (next.loc.y - loc.y == 1)
+				brd.drawLargePixel({ gridLocation.x + j, gridLocation.y + Board::Tile::SIZE }, pixelSpacing);
+			//  next segment is above
+			else if (next.loc.y - loc.y == - 1)
+				brd.drawLargePixel({ gridLocation.x + j , gridLocation.y - 1 }, pixelSpacing);
+		}
+	}
+	*/
 }
 /**
     Listens for keyboard input and changes the snake's directional vector based on keys pressed
@@ -209,7 +217,7 @@ Vec2_<int> Snake::getNextDirection(Keyboard & kbd)
 */
 bool Snake::isInLocation(const Vec2_<int> & loc) const
 {
-	for (int i = 0; i < nSegments; ++i) {
+	for (int i = 0; i < segments.size(); ++i) {
 		if (loc == segments[i].getLocation())
 			return true;
 	}
@@ -221,10 +229,10 @@ bool Snake::isInLocation(const Vec2_<int> & loc) const
     
     @param locIn states where the segment is to be located
 */
-void Snake::Segment::initSegment(const Vec2_<int> & locIn)
+Snake::Segment::Segment(const Vec2_<int>& tileLocation)
+	:
+	location(tileLocation)
 {
-	loc = locIn;
-	exists = true;
 }
 
 /**
@@ -234,7 +242,7 @@ void Snake::Segment::initSegment(const Vec2_<int> & locIn)
 */
 void Snake::Segment::follow(const Segment & next)
 {
-	loc = next.loc;
+	location = next.location;
 }
 
 /**
@@ -246,7 +254,7 @@ void Snake::Segment::follow(const Segment & next)
 void Snake::Segment::move(const Vec2_<int> & direction, Board & brd)
 {
 	assert(abs(direction.x) + abs(direction.y) == 1);
-	loc = loc + direction;
+	location += direction;
 }
 
 /**
@@ -255,33 +263,15 @@ void Snake::Segment::move(const Vec2_<int> & direction, Board & brd)
     @param brd Board reference on which the segment is to be drawn
     @param next a reference to the next segment connected to the current segment
 */
-void Snake::Segment::draw(Board & brd, const Segment& next) const
+void Snake::Segment::draw(Board & brd) const
 {
-	Vec2_<int> gridLocation = Board::convertToGridLocation(loc);
+	Vec2_<int> gridLocation = Board::convertToGridLocation(location);
 
     const int pixelSpacing = 1;
     //  Draws the 3x3 large pixel segment
 	for (int i = 0; i < Board::Tile::SIZE; ++i) {
 		for (int j = 0; j <  Board::Tile::SIZE; ++j) {
 			brd.drawLargePixel({gridLocation.x+i, gridLocation.y+j}, pixelSpacing);
-		}
-	}
-
-    //  Draws the spacing between the segments
-	if (next.exists) {
-		for (int j = 0; j < Board::Tile::SIZE; ++j) {
-            //  next segment is to the right
-			if (next.loc.x - loc.x == 1) 
-				brd.drawLargePixel({ gridLocation.x + Board::Tile::SIZE, gridLocation.y + j }, pixelSpacing);			
-           //  next segment is to the left
-			else if(next.loc.x - loc.x == - 1)
-				brd.drawLargePixel({ gridLocation.x - 1, gridLocation.y + j }, pixelSpacing);
-			//  next segment is below 
-			if (next.loc.y - loc.y == 1)
-				brd.drawLargePixel({ gridLocation.x + j, gridLocation.y + Board::Tile::SIZE }, pixelSpacing);
-			//  next segment is above
-			else if (next.loc.y - loc.y == - 1)
-				brd.drawLargePixel({ gridLocation.x + j , gridLocation.y - 1 }, pixelSpacing);
 		}
 	}
 
@@ -295,12 +285,12 @@ void Snake::Segment::draw(Board & brd, const Segment& next) const
 
 const Vec2_<int>& Snake::Segment::getLocation() const
 {
-	return loc;
+	return location;
 }
 
 Vec2_<int>& Snake::Segment::getLocation()
 {
-	return loc;
+	return location;
 }
 
 

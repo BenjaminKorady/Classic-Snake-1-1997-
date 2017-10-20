@@ -12,6 +12,25 @@
 #include <chrono>
 
 class Snake {
+private:
+
+	/**
+	Manages each individual segment of the snake
+	*/
+	class Segment {
+	public:
+		Segment() = default;
+		Segment(const Vec2_<int>& tileLocation);
+
+		void follow(const Segment& next);
+		void move(const Vec2_<int>& direction, Board & brd);
+
+		const Vec2_<int>& getLocation() const;
+		Vec2_<int>& getLocation();
+		void draw(Board& brd) const;
+	private:
+		Vec2_<int> location;
+	};
 
 public:
     Snake();
@@ -34,52 +53,19 @@ public:
 	static constexpr int MaxSpeed = 9;
 	static constexpr int MinSpeed = 1;
 
-
 private:
-
-    /**
-        Manages each individual segment of the snake
-    */
-    class Segment {
-    public:
-        void initSegment(const Vec2_<int>& locIn);
-        void follow(const Segment& next);
-        void move(const Vec2_<int>& direction, Board & brd);
-        void draw(Board& brd, const Segment& next) const;
-
-        const Vec2_<int>& getLocation() const;
-		Vec2_<int>& getLocation();
-
-		Vec2_<int> getGridLocation() const;
-        bool exists = false;
-
-    private:
-        Vec2_<int> loc;
-    };
-
-private:
-    //  Keeps track of how much food was eaten
     int foodEaten = 0;
+	static constexpr int nStartingSegments = 9;
     static constexpr int MAX_SEGMENTS = Board::Grid::WIDTH * Board::Grid::HEIGHT;
-    Segment segments[MAX_SEGMENTS];
+	std::vector<Segment> segments;
 
-    //  The classic Snake starts with 9 segments
-    int nSegments = 9;
-
-    //  Used to store next move in memory even if idleLimit has not passed yet. 
-    //  Allows smoother snake control
-    bool moveBuffered = false;
-
-    //Directional vector of the Snake. 0 by default (not moving)
+    bool moveBuffered = false;     //  Used to store next move in memory even if idleLimit has not passed yet. 
+								   //  Allows smoother snake control
     Vec2_<int> direction = { 0, 0 };
     Vec2_<int> lastDirection = { 0, 0 };
 
     float movePeriod = 0.375f;
 	int speedLevel = 3;
-
-    // 9: 5/60
-    // 6: 15/60
-    // 3: 22/60
 
     std::chrono::steady_clock::time_point lastMoved = std::chrono::steady_clock::now();
 

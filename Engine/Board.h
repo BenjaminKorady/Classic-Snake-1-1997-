@@ -13,43 +13,18 @@ Manages the gaming board
 
 class Board {
 public:
-	class LargePixel {
-	public:
+	struct LargePixel {
 		static const int DRAWN_SIZE = 7; // pixels
 		static const int SPACING = 2; // pixels
 		static const int SIZE = DRAWN_SIZE + SPACING; // pixels
 	};
-	class Tile {
-	public:
-		Tile() : loc(0,0) {}
-		Tile(Vec2_<int> location) : loc(location) {}
-		Vec2_<int> getLocation() const { return loc; }
+	struct Tile {
 		static constexpr int SIZE = 3;		// large pixels
 		static constexpr int SPACING = 1;	// large pixels
-	private:
-		Vec2_<int> loc;
-		/*
-		// static constexpr int CELL_INC_OFFSET = CELL_SIZE + CELL_LARGE_PIXEL_OFFSET; //4
-		static constexpr int CELL_SIZE = 3;
-		static constexpr int CELL_LARGE_PIXEL_OFFSET = 1;
-		*/
 	};
-	class Grid {
-	public:
-		Grid() {
-			for (int y = 0; y < HEIGHT; ++y) {
-				for (int x = 0; x < WIDTH; ++x) {
-					tiles.push_back(Tile({x, y }));
-				}
-			}
-		}
-		static constexpr int WIDTH = 20;	// Tiles
-		static constexpr int HEIGHT = 11;   // Tiles
-		// CELLS_X
-		// CELLS_Y
-	private:
-		std::vector<Tile> tiles;
-
+	struct Grid {
+		static constexpr int WIDTH = 20;	// tiles
+		static constexpr int HEIGHT = 11;   // tiles
 	};
 
 public:

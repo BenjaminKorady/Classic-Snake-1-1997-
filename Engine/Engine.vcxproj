@@ -144,7 +144,6 @@
     <ClInclude Include="Food.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
-    <ClInclude Include="Header.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="LetterMap.h" />
     <ClInclude Include="Menu.h" />
