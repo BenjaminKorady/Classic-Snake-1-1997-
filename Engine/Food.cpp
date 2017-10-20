@@ -5,7 +5,7 @@
 */
 Food::Food()
 	:
-	loc(10 * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET, 5 * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET),
+	loc((Board::CELLS_X/2) * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET, (Board::CELLS_Y/2) * Board::CELL_INC_OFFSET + Board::LARGE_PIXEL_OFFSET),
 	rng(std::random_device()())
 {
 }

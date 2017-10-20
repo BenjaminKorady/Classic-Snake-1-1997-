@@ -23,10 +23,6 @@ public:
     //  Gaming grid is 20x11 cells
     static constexpr int CELLS_X = 20;
     static constexpr int CELLS_Y = 11;
-    
-    //  800x600 px screen (normally)
-    static constexpr int SCREEN_WIDTH = Graphics::ScreenWidth;
-    static constexpr int SCREEN_HEIGHT = Graphics::ScreenHeight;
 
     //  To figure out how big each cell is going to be:
     //  Screen's width needs to fit 20 cells
@@ -63,7 +59,7 @@ public:
     //  So we create a sort of "large pixel". What seems like 1 pixel on the phone, will be more pixels
     //  on the PC monitor. The largest possible value for each pixel would be:
     //  (800 / 83) which is approximately 9.64 so to round it up: 1 phone pixel = 9 PC monitor pixels
-    static constexpr int LARGE_PIXEL_DIMENSION = SCREEN_WIDTH / GRID_WIDTH;	//9
+    static constexpr int LARGE_PIXEL_DIMENSION = Graphics::ScreenWidth / GRID_WIDTH;	//9
 
     //  If you look at the phone screen, the pixels are not right next to each other and are actually
     //  separated by a small space:
@@ -78,8 +74,8 @@ public:
     //  http://i.imgur.com/zwOEIYd.png
 
     //  As we have rounded up from 9.64 to 9 pixels, there will be some unused pixels on the screen:
-    static constexpr int unusedPixelsX = SCREEN_WIDTH - (LARGE_PIXEL_DIMENSION) * GRID_WIDTH;   //53
-	static constexpr int unusedPixelsY = SCREEN_HEIGHT - (LARGE_PIXEL_DIMENSION) * GRID_HEIGHT; //177
+    static constexpr int unusedPixelsX = Graphics::ScreenWidth - (LARGE_PIXEL_DIMENSION) * GRID_WIDTH;   //53
+	static constexpr int unusedPixelsY = Graphics::ScreenHeight - (LARGE_PIXEL_DIMENSION) * GRID_HEIGHT; //177
     //  We will use these values to place the gaming grid to the center of the screen
 
 	static constexpr int LETTER_SPACING = 1;

@@ -20,6 +20,7 @@ public:
 	PixelLocation getLocation() const;
     void reset();
 	void respawn(const Snake & snek);
+
 private:
 	PixelLocation loc;
 	std::mt19937 rng;
