@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include "PixelLocation.h"
 #include "Keyboard.h"
 #include "Board.h"
 #include <chrono>
@@ -17,12 +16,12 @@ class Snake {
 public:
     Snake();
     void reset();
-    void move( const PixelLocation& direction, Board & brd);
+    void move( const Vec2_<int>& direction, Board & brd);
     void grow();
     void draw(Board& brd) const;
-    PixelLocation getNextDirection(Keyboard& kbd);
-    bool isInLocation(const PixelLocation& loc) const;
-    PixelLocation getNextHeadLocation(const PixelLocation direction) const;
+    Vec2_<int> getNextDirection(Keyboard& kbd);
+    bool isInLocation(const Vec2_<int>& loc) const;
+    Vec2_<int> getNextHeadLocation(const Vec2_<int> direction) const;
     void resetMoveBuffer();
     int getFoodEaten();
 	int getSpeed() const;
@@ -43,22 +42,25 @@ private:
     */
     class Segment {
     public:
-        void initSegment(const PixelLocation& locIn);
+        void initSegment(const Vec2_<int>& locIn);
         void follow(const Segment& next);
-        void move(const PixelLocation& direction, Board & brd);
+        void move(const Vec2_<int>& direction, Board & brd);
         void draw(Board& brd, const Segment& next) const;
 
-        PixelLocation getLocation() const;
+        const Vec2_<int>& getLocation() const;
+		Vec2_<int>& getLocation();
+
+		Vec2_<int> getGridLocation() const;
         bool exists = false;
 
     private:
-        PixelLocation loc;
+        Vec2_<int> loc;
     };
 
 private:
     //  Keeps track of how much food was eaten
     int foodEaten = 0;
-    static constexpr int MAX_SEGMENTS = Board::CELLS_X * Board::CELLS_Y;
+    static constexpr int MAX_SEGMENTS = Board::Grid::WIDTH * Board::Grid::HEIGHT;
     Segment segments[MAX_SEGMENTS];
 
     //  The classic Snake starts with 9 segments
@@ -69,8 +71,8 @@ private:
     bool moveBuffered = false;
 
     //Directional vector of the Snake. 0 by default (not moving)
-    PixelLocation direction = { 0, 0 };
-    PixelLocation lastDirection = { 0, 0 };
+    Vec2_<int> direction = { 0, 0 };
+    Vec2_<int> lastDirection = { 0, 0 };
 
     float movePeriod = 0.375f;
 	int speedLevel = 3;

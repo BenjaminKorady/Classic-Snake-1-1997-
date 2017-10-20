@@ -78,7 +78,7 @@ private:
 // Instructions specific values
 private:
 	const std::string instructions = "Make the snake grow longer by directing it to the food. Use the arrow keys or W, A, S, and D. You cannot stop the snake or make it go backwards. Try not to hit the walls or the tail.\n";
-	const std::vector<std::string> instructionsLines = LetterMap::splitStringByLimit(instructions, brd.GRID_WIDTH - RIGHT_SIDE_OFFSET, Board::LETTER_SPACING);
+	const std::vector<std::string> instructionsLines = LetterMap::splitStringByLimit(instructions, brd.LP_WIDTH - RIGHT_SIDE_OFFSET, Board::LETTER_SPACING);
 	static constexpr int MAX_LINES_ON_SCREEN = 4;
 	const int MAX_INSTRUCTIONS_SCROLLBAR_POS = (int)instructionsLines.size() - 1;
 

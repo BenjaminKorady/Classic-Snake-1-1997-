@@ -41,7 +41,6 @@
 #include "Snake.h"
 #include <random>
 #include "Food.h"
-#include "PixelLocation.h"
 #include "Menu.h"
 #include <string>
 #include <chrono>
@@ -71,7 +70,7 @@ private:
     Snake snekCache;
     Food nom;
     Food nomCache;
-	PixelLocation direction = { 1, 0 };     //  Directional vector. Default is { 1, 0 } (right)
+	Vec2_<int> direction = { 1, 0 };     //  Directional vector. Default is { 1, 0 } (right)
     Menu menu;
     int menuSelection = -1;
     int topScore = 0;

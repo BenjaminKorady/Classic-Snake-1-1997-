@@ -88,7 +88,7 @@ void Game::ComposeFrame()
 			drawGameOver();
 		}
 		else {
-			brd.drawBoard();
+			brd.draw();
 			snek.draw(brd);
 			nom.draw(brd);
 		}
@@ -182,11 +182,11 @@ void Game::updateGame()
 		}
 
 		direction = snek.getNextDirection(wnd.kbd);
-		PixelLocation zero(0, 0);
+		Vec2_<int> zero(0, 0);
 		if (direction != zero) {
 			//  If has been idle long enough to move (This manages the snake's speed)
 			if (snek.isTurnToMove(now)) {
-				PixelLocation nextLocation = snek.getNextHeadLocation(direction);
+				Vec2_<int> nextLocation = snek.getNextHeadLocation(direction);
 				//  If snake is not about to collide with the board or its body
 				if (brd.isInsideBoard(nextLocation) && !snek.isInLocation(nextLocation)) {
 					//  If snake is about to eat food

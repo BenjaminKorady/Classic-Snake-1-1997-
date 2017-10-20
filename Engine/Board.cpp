@@ -12,6 +12,7 @@ Graphics processor reference
 Board::Board(Graphics & gfx)
 	:
 	gfx(gfx),
+	grid(),
 	pxColor(91, 92, 0),    // Black pixel color
     bgColor(172, 193, 0)   // Green background color
 {
@@ -24,12 +25,14 @@ Board::Board(Graphics & gfx)
     @param loc
     The location on the screen where the pixel is to be drawn
 */
-void Board::drawPixel(const PixelLocation & loc, int pixelSpacing) const
+void Board::drawLargePixel(const Vec2_<int> & loc, int pixelSpacing) const
 {
-	gfx.DrawRectDim(loc.x * LARGE_PIXEL_DIMENSION + unusedPixelsX/2,    //  x position + half of unused pixels to center the board horizontally
-                    loc.y * LARGE_PIXEL_DIMENSION + unusedPixelsY/2,    //  similarly for y to center the board veritcally
-                    LARGE_PIXEL_DIMENSION - pixelSpacing,               //  width of the draw pixel - the spacing. So there is a spacing inbetween pixels
-                    LARGE_PIXEL_DIMENSION - pixelSpacing,               //  similarly for height
+	const int unusedPixelsX = Graphics::ScreenWidth - getWidth();
+	const int unusedPixelsY = Graphics::ScreenHeight - getHeight();
+	gfx.DrawRectDim(loc.x * LargePixel::SIZE + unusedPixelsX/2,    //  x position + half of unused pixels to center the board horizontally
+                    loc.y * LargePixel::SIZE + unusedPixelsY/2,    //  similarly for y to center the board veritcally
+                    LargePixel::SIZE - pixelSpacing,               //  width of the draw pixel - the spacing. So there is a spacing inbetween pixels
+                    LargePixel::SIZE - pixelSpacing,               //  similarly for height
                     pxColor);                                           //  input pixel color
 }
 
@@ -42,12 +45,14 @@ void Board::drawPixel(const PixelLocation & loc, int pixelSpacing) const
     The spacing (in monitor pixels) between each large pixel
 
 */
-void Board::clearPixel(const PixelLocation & loc, int pixelSpacing)  const
+void Board::clearLargePixel(const Vec2_<int> & loc, int pixelSpacing)  const
 {
-    gfx.DrawRectDim(loc.x* LARGE_PIXEL_DIMENSION + unusedPixelsX / 2,   //  x position + half of unused pixels to center the board horizontally
-        loc.y* LARGE_PIXEL_DIMENSION + unusedPixelsY / 2,               //  similarly for y to center the board veritcally
-        LARGE_PIXEL_DIMENSION - pixelSpacing,                           //  width of the draw pixel - the spacing. So there is a spacing inbetween pixels
-        LARGE_PIXEL_DIMENSION - pixelSpacing,                           //  similarly for height
+	const int unusedPixelsX = Graphics::ScreenWidth - getWidth();
+	const int unusedPixelsY = Graphics::ScreenHeight - getHeight();
+    gfx.DrawRectDim(loc.x* LargePixel::SIZE + unusedPixelsX / 2,   //  x position + half of unused pixels to center the board horizontally
+        loc.y* LargePixel::SIZE + unusedPixelsY / 2,               //  similarly for y to center the board veritcally
+        LargePixel::SIZE - pixelSpacing,                           //  width of the draw pixel - the spacing. So there is a spacing inbetween pixels
+        LargePixel::SIZE - pixelSpacing,                           //  similarly for height
         bgColor);                                                       //  input pixel color
 }
 
@@ -60,12 +65,12 @@ void Board::clearPixel(const PixelLocation & loc, int pixelSpacing)  const
     @pixelSpacing The spacing (in monitor pixels) between each large pixel
 
 */
-void Board::drawPixelRectangle(const PixelLocation & locIn, const int width, const int height, int pixelSpacing)  const
+void Board::drawLargePixelRectangle(const Vec2_<int> & locIn, const int width, const int height, int pixelSpacing)  const
 {
-    PixelLocation locCopy = locIn;                                      //  Create a local copy of the input location
+    Vec2_<int> locCopy = locIn;                                      //  Create a local copy of the input location
     for (int j = 0; j < height; ++j) {                                  //  Loop through the rectangle width*height
         for (int i = 0; i < width; ++i) {                               
-            drawPixel(locCopy, pixelSpacing);                           //  Draw a pixel at locCopy
+            drawLargePixel(locCopy, pixelSpacing);                           //  Draw a pixel at locCopy
             ++locCopy.x;                                                //  move locCopy by 1 to the right 
         }
         locCopy.x = locIn.x;                                            //  Set the location copy's x back to the original value (return back to the leftmost pixel of the rectangle
@@ -81,17 +86,35 @@ void Board::drawPixelRectangle(const PixelLocation & locIn, const int width, con
     @param height The height of the rectangle to be drawn
     @pixelSpacing The spacing (in monitor pixels) between each large pixel
 */
-void Board::clearPixelRectangle(const PixelLocation & locIn, const int width, const int height, int pixelSpacing)  const
+void Board::clearLargePixelRectangle(const Vec2_<int> & locIn, const int width, const int height, int pixelSpacing)  const
 {
-    PixelLocation locCopy = locIn;                                      //  Create a local copy of the input location
+    Vec2_<int> locCopy = locIn;                                      //  Create a local copy of the input location
     for (int j = 0; j < height; ++j) {                                  //  Loop through the rectangle width*height
         for (int i = 0; i < width; ++i) {
-            clearPixel(locCopy, pixelSpacing);                          //  Clear a pixel at locCopy
+            clearLargePixel(locCopy, pixelSpacing);                          //  Clear a pixel at locCopy
             ++locCopy.x;                                                //  move locCopy by 1 to the right 
         }
         locCopy.x = locIn.x;                                            //  Set the location copy's x back to the original value (return back to the leftmost pixel of the rectangle
         ++locCopy.y;                                                    //  move locCopy 1 pixel lower
     }
+}
+
+int Board::getWidth()
+{
+	return LP_WIDTH * LargePixel::SIZE;
+}
+
+int Board::getHeight()
+{
+	return LP_HEIGHT * LargePixel::SIZE;
+}
+
+Vec2_<int> Board::convertToGridLocation(Vec2_<int> tileLocation)
+{
+	return Vec2_<int>( {
+		tileLocation.x*(Tile::SIZE + Tile::SPACING) + LP_OFFSET_X,
+		tileLocation.y*(Tile::SIZE + Tile::SPACING) + LP_OFFSET_Y
+	});
 }
 
 /**
@@ -101,23 +124,23 @@ void Board::clearPixelRectangle(const PixelLocation & locIn, const int width, co
     @param input The string that is to be drawn
     @param invert invert the pixel colors
 */
-void Board::drawString(PixelLocation loc, std::string input, const bool invert) const
+void Board::drawString(Vec2_<int> loc, std::string input, const bool invert) const
 {
     const int LETTER_HEIGHT = LetterMap::height;
 	const int PIXEL_SPACING = 1;
     const int RIGHT_SIDE_OFFSET = 4;
     const int LINE_SPACING = 1;
-    const PixelLocation originalLoc = loc;                                          //  Store the original input location for later use
+    const Vec2_<int> originalLoc = loc;                                          //  Store the original input location for later use
     LetterMap letterCode;                                                           //  A LetterMap object to keep track of where to draw pixels (See LetterMap class for more information)
-    const int screenWidthLimit = GRID_WIDTH + LETTER_SPACING - RIGHT_SIDE_OFFSET;   //  Boundary of where it is possible to draw
+    const int screenWidthLimit = LP_WIDTH + LETTER_SPACING - RIGHT_SIDE_OFFSET;   //  Boundary of where it is possible to draw
 
     //  Draws a black rectangle in the background if the string is to be inverted
     if (invert) {
-        drawPixelRectangle({loc.x - 2*LETTER_SPACING, loc.y - LINE_SPACING}, screenWidthLimit, LETTER_HEIGHT + 2 * LINE_SPACING, PIXEL_SPACING);
+        drawLargePixelRectangle({loc.x - 2*LETTER_SPACING, loc.y - LINE_SPACING}, screenWidthLimit, LETTER_HEIGHT + 2 * LINE_SPACING, PIXEL_SPACING);
     }
 
     for (std::string::iterator it = input.begin(); it < input.end(); ++it) {        //  Iterate through each character of the string
-        PixelLocation current = loc;                                                //  Keep track of the location where pixels are drawn with "current" and "loc".
+        Vec2_<int> current = loc;                                                //  Keep track of the location where pixels are drawn with "current" and "loc".
         letterCode.set(*it);                                                        //  Maps the current char as LetterMap
 
         //  Don't draw anything if the input char is \n. Instead shift the current location one line lower and back to the leftmost side
@@ -136,8 +159,8 @@ void Board::drawString(PixelLocation loc, std::string input, const bool invert) 
                     //  1 = draw a pixel 
                     //  0 = don't draw
                     if (letterCode.map[i++]) {                                      
-                        //  If the string is to be inverted, clearPixel. Otherwise, drawPixel (Since if it was inverted, there is a black background drawn. Therefore, just clear from the background)
-                        invert ? clearPixel(current, PIXEL_SPACING) : drawPixel(current, PIXEL_SPACING);    
+                        //  If the string is to be inverted, clearLargePixel. Otherwise, drawLargePixel (Since if it was inverted, there is a black background drawn. Therefore, just clear from the background)
+                        invert ? clearLargePixel(current, PIXEL_SPACING) : drawLargePixel(current, PIXEL_SPACING);    
                     }
                     current.x++;    //  Shift current location to the right by 1 pixel
                 }
@@ -157,15 +180,15 @@ void Board::drawString(PixelLocation loc, std::string input, const bool invert) 
     Draws the game board and background fill
 
 */
-void Board::drawBoard()  const
+void Board::draw()  const
 {
     const int PIXEL_SPACING = 1;
     //Draws grid frame
-	for (int y = 0; y < GRID_HEIGHT; ++y) {
-		for (int x = 0; x < GRID_WIDTH; ++x) {
-			PixelLocation loc = { x, y };
-			if (x == 0 || y == 0 || x == GRID_WIDTH-1 || y == GRID_HEIGHT-1)
-				drawPixel(loc, PIXEL_SPACING);
+	for (int y = 0; y < LP_HEIGHT; ++y) {
+		for (int x = 0; x < LP_WIDTH; ++x) {
+			Vec2_<int> loc = { x, y };
+			if (x == 0 || y == 0 || x == LP_WIDTH-1 || y == LP_HEIGHT-1)
+				drawLargePixel(loc, PIXEL_SPACING);
 		}
 	}
 }
@@ -178,12 +201,12 @@ void Board::drawBoard()  const
     @return bool 
 */
 
-bool Board::isInsideBoard(const PixelLocation loc) const
+bool Board::isInsideBoard(const Vec2_<int> loc) const
 {
 	return
 		loc.x >= 0 &&
-		loc.x < GRID_WIDTH - 1 &&
+		loc.x < LP_WIDTH - 1 &&
 		loc.y >= 0 &&
-		loc.y < GRID_HEIGHT - 1;
+		loc.y < LP_HEIGHT - 1;
 	
 }

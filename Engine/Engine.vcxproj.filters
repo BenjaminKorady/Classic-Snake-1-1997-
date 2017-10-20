@@ -60,9 +60,6 @@
     <ClInclude Include="Food.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PixelLocation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -108,9 +105,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Food.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PixelLocation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LetterMap.cpp">

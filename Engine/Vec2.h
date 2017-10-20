@@ -46,7 +46,10 @@ public:
 		return rhs.x == x && rhs.y == y;
 	}
 	bool operator!=(const Vec2_& rhs) {
-		return !(this == rhs);
+		return !(*this == rhs);
+	}
+	friend bool operator==(const Vec2_& lhs, const Vec2_& rhs) {
+		return lhs.x == rhs.x && lhs.y == rhs.y;
 	}
 	T GetLength() const
 	{
@@ -73,6 +76,7 @@ public:
 	T x;
 	T y;
 };
+
 
 typedef Vec2_<float> Vec2;
 typedef Vec2_<int> Vei2;

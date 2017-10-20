@@ -27,7 +27,7 @@ void Menu::draw() const
 
 	drawConfirmButton("Select");
 
-	int scrollbarPos = ((brd.GRID_HEIGHT - SCROLLBAR_HEIGHT) / (int)items.size()) * ((getHighlightedItemIndex()) % ((int)items.size()));
+	int scrollbarPos = ((brd.LP_HEIGHT - SCROLLBAR_HEIGHT) / (int)items.size()) * ((getHighlightedItemIndex()) % ((int)items.size()));
     drawScrollbar(scrollbarPos);
 }
 
@@ -46,7 +46,7 @@ void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
 	assert(position >= 0);
 	assert(position < SHOWN_ITEMS);
 
-	PixelLocation pos[SHOWN_ITEMS];
+	Vec2_<int> pos[SHOWN_ITEMS];
 	for (int i = 0; i < SHOWN_ITEMS; ++i) {
 		pos[i] = { LINE_START_X, LINE_START_Y + i*LINE_Y_SPACING };
 	}
@@ -140,16 +140,16 @@ void Menu::drawScrollbar(int height) const
     constexpr int RIGHT_OFFSET_X = 1;
 	constexpr int TOP_OFFSET_Y = 1;
 
-    PixelLocation sideBarSelectorPos = { brd.GRID_WIDTH - RIGHT_OFFSET_X, height };
+    Vec2_<int> sideBarSelectorPos = { brd.LP_WIDTH - RIGHT_OFFSET_X, height };
 
 	{			
-		brd.drawPixelRectangle({ sideBarSelectorPos.x, TOP_OFFSET_Y }, 1, brd.GRID_HEIGHT - 1, PIXEL_SPACING);
-		brd.clearPixelRectangle(sideBarSelectorPos, 1, SCROLLBAR_HEIGHT, PIXEL_SPACING);
-		brd.drawPixel({ sideBarSelectorPos.x, sideBarSelectorPos.y }, PIXEL_SPACING);
-		brd.drawPixel({ sideBarSelectorPos.x + 1, sideBarSelectorPos.y }, PIXEL_SPACING);
-		brd.drawPixelRectangle({ sideBarSelectorPos.x + 2, sideBarSelectorPos.y + 1 }, 1, SCROLLBAR_HEIGHT - 1, PIXEL_SPACING);
-		brd.drawPixel({ sideBarSelectorPos.x + 1, sideBarSelectorPos.y + SCROLLBAR_HEIGHT }, PIXEL_SPACING);
-		brd.drawPixel({ sideBarSelectorPos.x, sideBarSelectorPos.y + SCROLLBAR_HEIGHT }, PIXEL_SPACING);
+		brd.drawLargePixelRectangle({ sideBarSelectorPos.x, TOP_OFFSET_Y }, 1, brd.LP_HEIGHT - 1, PIXEL_SPACING);
+		brd.clearLargePixelRectangle(sideBarSelectorPos, 1, SCROLLBAR_HEIGHT, PIXEL_SPACING);
+		brd.drawLargePixel({ sideBarSelectorPos.x, sideBarSelectorPos.y }, PIXEL_SPACING);
+		brd.drawLargePixel({ sideBarSelectorPos.x + 1, sideBarSelectorPos.y }, PIXEL_SPACING);
+		brd.drawLargePixelRectangle({ sideBarSelectorPos.x + 2, sideBarSelectorPos.y + 1 }, 1, SCROLLBAR_HEIGHT - 1, PIXEL_SPACING);
+		brd.drawLargePixel({ sideBarSelectorPos.x + 1, sideBarSelectorPos.y + SCROLLBAR_HEIGHT }, PIXEL_SPACING);
+		brd.drawLargePixel({ sideBarSelectorPos.x, sideBarSelectorPos.y + SCROLLBAR_HEIGHT }, PIXEL_SPACING);
 	}
 
 }
@@ -210,7 +210,7 @@ void Menu::drawTopScore(int topScore) const
 
 void Menu::drawLastView(const Snake& snekCache, const Food& nomCache) const
 {
-    brd.drawBoard();
+    brd.draw();
     snekCache.draw(brd);
     nomCache.draw(brd);
 }
@@ -223,7 +223,7 @@ void Menu::drawInstructions() const
 		}
 	}
 
-	int currentScrollbarPos = int(ceil(brd.GRID_HEIGHT - SCROLLBAR_HEIGHT) / (MAX_INSTRUCTIONS_SCROLLBAR_POS)) * ((scrollbarPos) % (MAX_INSTRUCTIONS_SCROLLBAR_POS + 1));
+	int currentScrollbarPos = int(ceil(brd.LP_HEIGHT - SCROLLBAR_HEIGHT) / (MAX_INSTRUCTIONS_SCROLLBAR_POS)) * ((scrollbarPos) % (MAX_INSTRUCTIONS_SCROLLBAR_POS + 1));
     drawScrollbar(currentScrollbarPos);
 }
 
@@ -251,12 +251,12 @@ void Menu::drawLevelBar(int barNum, bool fill) const
     const int BAR_WIDTH = 5;
     const int BAR_HEIGHT = 9;
 
-    brd.drawPixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum, Y_LOW - BAR_HEIGHT - BAR_Y_SPACING*barNum }, 1, BAR_HEIGHT + BAR_Y_SPACING*barNum, PIXEL_SPACING);
-    brd.drawPixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum + 1, Y_LOW - BAR_HEIGHT - BAR_Y_SPACING*barNum }, BAR_WIDTH - 1, 1, PIXEL_SPACING);
+    brd.drawLargePixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum, Y_LOW - BAR_HEIGHT - BAR_Y_SPACING*barNum }, 1, BAR_HEIGHT + BAR_Y_SPACING*barNum, PIXEL_SPACING);
+    brd.drawLargePixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum + 1, Y_LOW - BAR_HEIGHT - BAR_Y_SPACING*barNum }, BAR_WIDTH - 1, 1, PIXEL_SPACING);
     
     for (int y = Y_LOW; y < Y_LOW + BAR_HEIGHT + BAR_Y_SPACING*barNum; y += 2) {
         if (fill) {
-            brd.drawPixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum + 1, y - BAR_HEIGHT - BAR_Y_SPACING*barNum }, BAR_WIDTH - 1, 1, PIXEL_SPACING);
+            brd.drawLargePixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum + 1, y - BAR_HEIGHT - BAR_Y_SPACING*barNum }, BAR_WIDTH - 1, 1, PIXEL_SPACING);
         }
     }
 }
@@ -264,7 +264,7 @@ void Menu::drawLevelBar(int barNum, bool fill) const
 void Menu::drawConfirmButton(std::string label) const
 {
 	const int CONFIRM_WIDTH = LetterMap::getStringWidth(label, Board::LETTER_SPACING);
-	brd.drawString({ (Board::GRID_WIDTH - RIGHT_SIDE_OFFSET - CONFIRM_WIDTH) / 2, CONFIRM_BUTTON_Y }, label, false);
+	brd.drawString({ (Board::LP_WIDTH - RIGHT_SIDE_OFFSET - CONFIRM_WIDTH) / 2, CONFIRM_BUTTON_Y }, label, false);
 }
 
 int Menu::getHighlightedItemIndex() const

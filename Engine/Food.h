@@ -22,7 +22,6 @@ public:
 
 private:
 	Vec2_<int> tileLocation;
-	Vec2_<int> gridLocation = Board::convertToGridLocation(tileLocation);
 	std::mt19937 rng;
 	
 	
