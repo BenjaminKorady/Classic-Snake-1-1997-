@@ -5,7 +5,7 @@
 */
 Food::Food()
 	:
-	tileLocation(Board::Grid::WIDTH/2, Board::Grid::HEIGHT/2),
+	location(Board::Grid::WIDTH/2, Board::Grid::HEIGHT/2),
 	rng(std::random_device()())
 {
 }
@@ -18,7 +18,7 @@ Food::Food()
 */
 Food::Food(Vec2_<int> tileLocation)
 	:
-	tileLocation(tileLocation),
+	location(tileLocation),
 	rng(std::random_device()())
 {
 }
@@ -31,8 +31,8 @@ Food::Food(Vec2_<int> tileLocation)
 */
 void Food::draw(Board &brd) const
 {
-	Vec2_<int> gridLocation = Board::convertToGridLocation(tileLocation);
-	brd.drawLargePixel({ gridLocation.x + 1,	gridLocation.y	  }, 2);
+	Vec2_<int> gridLocation = Board::convertToGridLocation(location);
+	brd.drawLargePixel({ gridLocation.x + 1,	gridLocation.y	   }, 2);
 	brd.drawLargePixel({ gridLocation.x,		gridLocation.y + 1 }, 2);
 	brd.drawLargePixel({ gridLocation.x + 2,	gridLocation.y + 1 }, 2);
 	brd.drawLargePixel({ gridLocation.x + 1,	gridLocation.y + 2 }, 2);
@@ -46,7 +46,7 @@ void Food::draw(Board &brd) const
 */
 Vec2_<int> Food::getLocation() const
 {
-	return tileLocation;
+	return location;
 }
 
 /**
@@ -54,7 +54,7 @@ Vec2_<int> Food::getLocation() const
 */
 void Food::reset()
 {
-	tileLocation = { Board::Grid::WIDTH / 2, Board::Grid::HEIGHT / 2 };
+	location = { Board::Grid::WIDTH / 2, Board::Grid::HEIGHT / 2 };
 }
     
 /**
@@ -71,8 +71,8 @@ void Food::respawn(const Snake & snek)
 	
 	do {
         //  Sets the food object's location to the newly generated location
-		tileLocation = { xDist(rng), yDist(rng) };
+		location = { xDist(rng), yDist(rng) };
         //  Generate a new location if the current location is where the snake is
-	} while (snek.isInLocation(tileLocation));
+	} while (snek.isInLocation(location));
 
 }

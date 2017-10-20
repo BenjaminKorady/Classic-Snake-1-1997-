@@ -21,9 +21,7 @@ public:
 	void respawn(const Snake & snek);
 
 private:
-	Vec2_<int> tileLocation;
+	Vec2_<int> location;
 	std::mt19937 rng;
 	
-	
-
 };
