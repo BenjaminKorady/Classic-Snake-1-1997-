@@ -32,10 +32,10 @@ Food::Food(Vec2_<int> tileLocation)
 void Food::draw(Board &brd) const
 {
 	Vec2_<int> gridLocation = Board::convertToGridLocation(location);
-	brd.drawLargePixel({ gridLocation.x + 1,	gridLocation.y	   }, 2);
-	brd.drawLargePixel({ gridLocation.x,		gridLocation.y + 1 }, 2);
-	brd.drawLargePixel({ gridLocation.x + 2,	gridLocation.y + 1 }, 2);
-	brd.drawLargePixel({ gridLocation.x + 1,	gridLocation.y + 2 }, 2);
+	brd.drawLargePixel({ gridLocation.x + 1,	gridLocation.y	   }, 1);
+	brd.drawLargePixel({ gridLocation.x,		gridLocation.y + 1 }, 1);
+	brd.drawLargePixel({ gridLocation.x + 2,	gridLocation.y + 1 }, 1);
+	brd.drawLargePixel({ gridLocation.x + 1,	gridLocation.y + 2 }, 1);
 
 }
 

@@ -34,7 +34,7 @@ public:
 
 	bool isInsideBoard(const Vec2_<int> location) const;
 	void drawString(Vec2_<int> location, std::string input, const bool invert) const;
-	void drawLargePixel(const Vec2_<int>& location, int pixelSpacing) const;
+	void drawLargePixel(const Vec2_<int>& location, int pixelSpacing = DEFAULT_PIXEL_SPACING) const;
 	void drawLargePixelRectangle(const Vec2_<int>& location, const int width, const int height, int pixelSpacing) const;
     void clearLargePixel(const Vec2_<int>& location, int pixelSpacing) const;
     void clearLargePixelRectangle(const Vec2_<int>& location, const int width, const int height, int pixelSpacing) const;
@@ -44,6 +44,7 @@ public:
 	static Vec2_<int> convertToGridLocation(Vec2_<int> tileLocation);
 
 public:
+	static constexpr int DEFAULT_PIXEL_SPACING = 1;
 	static constexpr int LETTER_SPACING = 1;
 	static constexpr int LP_WIDTH = 83;
 	static constexpr int LP_HEIGHT = 47;

@@ -145,27 +145,29 @@ void Snake::cacheDirection()
 void Snake::draw(Board & brd) const {
 	for (int i = (int)segments.size() - 1; i >= 0; --i) {
 		segments[i].draw(brd);
-	}
 
-	/*
-	   //  Draws the spacing between the segments
-	if (hasNext) {
-		for (int j = 0; j < Board::Tile::SIZE; ++j) {
-            //  next segment is to the right
-			if (next.location.x - location.x == 1) 
-				brd.drawLargePixel({ gridLocation.x + Board::Tile::SIZE, gridLocation.y + j }, pixelSpacing);			
-           //  next segment is to the left
-			else if(next.location.x - location.x == - 1)
-				brd.drawLargePixel({ gridLocation.x - 1, gridLocation.y + j }, pixelSpacing);
-			//  next segment is below 
-			if (next.loc.y - loc.y == 1)
-				brd.drawLargePixel({ gridLocation.x + j, gridLocation.y + Board::Tile::SIZE }, pixelSpacing);
-			//  next segment is above
-			else if (next.loc.y - loc.y == - 1)
-				brd.drawLargePixel({ gridLocation.x + j , gridLocation.y - 1 }, pixelSpacing);
+		if (i != 0) {
+			const Vec2_<int> nextLoc = segments[i-1].getLocation();
+			const Vec2_<int> currentLoc = segments[i].getLocation();
+			const Vec2_<int> currentGridLocation = Board::convertToGridLocation(currentLoc);
+			for (int j = 0; j < Board::Tile::SIZE; ++j) {
+				//  next segment is to the right
+				if (nextLoc.x - currentLoc.x == 1)
+					brd.drawLargePixel({ currentGridLocation.x + Board::Tile::SIZE, currentGridLocation.y + j });
+				//  next segment is to the left
+				else if (nextLoc.x - currentLoc.x == -1)
+					brd.drawLargePixel({ currentGridLocation.x - 1, currentGridLocation.y + j });
+				//  next segment is below 
+				else if (nextLoc.y - currentLoc.y == 1)
+					brd.drawLargePixel({ currentGridLocation.x + j, currentGridLocation.y + Board::Tile::SIZE });
+				//  next segment is above
+				else if (nextLoc.y - currentLoc.y == -1)
+					brd.drawLargePixel({ currentGridLocation.x + j , currentGridLocation.y - 1 });
+			}
 		}
 	}
-	*/
+	
+
 }
 /**
     Listens for keyboard input and changes the snake's directional vector based on keys pressed
@@ -267,11 +269,10 @@ void Snake::Segment::draw(Board & brd) const
 {
 	Vec2_<int> gridLocation = Board::convertToGridLocation(location);
 
-    const int pixelSpacing = 1;
     //  Draws the 3x3 large pixel segment
 	for (int i = 0; i < Board::Tile::SIZE; ++i) {
 		for (int j = 0; j <  Board::Tile::SIZE; ++j) {
-			brd.drawLargePixel({gridLocation.x+i, gridLocation.y+j}, pixelSpacing);
+			brd.drawLargePixel({gridLocation.x+i, gridLocation.y+j});
 		}
 	}
 
