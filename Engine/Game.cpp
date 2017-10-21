@@ -88,9 +88,7 @@ void Game::ComposeFrame()
 			drawGameOver();
 		}
 		else {
-			brd.draw();
-			snek.draw(brd);
-			nom.draw(brd);
+			drawGame();
 		}
 		break;
 	case Menu::Item::Instructions:
@@ -118,37 +116,19 @@ void Game::drawBackground()
 	gfx.DrawRectDim(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, bgColor);
 }
 
+void Game::drawGame()
+{
+	brd.draw();
+	snek.draw(brd);
+	nom.draw(brd);
+}
+
 /**
 Draws the game over screen
 */
 void Game::drawGameOver()
-{
-	//  Calculate current score
-	int score = snek.getFoodEaten() * snek.getSpeed();
-
-	//  Set topScore if it was beaten
-	if (score > topScore) {
-		topScore = score;
-	}
-
-	//  Draw the game over message
+{	
 	brd.drawString({ 3, 3 }, "Game over!\nYour score:\n" + std::to_string(score), false);
-
-	//  Handle keyboard input
-	while (!wnd.kbd.KeyIsEmpty()) {
-		const Keyboard::Event e = wnd.kbd.ReadKey();
-		if (e.IsRelease()) {
-			if (e.GetCode() == VK_RETURN || e.GetCode() == VK_ESCAPE) {
-			}
-		}
-
-		//  Return back to the menu if Enter or Esc was pressed
-		if (wnd.kbd.KeyIsPressed(VK_RETURN) || wnd.kbd.KeyIsPressed(VK_ESCAPE)) {
-				menu.returnToMenu();
-				gameReset();
-				return;
-		}
-	}
 }
 
 /**
@@ -159,68 +139,58 @@ void Game::gameReset()
 	isGameOver = false;
 	snek.reset();
 	nom.reset();
+	score = 0;
 }
 
 void Game::updateGame()
 {
-	if (!isGameOver) {
-		const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
-
-		while (!wnd.kbd.KeyIsEmpty()) {
-			const Keyboard::Event e = wnd.kbd.ReadKey();
-			if (e.IsPress()) {
-				if (e.GetCode() == VK_ESCAPE || e.GetCode() == VK_RETURN) {
-					menu.returnToMenu();
-					if (!menu.hasItem(Menu::Item::Continue)) {
-						menu.addItem(Menu::Item::Continue);
-					}
-					snek.cacheDirection();
-					return;
-				}
-				snek.handleKeyboardPressEvent(e);
-			}
-		}
-		
-
-		if (snek.getDirection() != Vec2_<int>(DIR_ZERO) ) {
-			//  If has been idle long enough to move (This manages the snake's speed)
-			if (snek.isTurnToMove(now)) {
-				Vec2_<int> nextLocation = snek.getNextHeadLocation();
-				//  If snake is not about to collide with the board or its body
-				if (brd.isInsideBoard(nextLocation) && !snek.isInLocation(nextLocation)) {
-					//  If snake is about to eat food
-					if (nextLocation == nom.getLocation()) {
-						snek.grow();
-						nom.respawn(snek);
-						snek.incFoodEaten();
-					}
-					snek.move(brd);
-				}
-
-				// Snake dies
-				else {
-					isGameOver = true;
-					if (menu.hasItem(Menu::Item::Continue)) {
-						menu.removeItem(Menu::Item::Continue);
-					}
-					snekCache = snek;
-					nomCache = nom;
-					if (!menu.hasItem(Menu::Item::LastView)) {
-						menu.addItem(Menu::Item::LastView);
-					}
-				}
-			}
-		}
-	}
-	else {
-		while (!wnd.kbd.KeyIsEmpty()) {
-			const Keyboard::Event e = wnd.kbd.ReadKey();
-			if (e.IsPress()) {
+	// Handle keyboard input
+	while (!wnd.kbd.KeyIsEmpty()) {
+		const Keyboard::Event e = wnd.kbd.ReadKey();
+		if (e.IsPress()) {
+			if (isGameOver) {
 				if (e.GetCode() == VK_ESCAPE || e.GetCode() == VK_RETURN) {
 					menu.returnToMenu();
 					snek.cacheDirection();
 					gameReset();
 					return;
+				}
+			}
+			else {
+				if (e.GetCode() == VK_ESCAPE || e.GetCode() == VK_RETURN) {
+					menu.returnToMenu();
+					if (!menu.hasItem(Menu::Item::Continue)) {
+						menu.addItem(Menu::Item::Continue);
+					}
+					return;
+				}
+				snek.handleKeyPressEvent(e);
+			}
+
+		}
+	}
+
+	if (!isGameOver) {
+		const auto now = std::chrono::steady_clock::now();		
+		if (snek.getDirection() != Vec2_<int>(DIR_ZERO) && snek.isTurnToMove(now) ) {
+			Vec2_<int> nextLocation = snek.getNextHeadLocation();
+			if (brd.isInsideBoard(nextLocation) && !snek.isInLocation(nextLocation)) { // Snake is not about to collide with the walls or its body
+				if (nextLocation == nom.getLocation()) { // Snake is about to eat food
+					snek.grow();
+					nom.respawn(snek);
+					score += snek.getSpeed();
+				}
+				snek.move(brd);
+			}
+			else { // Snake dies
+				isGameOver = true;
+				if (menu.hasItem(Menu::Item::Continue)) {
+					menu.removeItem(Menu::Item::Continue);
+				}
+				snekCache = snek;	// Store last snake and food to 
+				nomCache = nom;		// draw them in "Last view"
+				if (!menu.hasItem(Menu::Item::LastView)) {
+					menu.addItem(Menu::Item::LastView);
 				}
 			}
 		}

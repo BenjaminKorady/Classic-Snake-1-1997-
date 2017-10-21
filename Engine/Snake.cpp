@@ -192,7 +192,7 @@ void Snake::draw(Board & brd) const {
     @param kbd Keyboard processor
     @return direction where the snake is about to move
 */
-void Snake::handleKeyboardPressEvent(const Keyboard::Event e)
+void Snake::handleKeyPressEvent(const Keyboard::Event e)
 {
 	assert(e.IsPress());
 

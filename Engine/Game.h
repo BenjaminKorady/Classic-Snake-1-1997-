@@ -59,6 +59,7 @@ private:
 
 
     void drawBackground();
+	void drawGame();
     void drawGameOver();
     void gameReset();
     void updateGame();
@@ -66,6 +67,7 @@ private:
 private:
 	bool isGameOver = false;
 	int topScore = 0;
+	int score = 0;
 
 	MainWindow& wnd;
 	Graphics gfx;

@@ -38,7 +38,7 @@ public:
     void move(Board & brd);
     void grow();
 	void setSpeed(int speed);
-	void handleKeyboardPressEvent(const Keyboard::Event e);
+	void handleKeyPressEvent(const Keyboard::Event e);
 
 	bool isInLocation(const Vec2_<int>& loc) const;
 	Vec2_<int> getNextHeadLocation() const;
