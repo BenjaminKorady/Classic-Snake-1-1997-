@@ -20,6 +20,7 @@ void Snake::reset()
 	}
     foodEaten = 0;    
     direction = { 0, 0 };
+	bufferedMoves.clear();
 }
 
 /**
@@ -70,10 +71,6 @@ Vec2_<int> Snake::getDirection() const
 {
 	return direction;
 }
-
-/**
-    Resets moveBuffer
-*/
 
 int Snake::getFoodEaten() const
 {
