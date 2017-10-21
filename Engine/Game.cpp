@@ -181,10 +181,8 @@ void Game::updateGame()
 			}
 		}
 		
-		direction = snek.getDirection();
 
-		Vec2_<int> zero(0, 0);
-		if (direction != zero) {
+		if (snek.getDirection() != Vec2_<int>(DIR_ZERO) ) {
 			//  If has been idle long enough to move (This manages the snake's speed)
 			if (snek.isTurnToMove(now)) {
 				Vec2_<int> nextLocation = snek.getNextHeadLocation(direction);

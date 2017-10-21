@@ -1,6 +1,11 @@
 #pragma once
 
 #include <cmath>
+#define DIR_RIGHT 1,  0
+#define DIR_LEFT -1, 0
+#define DIR_UP 0, -1
+#define DIR_DOWN 0, 1
+#define DIR_ZERO 0, 0
 
 template<typename T>
 class Vec2_

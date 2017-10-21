@@ -67,9 +67,9 @@ private:
     bool moveBuffered = false;     //  Used to store next move in memory even if idleLimit has not passed yet. 
 								   //  Allows smoother snake control
 	std::deque<Vec2_<int>> bufferedMoves;
-    Vec2_<int> direction = { 0, 0 };
-	Vec2_<int> nextDirection = { 0, 0 };
-    Vec2_<int> lastDirection = { 0, 0 };
+    Vec2_<int> direction = {DIR_ZERO};
+	Vec2_<int> nextDirection = {DIR_ZERO};
+    Vec2_<int> lastDirection = {DIR_ZERO};
 
     float movePeriod = 0.375f;
 	int speedLevel = 3;

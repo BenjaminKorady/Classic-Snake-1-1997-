@@ -199,16 +199,16 @@ void Snake::handleKeyboardPressEvent(const Keyboard::Event e)
 	Vec2_<int> newDirection;
 
 	if (e.GetCode() == (VK_UP) || e.GetCode() == ('W')) {
-		newDirection = { 0, -1 };		
+		newDirection = {DIR_UP};		
 	}
 	else if (e.GetCode() == (VK_LEFT) || e.GetCode() == ('A')) {
-		newDirection = { -1, 0 };
+		newDirection = {DIR_LEFT};
 	}
 	else if (e.GetCode() == (VK_DOWN) || e.GetCode() == ('S')) {
-		newDirection = { 0, 1 };
+		newDirection = {DIR_DOWN};
 	}
 	else if (e.GetCode() == (VK_RIGHT) || e.GetCode() == ('D')) {
-		newDirection = { 1, 0 };
+		newDirection = {DIR_RIGHT};
 	}
 
 	if (newDirection != -direction) {
