@@ -170,10 +170,10 @@ void Game::updateGame()
 	}
 
 	if (!isGameOver) {
-		const auto now = std::chrono::steady_clock::now();		
-		if (snek.getDirection() != Vec2_<int>(DIR_ZERO) && snek.isTurnToMove(now) ) {
-			Vec2_<int> nextLocation = snek.getNextHeadLocation();
-			if (brd.isInsideBoard(nextLocation) && !snek.isInTile(nextLocation)) { // Snake is not about to collide with the walls or its body
+		const auto now = std::chrono::steady_clock::now();								// Store current time
+		if (snek.isTurnToMove(now) && snek.getDirection() != Vec2_<int>(DIR_ZERO)) {	
+			Vec2_<int> nextLocation = snek.getNextHeadLocation();						// Check where snake is about to go in its next step
+			if (brd.isInsideBoard(nextLocation) && !snek.isInTile(nextLocation)) {		// Snake is not about to collide with the walls or its body
 				if (nextLocation == nom.getLocation()) { // Snake is about to eat food
 					snek.grow();
 					nom.respawn(snek);
