@@ -18,7 +18,6 @@ void Snake::reset()
 	for (int i = 0; i < nStartingSegments; ++i) {
 		segments.push_back(Segment({ loc.x--, loc.y }));
 	}
-    foodEaten = 0;    
     direction = { 0, 0 };
 	bufferedMoves.clear();
 }
@@ -72,24 +71,9 @@ Vec2_<int> Snake::getDirection() const
 	return direction;
 }
 
-int Snake::getFoodEaten() const
-{
-    return foodEaten;
-}
-
 int Snake::getSpeed() const
 {
 	return speedLevel;
-}
-
-void Snake::incFoodEaten()
-{
-	++foodEaten;
-}
-
-void Snake::resetFoodEaten()
-{
-    foodEaten = 0;
 }
 
 void Snake::setSpeed(int speedLevelIn)
@@ -133,11 +117,6 @@ bool Snake::isTurnToMove(std::chrono::steady_clock::time_point now) const
 {
     std::chrono::duration<float> diff = now - lastMoved;
     return diff.count() >= movePeriod;
-}
-
-void Snake::cacheDirection()
-{
-    lastDirection = direction;
 }
 
 Vec2_<int> Snake::getNextDirection() const
@@ -227,7 +206,7 @@ void Snake::handleKeyPressEvent(const Keyboard::Event e)
     @param loc Input location
     @return bool
 */
-bool Snake::isInLocation(const Vec2_<int> & loc) const
+bool Snake::isInTile(const Vec2_<int> & loc) const
 {
 	for (int i = 0; i < segments.size(); ++i) {
 		if (loc == segments[i].getLocation())

@@ -73,6 +73,6 @@ void Food::respawn(const Snake & snek)
         //  Sets the food object's location to the newly generated location
 		location = { xDist(rng), yDist(rng) };
         //  Generate a new location if the current location is where the snake is
-	} while (snek.isInLocation(location));
+	} while (snek.isInTile(location));
 
 }

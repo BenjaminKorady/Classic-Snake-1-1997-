@@ -38,19 +38,14 @@ public:
     void move(Board & brd);
     void grow();
 	void setSpeed(int speed);
-	void handleKeyPressEvent(const Keyboard::Event e);
+	void handleKeyPressEvent(const Keyboard::Event e);	// Snake controls
 
-	bool isInLocation(const Vec2_<int>& loc) const;
+	bool isInTile(const Vec2_<int>& tileLocation) const;
 	Vec2_<int> getNextHeadLocation() const;
 	Vec2_<int> getDirection() const;
-	int getFoodEaten() const;
 	int getSpeed() const;
     void draw(Board& brd) const;
-
-    void incFoodEaten();
-    void resetFoodEaten();
     bool isTurnToMove(std::chrono::steady_clock::time_point now) const;
-    void cacheDirection();
 
 private:
 	Vec2_<int> getNextDirection() const;
@@ -59,22 +54,17 @@ public:
 	static constexpr int MinSpeed = 1;
 
 private:
-    int foodEaten = 0;
 	static constexpr int nStartingSegments = 9;
-    static constexpr int MAX_SEGMENTS = Board::Grid::WIDTH * Board::Grid::HEIGHT;
 	std::vector<Segment> segments;
-
-    bool moveBuffered = false;     //  Used to store next move in memory even if idleLimit has not passed yet. 
-								   //  Allows smoother snake control
-	std::deque<Vec2_<int>> bufferedMoves;
-    Vec2_<int> direction = {DIR_ZERO};
-	Vec2_<int> nextDirection = {DIR_ZERO};
-    Vec2_<int> lastDirection = {DIR_ZERO};
+	std::deque<Vec2_<int>> bufferedMoves;	// Stores changes in direction queued up from the keyboard
+    Vec2_<int> direction = {DIR_ZERO};		// Current direction
+	Vec2_<int> nextDirection = {DIR_ZERO};	// Direction after reading an input from the keyboard input queue
 
     float movePeriod = 0.375f;
-	int speedLevel = 3;
+	int speedLevel = 3;						// Proportional to movePeriod but doesn't have a continuous function f(speedLevel) = movePeriod
 
-    std::chrono::steady_clock::time_point lastMoved = std::chrono::steady_clock::now();
-
+    std::chrono::steady_clock::time_point lastMoved = std::chrono::steady_clock::now(); 
+	// Stores point in time when snake last moved and uses this to determine if enough time has passed 
+	// for it to move again
 
 };

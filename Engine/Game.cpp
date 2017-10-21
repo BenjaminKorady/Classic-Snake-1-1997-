@@ -151,7 +151,6 @@ void Game::updateGame()
 			if (isGameOver) {
 				if (e.GetCode() == VK_ESCAPE || e.GetCode() == VK_RETURN) {
 					menu.returnToMenu();
-					snek.cacheDirection();
 					gameReset();
 					return;
 				}
@@ -174,7 +173,7 @@ void Game::updateGame()
 		const auto now = std::chrono::steady_clock::now();		
 		if (snek.getDirection() != Vec2_<int>(DIR_ZERO) && snek.isTurnToMove(now) ) {
 			Vec2_<int> nextLocation = snek.getNextHeadLocation();
-			if (brd.isInsideBoard(nextLocation) && !snek.isInLocation(nextLocation)) { // Snake is not about to collide with the walls or its body
+			if (brd.isInsideBoard(nextLocation) && !snek.isInTile(nextLocation)) { // Snake is not about to collide with the walls or its body
 				if (nextLocation == nom.getLocation()) { // Snake is about to eat food
 					snek.grow();
 					nom.respawn(snek);
