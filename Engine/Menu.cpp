@@ -4,6 +4,14 @@
 #include <iterator>
 #include <vector>
 
+/**
+	Constructs menu class and pushes the 4 main menu items into the menu items vector
+
+	@param brd 
+	@param snek
+	@param nom
+	@param kbd
+*/
 Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
     :
     brd(brd),
@@ -17,12 +25,16 @@ Menu::Menu(Board &brd, Snake &snek, Food &nom, Keyboard &kbd)
 	items.push_back(Item::Level);
 }
 
+/**
+	Draws the menu to the board
+*/
 void Menu::draw() const
 {
     assert(highlightedItemNumber >= 0 && highlightedItemNumber < SHOWN_ITEMS);
 
 	for (int i = 0; i < SHOWN_ITEMS; ++i) {
-		drawItemName(items[(i + topItemIndex)%(int)items.size()], i, highlightedItemNumber == i);
+		int index = (i + topItemIndex) % (int)items.size();	// Draw 3 items starting from the current top item. Loop around the menu to the first item if we have reached past the last item
+		drawItemName(items[index], i, highlightedItemNumber == i);
 	}
 
 	drawConfirmButton("Select");
@@ -167,7 +179,7 @@ std::string Menu::getItemString(const Item & itemIn) const
 	}
 }
 
-Menu::Item Menu::getSelectedItem()
+Menu::Item Menu::getSelectedItem() const
 {
 	return selectedItem;
 }
