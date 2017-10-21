@@ -219,25 +219,40 @@ std::string Menu::getItemString(const Item & itemIn) const
 }
 
 /**
-	
+	Returns currently selected menu item
+
+	@return selectedItem
 */
 Menu::Item Menu::getSelectedItem() const
 {
 	return selectedItem;
 }
 
+/**
+	Adds an item to the menu
+
+	@param item Item to be added
+*/
 void Menu::addItem(Item item)
 {
 	assert(!hasItem(item));
 	items.insert(items.begin(), item);
 }
 
+/**
+	Removes an item from the menu
+
+	@param item Item to be removed
+*/
 void Menu::removeItem(Item item)
 {
 	assert(hasItem(item));
 	items.erase(std::remove(items.begin(), items.end(), item), items.end());
 }
 
+/**
+	Returns to the menu and highlights the top-most item of the menu
+*/
 void Menu::returnToMenu()
 {
 	selectedItem = Item::None;
@@ -245,6 +260,9 @@ void Menu::returnToMenu()
 	highlightedItemNumber = 0;
 }
 
+/**
+	Waits for Return key input and then returns to the menu, as well as highlights the top-most item
+*/
 void Menu::returnToMenuOnReturnKeyPress()
 {
 	while (!kbd.KeyIsEmpty()) {
@@ -257,11 +275,22 @@ void Menu::returnToMenuOnReturnKeyPress()
 	}
 }
 
+/**
+	Draws the top score menu item
+
+	@param topScore Score which is to be displayed as top score
+*/
 void Menu::drawTopScore(int topScore) const
 {
     brd.drawString({ LINE_START_X, LINE_START_Y }, "Top score:\n " + std::to_string(topScore), false);
 }
 
+/**
+	Draws the last view menu item
+
+	@param snekCache Cached snake object from the last game
+	@param nomCache Cached food object from the last game
+*/
 void Menu::drawLastView(const Snake& snekCache, const Food& nomCache) const
 {
     brd.draw();
@@ -269,16 +298,20 @@ void Menu::drawLastView(const Snake& snekCache, const Food& nomCache) const
     nomCache.draw(brd);
 }
 
+/**
+	Draws the instructions menu item
+*/
 void Menu::drawInstructions() const
 {
 	for (int i = 0; i < MAX_LINES_ON_SCREEN; ++i) {
 		if (scrollbarPos + i <= MAX_INSTRUCTIONS_SCROLLBAR_POS) {
+			// Draw lines based on current scrollbar position
 			brd.drawString({ LINE_START_X, LINE_START_Y + LINE_Y_SPACING*i }, instructionsLines[scrollbarPos + i], false);
 		}
 	}
 
-	int currentScrollbarPos = int(ceil(brd.LP_HEIGHT - SCROLLBAR_HEIGHT) / (MAX_INSTRUCTIONS_SCROLLBAR_POS)) * ((scrollbarPos) % (MAX_INSTRUCTIONS_SCROLLBAR_POS + 1));
-    drawScrollbar(currentScrollbarPos);
+	float currentScrollbarPos = (float(brd.LP_HEIGHT - SCROLLBAR_HEIGHT) / (float)instructionsLines.size()) * ((scrollbarPos) % ((int)instructionsLines.size()));
+    drawScrollbar((int)currentScrollbarPos);
 }
 
 void Menu::drawLevel(Snake& snek) const
