@@ -2,7 +2,7 @@
     Handles the Snake logic
 
     @author Benjamin Korady
-    @version 1.0    13/02/2017
+    @version 1.1    21/10/2017
 */
 
 #pragma once
@@ -15,7 +15,7 @@ class Snake {
 private:
 
 	/**
-	Manages each individual segment of the snake
+		Manages each individual segment of the snake
 	*/
 	class Segment {
 	public:
@@ -24,12 +24,11 @@ private:
 		void follow(const Segment& next);
 		void move(const Vec2_<int>& direction, Board & brd);
 
-		const Vec2_<int>& getLocation() const;
-		Vec2_<int>& getLocation();
+		const Vec2_<int> getLocation() const;
 		void draw(Board& brd) const;
 
 	private:
-		Vec2_<int> location;	// tile
+		Vec2_<int> location;	// tile units
 	};
 
 public:
@@ -49,6 +48,7 @@ public:
 
 private:
 	Vec2_<int> getNextDirection() const;
+
 public:
 	static constexpr int MaxSpeed = 9;
 	static constexpr int MinSpeed = 1;
@@ -61,7 +61,7 @@ private:
 	Vec2_<int> nextDirection = {DIR_ZERO};	// Direction after reading an input from the keyboard input queue
 
     float movePeriod = 0.375f;
-	int speedLevel = 3;						// Proportional to movePeriod but doesn't have a continuous function f(speedLevel) = movePeriod
+	int speedLevel = 3;						// Proportional to movePeriod. Works as a discontinuous function f(speedLevel) = movePeriod
 
     std::chrono::steady_clock::time_point lastMoved = std::chrono::steady_clock::now(); 
 	// Stores point in time when snake last moved and uses this to determine if enough time has passed 

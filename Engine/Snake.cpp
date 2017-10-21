@@ -286,27 +286,15 @@ void Snake::Segment::draw(Board & brd) const
 }
 
 /**
-    const segment location getter
+    segment location getter
 
-    @return const reference location of segment
+    @return location location of segment
 */
 
-const Vec2_<int>& Snake::Segment::getLocation() const
+const Vec2_<int> Snake::Segment::getLocation() const
 {
 	return location;
 }
-
-/**
-	segment location getter
-
-	@return reference location of segment
-*/
-
-Vec2_<int>& Snake::Segment::getLocation()
-{
-	return location;
-}
-
 
 
 
