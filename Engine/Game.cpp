@@ -150,6 +150,9 @@ void Game::updateGame()
 		if (e.IsPress()) {
 			if (isGameOver) {
 				if (e.GetCode() == VK_ESCAPE || e.GetCode() == VK_RETURN) {
+					if (score > topScore) {
+						topScore = score;
+					}
 					menu.returnToMenu();
 					gameReset();
 					return;
