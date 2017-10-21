@@ -20,7 +20,6 @@ void Snake::reset()
 	}
     foodEaten = 0;    
     direction = { 0, 0 };
-    moveBuffered = false;
 }
 
 /**
@@ -31,12 +30,17 @@ void Snake::reset()
 */
 void Snake::move(const Vec2_<int> & direction, Board & brd)
 {
-    for (int i = (int)segments.size() - 1; i > 0; --i) {
-        segments[i].follow(segments[i - 1]);
-    }
+	for (int i = (int)segments.size() - 1; i > 0; --i) {
+		segments[i].follow(segments[i - 1]);
+	}
+	Vec2_<int> dir = getNextDirection();
 
-    segments[0].move(direction, brd);
-    lastMoved = std::chrono::steady_clock::now(); 
+	if (!bufferedMoves.empty()) {
+		bufferedMoves.pop_front();
+	}
+
+	segments[0].move(dir, brd);
+	lastMoved = std::chrono::steady_clock::now();
 }
 
 /**
@@ -56,20 +60,22 @@ void Snake::grow()
 */
 Vec2_<int> Snake::getNextHeadLocation(const Vec2_<int> direction) const
 {
+	Vec2_<int> dir = getNextDirection();
 	Vec2_<int> l(segments.front().getLocation());
-	l = l+(direction);
+	l = l+(dir);
 	return l;
+}
+
+Vec2_<int> Snake::getDirection() const
+{
+	return direction;
 }
 
 /**
     Resets moveBuffer
 */
-void Snake::resetMoveBuffer()
-{
-    moveBuffered = false;
-}
 
-int Snake::getFoodEaten()
+int Snake::getFoodEaten() const
 {
     return foodEaten;
 }
@@ -137,6 +143,19 @@ void Snake::cacheDirection()
     lastDirection = direction;
 }
 
+Vec2_<int> Snake::getNextDirection() const
+{
+	Vec2_<int> dir;
+	if (!bufferedMoves.empty()) {
+		dir = bufferedMoves.front();
+	}
+	else {
+		dir = direction;
+	}
+
+	return dir;
+}
+
 /**
     Draws all of the snake's segments to the board
 
@@ -176,39 +195,28 @@ void Snake::draw(Board & brd) const {
     @param kbd Keyboard processor
     @return direction where the snake is about to move
 */
-Vec2_<int> Snake::getNextDirection(Keyboard & kbd)
+void Snake::handleKeyboardPressEvent(const Keyboard::Event e)
 {
-    if(!moveBuffered) {
-        if (kbd.KeyIsPressed(VK_UP) || kbd.KeyIsPressed(0x57)) { // W
-            if (!(direction.x == 0 && direction.y == 1) && !moveBuffered) {
-                direction = { 0, -1 };
-                moveBuffered = true;
-            }
-        }
-        else if (kbd.KeyIsPressed(VK_LEFT) || kbd.KeyIsPressed(0x41)) { // A
-            if (!(direction.x == 1 && direction.y == 0) && !moveBuffered) {
-                direction = { -1, 0 };
-                moveBuffered = true;
-            }
+	assert(e.IsPress());
 
-        }
-        else if (kbd.KeyIsPressed(VK_DOWN) || kbd.KeyIsPressed(0x53)) { // S
-            if (!(direction.x == 0 && direction.y == -1) && !moveBuffered) {
-                direction = { 0, 1 };
-                moveBuffered = true;
-            }
-
-        }
-        else if (kbd.KeyIsPressed(VK_RIGHT) || kbd.KeyIsPressed(0x44)) { // D
-            if (!(direction.x == -1 && direction.y == 0) && !moveBuffered) {
-                direction = { 1, 0 };
-                moveBuffered = true;
-            }
-        }
-    }
+	if (e.GetCode() == (VK_UP) || e.GetCode() == ('W')) {
+		direction = { 0, -1 };		
+	}
+	else if (e.GetCode() == (VK_LEFT) || e.GetCode() == ('A')) {
+		direction = { -1, 0 };
+	}
+	else if (e.GetCode() == (VK_DOWN) || e.GetCode() == ('S')) {
+		direction = { 0, 1 };
+	}
+	else if (e.GetCode() == (VK_RIGHT) || e.GetCode() == ('D')) {
+		direction = { 1, 0 };
+	}
 
 
-    return direction;
+	if (bufferedMoves.empty() || (direction != -bufferedMoves.back() && direction != bufferedMoves.back())) {
+		bufferedMoves.push_back(direction);
+	}
+	
 }
 
 /**

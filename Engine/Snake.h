@@ -19,7 +19,6 @@ private:
 	*/
 	class Segment {
 	public:
-		Segment() = default;
 		Segment(const Vec2_<int>& tileLocation);
 
 		void follow(const Segment& next);
@@ -28,8 +27,9 @@ private:
 		const Vec2_<int>& getLocation() const;
 		Vec2_<int>& getLocation();
 		void draw(Board& brd) const;
+
 	private:
-		Vec2_<int> location;
+		Vec2_<int> location;	// tile
 	};
 
 public:
@@ -37,19 +37,24 @@ public:
     void reset();
     void move( const Vec2_<int>& direction, Board & brd);
     void grow();
-    void draw(Board& brd) const;
-    Vec2_<int> getNextDirection(Keyboard& kbd);
-    bool isInLocation(const Vec2_<int>& loc) const;
-    Vec2_<int> getNextHeadLocation(const Vec2_<int> direction) const;
-    void resetMoveBuffer();
-    int getFoodEaten();
-	int getSpeed() const;
 	void setSpeed(int speed);
+	void handleKeyboardPressEvent(const Keyboard::Event e);
+
+	bool isInLocation(const Vec2_<int>& loc) const;
+	Vec2_<int> getNextHeadLocation(const Vec2_<int> direction) const;
+	Vec2_<int> getDirection() const;
+	int getFoodEaten() const;
+	int getSpeed() const;
+    void draw(Board& brd) const;
+
     void incFoodEaten();
     void resetFoodEaten();
     bool isTurnToMove(std::chrono::steady_clock::time_point now) const;
     void cacheDirection();
 
+private:
+	Vec2_<int> getNextDirection() const;
+public:
 	static constexpr int MaxSpeed = 9;
 	static constexpr int MinSpeed = 1;
 
@@ -61,7 +66,9 @@ private:
 
     bool moveBuffered = false;     //  Used to store next move in memory even if idleLimit has not passed yet. 
 								   //  Allows smoother snake control
+	std::deque<Vec2_<int>> bufferedMoves;
     Vec2_<int> direction = { 0, 0 };
+	Vec2_<int> nextDirection = { 0, 0 };
     Vec2_<int> lastDirection = { 0, 0 };
 
     float movePeriod = 0.375f;

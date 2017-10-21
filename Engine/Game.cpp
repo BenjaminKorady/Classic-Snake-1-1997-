@@ -166,7 +166,6 @@ void Game::updateGame()
 	if (!isGameOver) {
 		const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
 
-		// Check for game pause
 		while (!wnd.kbd.KeyIsEmpty()) {
 			const Keyboard::Event e = wnd.kbd.ReadKey();
 			if (e.IsPress()) {
@@ -178,10 +177,12 @@ void Game::updateGame()
 					snek.cacheDirection();
 					return;
 				}
+				snek.handleKeyboardPressEvent(e);
 			}
 		}
+		
+		direction = snek.getDirection();
 
-		direction = snek.getNextDirection(wnd.kbd);
 		Vec2_<int> zero(0, 0);
 		if (direction != zero) {
 			//  If has been idle long enough to move (This manages the snake's speed)
@@ -193,10 +194,8 @@ void Game::updateGame()
 					if (nextLocation == nom.getLocation()) {
 						snek.grow();
 						nom.respawn(snek);
-						nom.draw(brd);
 						snek.incFoodEaten();
 					}
-					snek.resetMoveBuffer();
 					snek.move(direction, brd);
 				}
 
