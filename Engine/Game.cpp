@@ -185,7 +185,7 @@ void Game::updateGame()
 		if (snek.getDirection() != Vec2_<int>(DIR_ZERO) ) {
 			//  If has been idle long enough to move (This manages the snake's speed)
 			if (snek.isTurnToMove(now)) {
-				Vec2_<int> nextLocation = snek.getNextHeadLocation(direction);
+				Vec2_<int> nextLocation = snek.getNextHeadLocation();
 				//  If snake is not about to collide with the board or its body
 				if (brd.isInsideBoard(nextLocation) && !snek.isInLocation(nextLocation)) {
 					//  If snake is about to eat food
@@ -194,12 +194,11 @@ void Game::updateGame()
 						nom.respawn(snek);
 						snek.incFoodEaten();
 					}
-					snek.move(direction, brd);
+					snek.move(brd);
 				}
 
 				// Snake dies
 				else {
-					direction = { 0, 0 };
 					isGameOver = true;
 					if (menu.hasItem(Menu::Item::Continue)) {
 						menu.removeItem(Menu::Item::Continue);

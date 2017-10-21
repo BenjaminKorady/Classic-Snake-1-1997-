@@ -56,22 +56,25 @@ public:
 private:
 	void ComposeFrame();
 	void UpdateModel();
+
+
     void drawBackground();
     void drawGameOver();
     void gameReset();
     void updateGame();
 
+private:
+	bool isGameOver = false;
+	int topScore = 0;
+
 	MainWindow& wnd;
 	Graphics gfx;
 	Board brd;
-	bool isGameOver = false;
     Color bgColor;
     Snake snek;
     Snake snekCache;
     Food nom;
     Food nomCache;
-	Vec2_<int> direction = { 1, 0 };     //  Directional vector. Default is { 1, 0 } (right)
     Menu menu;
-    int menuSelection = -1;
-    int topScore = 0;
+
 };

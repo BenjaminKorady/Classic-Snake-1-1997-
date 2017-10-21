@@ -35,13 +35,13 @@ private:
 public:
     Snake();
     void reset();
-    void move( const Vec2_<int>& direction, Board & brd);
+    void move(Board & brd);
     void grow();
 	void setSpeed(int speed);
 	void handleKeyboardPressEvent(const Keyboard::Event e);
 
 	bool isInLocation(const Vec2_<int>& loc) const;
-	Vec2_<int> getNextHeadLocation(const Vec2_<int> direction) const;
+	Vec2_<int> getNextHeadLocation() const;
 	Vec2_<int> getDirection() const;
 	int getFoodEaten() const;
 	int getSpeed() const;

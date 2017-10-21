@@ -29,7 +29,7 @@ void Snake::reset()
     @param direction directional vector stating where the snake is to move
     @param brd Board object reference on which the snake is to move
 */
-void Snake::move(const Vec2_<int> & direction, Board & brd)
+void Snake::move(Board & brd)
 {
 	for (int i = (int)segments.size() - 1; i > 0; --i) {
 		segments[i].follow(segments[i - 1]);
@@ -59,7 +59,7 @@ void Snake::grow()
     @param direction directional vector stating where the snake is to move
     @return The next position of the snake's head
 */
-Vec2_<int> Snake::getNextHeadLocation(const Vec2_<int> direction) const
+Vec2_<int> Snake::getNextHeadLocation() const
 {
 	Vec2_<int> dir = getNextDirection();
 	Vec2_<int> l(segments.front().getLocation());
