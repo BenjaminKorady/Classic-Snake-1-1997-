@@ -196,19 +196,24 @@ void Snake::handleKeyboardPressEvent(const Keyboard::Event e)
 {
 	assert(e.IsPress());
 
+	Vec2_<int> newDirection;
+
 	if (e.GetCode() == (VK_UP) || e.GetCode() == ('W')) {
-		direction = { 0, -1 };		
+		newDirection = { 0, -1 };		
 	}
 	else if (e.GetCode() == (VK_LEFT) || e.GetCode() == ('A')) {
-		direction = { -1, 0 };
+		newDirection = { -1, 0 };
 	}
 	else if (e.GetCode() == (VK_DOWN) || e.GetCode() == ('S')) {
-		direction = { 0, 1 };
+		newDirection = { 0, 1 };
 	}
 	else if (e.GetCode() == (VK_RIGHT) || e.GetCode() == ('D')) {
-		direction = { 1, 0 };
+		newDirection = { 1, 0 };
 	}
 
+	if (newDirection != -direction) {
+		direction = newDirection;
+	}
 
 	if (bufferedMoves.empty() || (direction != -bufferedMoves.back() && direction != bufferedMoves.back())) {
 		bufferedMoves.push_back(direction);
