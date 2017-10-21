@@ -205,8 +205,8 @@ bool Board::isInsideBoard(const Vec2_<int> loc) const
 {
 	return
 		loc.x >= 0 &&
-		loc.x < LP_WIDTH - 1 &&
+		loc.x < Grid::WIDTH &&
 		loc.y >= 0 &&
-		loc.y < LP_HEIGHT - 1;
+		loc.y < Grid::HEIGHT;
 	
 }
