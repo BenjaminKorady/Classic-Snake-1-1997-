@@ -80,6 +80,7 @@ private:
 	static constexpr int CONFIRM_BUTTON_Y = 39;
 	static constexpr int RIGHT_SIDE_OFFSET = 4;	// The remaining space is reserved for the scrollbar
 
+
 // Instructions specific values
 private:
 	const std::string instructions = "Make the snake grow longer by directing it to the food. Use the arrow keys or W, A, S, and D. You cannot stop the snake or make it go backwards. Try not to hit the walls or the tail.\n";

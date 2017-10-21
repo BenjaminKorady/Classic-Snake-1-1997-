@@ -35,9 +35,9 @@ public:
 	bool isInsideBoard(const Vec2_<int> location) const;
 	void drawString(Vec2_<int> location, std::string input, const bool invert) const;
 	void drawLargePixel(const Vec2_<int>& location, int pixelSpacing = DEFAULT_PIXEL_SPACING) const;
-	void drawLargePixelRectangle(const Vec2_<int>& location, const int width, const int height, int pixelSpacing) const;
-    void clearLargePixel(const Vec2_<int>& location, int pixelSpacing) const;
-    void clearLargePixelRectangle(const Vec2_<int>& location, const int width, const int height, int pixelSpacing) const;
+	void drawLargePixelRectangle(const Vec2_<int>& location, const int width, const int height, int pixelSpacing = DEFAULT_PIXEL_SPACING) const;
+    void clearLargePixel(const Vec2_<int>& location, int pixelSpacing = DEFAULT_PIXEL_SPACING) const;
+    void clearLargePixelRectangle(const Vec2_<int>& location, const int width, const int height, int pixelSpacing = DEFAULT_PIXEL_SPACING) const;
 
 	static int getWidth();
 	static int getHeight();

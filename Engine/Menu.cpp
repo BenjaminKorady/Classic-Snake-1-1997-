@@ -40,9 +40,16 @@ void Menu::draw() const
 	drawConfirmButton("Select");
 
 	int scrollbarPos = ((brd.LP_HEIGHT - SCROLLBAR_HEIGHT) / (int)items.size()) * ((getHighlightedItemIndex()) % ((int)items.size()));
-    drawScrollbar(scrollbarPos);
-}
+    drawScrollbar(scrollbarPos);	// Draw scrollbar at position relative to the index of highlighted item
+									// i.e., index 0 -> draw at top, index [last] -> draw at bottom
+}			
 
+/**
+	Checks whether or not an item is already in the menu
+
+	@param itemIn an item to look for
+	@return bool
+*/
 bool Menu::hasItem(Item itemIn) const
 {
 	for (Item i : items) {
@@ -53,6 +60,13 @@ bool Menu::hasItem(Item itemIn) const
 	return false;
 }
 
+/**
+	Draws the name of the menu item onto the screen (e.g. "New game")
+
+	@param itemIn item to draw the name of
+	@param position position of item, either 0, 1, or 2 (top, middle, bottom)
+	@param isHighlighted highlighted item has inverted colors to signify it is the current selection
+*/
 void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
 {
 	assert(position >= 0);
@@ -60,21 +74,24 @@ void Menu::drawItemName(Item itemIn, int position, bool isHighlighted) const
 
 	Vec2_<int> pos[SHOWN_ITEMS];
 	for (int i = 0; i < SHOWN_ITEMS; ++i) {
-		pos[i] = { LINE_START_X, LINE_START_Y + i*LINE_Y_SPACING };
+		pos[i] = { LINE_START_X, LINE_START_Y + i*LINE_Y_SPACING };	// Draws menu items at pos[0], pos[1], pos[2]. Each separated by defined LINE_Y_SPACING
 	}
 
     brd.drawString(pos[position], getItemString(itemIn), isHighlighted);
 }
 
+/**
+	Handles keyboard input to navigate through the menu
+*/
 void Menu::navigate()
 { 
     while (!kbd.KeyIsEmpty()) {
         const Keyboard::Event e = kbd.ReadKey();
 		if (e.IsPress()) {
 			if (e.GetCode() == (VK_UP) || e.GetCode() == ('W')) {
-				if (highlightedItemNumber != 0) {
-					--highlightedItemNumber;
-				}
+				if (highlightedItemNumber != 0) {		// If scrolling through the current view of the menu, only change the highlighted item number (0, 1, or 2)
+					--highlightedItemNumber;			// Otherwise the whole menu view window has to shift (the top item swaps to a different item)
+				}										// And wraps around if a boundary has been reached
 				else {
 					topItemIndex = topItemIndex == 0 ? (int)items.size() - 1 : topItemIndex - 1;
 				}
@@ -95,6 +112,11 @@ void Menu::navigate()
     }   
 }
 
+/**
+	Handles keyboard input to navigate through the instructions menu item
+	This function only changes the position of the scrollbar, which is later used in the draw function
+	to determine which line of the instructions is to be drawn
+*/
 void Menu::navigateInstructions()
 {
 	while (!kbd.KeyIsEmpty()) {
@@ -122,6 +144,12 @@ void Menu::navigateInstructions()
 
 }
 
+/**
+	Handles keyboard input to navigate through the Level menu item
+	Allows to change the difficulty / snake speed
+
+	@param snek Snake of which the speed is to be altered
+*/
 void Menu::navigateLevel(Snake & snek)
 {
 	while (!kbd.KeyIsEmpty()) {
@@ -146,26 +174,37 @@ void Menu::navigateLevel(Snake & snek)
 	}
 }
 
+/**
+	Draws the scrollbar on the right side of the screen while in the main menu and Instructions
+
+	@param height Height in pixels at which the top side of the scrollbar is to be drawn
+*/
 void Menu::drawScrollbar(int height) const
 {
-    constexpr int PIXEL_SPACING = 1;
     constexpr int RIGHT_OFFSET_X = 1;
 	constexpr int TOP_OFFSET_Y = 1;
 
-    Vec2_<int> sideBarSelectorPos = { brd.LP_WIDTH - RIGHT_OFFSET_X, height };
+    Vec2_<int> scrollbarPos = { brd.LP_WIDTH - RIGHT_OFFSET_X, height };
 
 	{			
-		brd.drawLargePixelRectangle({ sideBarSelectorPos.x, TOP_OFFSET_Y }, 1, brd.LP_HEIGHT - 1, PIXEL_SPACING);
-		brd.clearLargePixelRectangle(sideBarSelectorPos, 1, SCROLLBAR_HEIGHT, PIXEL_SPACING);
-		brd.drawLargePixel({ sideBarSelectorPos.x, sideBarSelectorPos.y }, PIXEL_SPACING);
-		brd.drawLargePixel({ sideBarSelectorPos.x + 1, sideBarSelectorPos.y }, PIXEL_SPACING);
-		brd.drawLargePixelRectangle({ sideBarSelectorPos.x + 2, sideBarSelectorPos.y + 1 }, 1, SCROLLBAR_HEIGHT - 1, PIXEL_SPACING);
-		brd.drawLargePixel({ sideBarSelectorPos.x + 1, sideBarSelectorPos.y + SCROLLBAR_HEIGHT }, PIXEL_SPACING);
-		brd.drawLargePixel({ sideBarSelectorPos.x, sideBarSelectorPos.y + SCROLLBAR_HEIGHT }, PIXEL_SPACING);
+		// RECTANGLE					// Location: X												// Width	// Height
+		brd.drawLargePixelRectangle(	{ scrollbarPos.x, TOP_OFFSET_Y },							1,			brd.LP_HEIGHT - 1	 );
+		brd.clearLargePixelRectangle(	{ scrollbarPos.x, scrollbarPos.y},							1,			SCROLLBAR_HEIGHT	 );
+		brd.drawLargePixelRectangle(	{ scrollbarPos.x + 2, scrollbarPos.y + 1 },					1,			SCROLLBAR_HEIGHT - 1 );
+		// LARGE PIXEL					// Location													--------	---------
+		brd.drawLargePixel(				{ scrollbarPos.x, scrollbarPos.y }							);
+		brd.drawLargePixel(				{ scrollbarPos.x + 1, scrollbarPos.y }						);
+		brd.drawLargePixel(				{ scrollbarPos.x + 1, scrollbarPos.y + SCROLLBAR_HEIGHT }	);
+		brd.drawLargePixel(				{ scrollbarPos.x, scrollbarPos.y + SCROLLBAR_HEIGHT }		);
 	}
-
 }
 
+/**
+	Returns a string storing the name of the input item
+
+	@param itemIn 
+	@return std::string stringified name of the enum class Menu::Item
+*/
 std::string Menu::getItemString(const Item & itemIn) const
 {
 	switch (itemIn) {
@@ -179,6 +218,9 @@ std::string Menu::getItemString(const Item & itemIn) const
 	}
 }
 
+/**
+	
+*/
 Menu::Item Menu::getSelectedItem() const
 {
 	return selectedItem;
