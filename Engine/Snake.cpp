@@ -191,6 +191,7 @@ void Snake::draw(Board & brd) const {
 
     @param e Key press event
 */
+
 void Snake::handleKeyPressEvent(const Keyboard::Event e)
 {
 	assert(e.IsPress());
@@ -209,6 +210,10 @@ void Snake::handleKeyPressEvent(const Keyboard::Event e)
 	else if (e.GetCode() == (VK_RIGHT) || e.GetCode() == ('D')) {
 		newDirection = {DIR_RIGHT};
 	}
+	else {
+		newDirection = direction;
+	}
+	
 
 	if (newDirection != -direction) {	// Only use new input if snake isn't trying to walk into itself 
 		direction = newDirection;		// Otherwise use old direction
