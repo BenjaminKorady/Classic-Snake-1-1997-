@@ -1,6 +1,6 @@
 /**
 	Manages the letters drawn onto the board
-	Mainly maps the letters to a binary value which is later used to draw black(true) / green(false) pixels
+	Mainly maps the letters to a binary value which is later used to draw black(true) or green(false) pixels
 
 	@author: Benjamin Korady
 	@version: 1.1   22/10/2017
@@ -21,8 +21,9 @@ public:
 
 public:
 	static constexpr int MAX_WIDTH = 8;
+	static constexpr int height = 8;
+
     int width;
-    static constexpr int height = 8;
     char value;
     __int64 map;
 
