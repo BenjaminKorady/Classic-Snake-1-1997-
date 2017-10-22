@@ -21,12 +21,12 @@ public:
 
 public:
 	static constexpr int MAX_WIDTH = 8;
-	static constexpr int height = 8;
+	    static constexpr int height = 8;
 
     int width;
     char value;
-    __int64 map;
+    unsigned __int64 map;
 
 private:
-	void set(int widthIn, __int64 bin);
+	void set(int widthIn, unsigned __int64 bin);
 };
