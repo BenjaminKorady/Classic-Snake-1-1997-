@@ -310,9 +310,13 @@ void Menu::drawInstructions() const
 		}
 	}
 
-	float currentScrollbarPos = (float(brd.LP_HEIGHT - SCROLLBAR_HEIGHT) / (float)instructionsLines.size()) * ((scrollbarPos) % ((int)instructionsLines.size()));
+	float currentScrollbarPos = (float(brd.LP_HEIGHT - SCROLLBAR_HEIGHT)	// Border height excluding scrollbar
+								/ (float)instructionsLines.size())			// Divide that distance by lines to split it into the same amount of parts as there are lines
+																			// This gives the distance between adjacent scrollbar height differences
+								* (scrollbarPos);							// Multiply the whole thing by the position of the scrollBar to get the scrollbarPos-th segment
     drawScrollbar((int)currentScrollbarPos);
 }
+
 
 void Menu::drawLevel(Snake& snek) const
 {
