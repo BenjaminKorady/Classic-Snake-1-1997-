@@ -54,7 +54,6 @@ private:
 	static constexpr int LP_OFFSET_X = 2;
 	static constexpr int LP_OFFSET_Y = 2;
 
-
 private:
     Color bgColor;
 	Color pxColor;
