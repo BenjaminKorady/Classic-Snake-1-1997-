@@ -316,53 +316,81 @@ void Menu::drawInstructions() const
 								* (scrollbarPos);							// Multiply the whole thing by the position of the scrollBar to get the scrollbarPos-th segment
     drawScrollbar((int)currentScrollbarPos);
 }
+/**
+	Draws the level menu item
 
+	@param snek Snake object of which the current speed level is read from
+*/
 
 void Menu::drawLevel(Snake& snek) const
 {
     brd.drawString({ LINE_START_X, LINE_START_Y }, "Level:", false);
 
     for (int i = 0; i < snek.getSpeed(); ++i) {
-        drawLevelBar(i, true);
+        drawLevelBar(i, true);		// Draw full bars
     }
     for (int i = snek.getSpeed(); i < Snake::MaxSpeed; ++i) {
-        drawLevelBar(i, false);
+        drawLevelBar(i, false);		// Draw empty bars
     }
 
 	drawConfirmButton("Accept");
 }
 
+/**
+	Draws a bar for the Level menu item
+
+	@param barNum The number of the bar to be drawn (1-9)
+	@param fill Whether or not the bar should be drawn filled or empty
+*/
 void Menu::drawLevelBar(int barNum, bool fill) const
 {
-    const int PIXEL_SPACING = 1;
-    const int X_LEFT = 2;
-    const int Y_LOW = 36;
-    const int BAR_X_SPACING = 3;
-    const int BAR_Y_SPACING = 2;
-    const int BAR_WIDTH = 5;
-    const int BAR_HEIGHT = 9;
+	assert(barNum >= Snake::MinSpeed);
+	assert(barNum <= Snake::MaxSpeed);
 
-    brd.drawLargePixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum, Y_LOW - BAR_HEIGHT - BAR_Y_SPACING*barNum }, 1, BAR_HEIGHT + BAR_Y_SPACING*barNum, PIXEL_SPACING);
-    brd.drawLargePixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum + 1, Y_LOW - BAR_HEIGHT - BAR_Y_SPACING*barNum }, BAR_WIDTH - 1, 1, PIXEL_SPACING);
+    static constexpr int X_LEFT = 2;
+    static constexpr int Y_BOTTOM = 36;
+    static constexpr int BAR_X_SPACING = 3;
+    static constexpr int BAR_Y_SPACING = 2;
+    static constexpr int BAR_WIDTH = 5;
+    static constexpr int BAR_HEIGHT = 9;
+
+	// -Draws empty bars-				// Location X										// Location Y									// Width		// Height
+    brd.drawLargePixelRectangle(		{ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum	 ,	Y_BOTTOM - BAR_HEIGHT - BAR_Y_SPACING*barNum },	1,				BAR_HEIGHT + BAR_Y_SPACING*barNum);
+    brd.drawLargePixelRectangle(		{ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum + 1,	Y_BOTTOM - BAR_HEIGHT - BAR_Y_SPACING*barNum },	BAR_WIDTH - 1,	1								 );
     
-    for (int y = Y_LOW; y < Y_LOW + BAR_HEIGHT + BAR_Y_SPACING*barNum; y += 2) {
+	// -Draws the fill for the bars-
+    for (int y = Y_BOTTOM; y < Y_BOTTOM + BAR_HEIGHT + BAR_Y_SPACING*barNum; y += 2) {
         if (fill) {
-            brd.drawLargePixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum + 1, y - BAR_HEIGHT - BAR_Y_SPACING*barNum }, BAR_WIDTH - 1, 1, PIXEL_SPACING);
+            brd.drawLargePixelRectangle({ X_LEFT + (BAR_X_SPACING + BAR_WIDTH)*barNum + 1,  y - BAR_HEIGHT - BAR_Y_SPACING*barNum	  },	BAR_WIDTH - 1, 1);
         }
     }
 }
 
+/**
+	Draws a confirmation button (Shown at the bottom of the screen ("Accept", or "Select"))
+
+	@param label The text that should be drawn at the button's position
+*/
 void Menu::drawConfirmButton(std::string label) const
 {
 	const int CONFIRM_WIDTH = LetterMap::getStringWidth(label, Board::LETTER_SPACING);
 	brd.drawString({ (Board::LP_WIDTH - RIGHT_SIDE_OFFSET - CONFIRM_WIDTH) / 2, CONFIRM_BUTTON_Y }, label, false);
+	// Use the label's width to center the string
 }
 
+/**
+	Returns the index of currently highlighted menu item
+
+	@return int
+*/
 int Menu::getHighlightedItemIndex() const
 {
 	return (topItemIndex + highlightedItemNumber) % (int)items.size();
 }
 
+/**
+	Selects the currently highlighted item in the menu 
+*/
 void Menu::confirmSelection()
 {
 	selectedItem = items[getHighlightedItemIndex()];	
