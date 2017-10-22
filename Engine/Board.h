@@ -2,7 +2,7 @@
 Manages the gaming board
 
 @author: Benjamin Korady
-@version: 1.0   11/02/2017
+@version: 1.1   22/10/2017
 */
 #pragma once
 
@@ -14,9 +14,9 @@ Manages the gaming board
 class Board {
 public:
 	struct LargePixel {
-		static const int DRAWN_SIZE = 7; // pixels
-		static const int SPACING = 2; // pixels
-		static const int SIZE = DRAWN_SIZE + SPACING; // pixels
+		static const int DRAWN_SIZE = 7;				// pixels
+		static const int SPACING = 2;					// pixels
+		static const int SIZE = DRAWN_SIZE + SPACING;	// pixels
 	};
 	struct Tile {
 		static constexpr int SIZE = 3;		// large pixels

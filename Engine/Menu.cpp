@@ -344,8 +344,8 @@ void Menu::drawLevel(Snake& snek) const
 */
 void Menu::drawLevelBar(int barNum, bool fill) const
 {
-	assert(barNum >= Snake::MinSpeed);
-	assert(barNum <= Snake::MaxSpeed);
+	assert(barNum >= Snake::MinSpeed-1);
+	assert(barNum <= Snake::MaxSpeed-1);
 
     static constexpr int X_LEFT = 2;
     static constexpr int Y_BOTTOM = 36;

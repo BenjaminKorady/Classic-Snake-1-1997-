@@ -1,3 +1,7 @@
+#include "Board.h"
+#include <assert.h>
+#include "LetterMap.h"
+
 /**
 Constructs a game board object
 Initializes background color to light green and pixel color to dark green / black
@@ -5,9 +9,6 @@ Initializes background color to light green and pixel color to dark green / blac
 @param gfx
 Graphics processor reference
 */
-#include "Board.h"
-#include <assert.h>
-#include "LetterMap.h"
 
 Board::Board(Graphics & gfx)
 	:
@@ -19,21 +20,27 @@ Board::Board(Graphics & gfx)
 }
 
 /**
-    Draws a large pixel to the screen (9 pc monitor pixels = 1 phone screen pixel)
+    Draws a large pixel to the screen (9 pc monitor pixels = 1 phone screen pixel, including offset)
     http://i.imgur.com/RkFVcAk.png
 
-    @param loc
+    @param loc Location in Large Pixel units
+	@param pixelSpacing Optional spacing between pixels (defaults to 1)
     The location on the screen where the pixel is to be drawn
 */
 void Board::drawLargePixel(const Vec2_<int> & loc, int pixelSpacing) const
 {
+	assert(loc.x >= 0);
+	assert(loc.x < LP_WIDTH + LP_OFFSET_X);
+	assert(loc.y >= 0);
+	assert(loc.y < LP_HEIGHT + LP_OFFSET_Y);
+
 	const int unusedPixelsX = Graphics::ScreenWidth - getWidth();
 	const int unusedPixelsY = Graphics::ScreenHeight - getHeight();
 	gfx.DrawRectDim(loc.x * LargePixel::SIZE + unusedPixelsX/2,    //  x position + half of unused pixels to center the board horizontally
                     loc.y * LargePixel::SIZE + unusedPixelsY/2,    //  similarly for y to center the board veritcally
                     LargePixel::SIZE - pixelSpacing,               //  width of the draw pixel - the spacing. So there is a spacing inbetween pixels
                     LargePixel::SIZE - pixelSpacing,               //  similarly for height
-                    pxColor);                                           //  input pixel color
+                    pxColor);                                      //  input pixel color
 }
 
 /**
