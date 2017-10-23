@@ -44,6 +44,7 @@
 #include "Menu.h"
 #include <string>
 #include <chrono>
+#include <fstream>
 
 class Game
 {
@@ -63,6 +64,8 @@ private:
     void drawGameOver();
     void gameReset();
     void updateGame();
+	void saveGame();
+	void loadGame();
 
 private:
 	bool isGameOver = false;
@@ -78,5 +81,5 @@ private:
     Food nom;
     Food nomCache;
     Menu menu;
-
+	std::string saveFile;
 };

@@ -33,13 +33,15 @@ Game::Game(MainWindow& wnd)
 	wnd(wnd),                       //  Window
 	gfx(wnd),                       //  Graphics
 	brd(gfx),                       //  Board
-    snek(),                         //  Snake
-    snekCache(),
-    nom(),                          //  Food
-    nomCache(),
-    menu(brd, snek, nom, wnd.kbd),  //  Menu
-    bgColor(172, 193, 0)            //  Green background color
+	snek(),                         //  Snake
+	snekCache(),
+	nom(),                          //  Food
+	nomCache(),
+	menu(brd, snek, nom, wnd.kbd),  //  Menu
+	bgColor(172, 193, 0),            //  Green background color
+	saveFile("save\\gameSave.snek")
 {
+	loadGame();
 }
 
 /**
@@ -173,6 +175,7 @@ void Game::updateGame()
 					if (score > topScore) {
 						topScore = score;
 					}
+					saveGame();
 					menu.returnToMenu();
 					gameReset();
 					return;
@@ -217,5 +220,50 @@ void Game::updateGame()
 				}
 			}
 		}
+	}
+}
+
+
+/**
+	Saves the top score and last used speed level to a file
+*/
+void Game::saveGame()
+{
+	std::ofstream write(saveFile, std::ofstream::app);
+	if (write.is_open()) {
+		std::string output = "topScore\n" + std::to_string(topScore);
+		write << output;
+		output = "\n\nlevel\n" + std::to_string(snek.getSpeed());
+		write << output;
+	}
+}
+
+/**
+	Loads the top score and last used speed level from a file
+*/
+void Game::loadGame()
+{
+	std::fstream readFile(saveFile);
+	if (readFile.is_open()) {
+		for (std::string line; std::getline(readFile, line); ) {
+			if (line == "topScore") {
+				readFile >> topScore;
+			}
+			else if (line == "level") {
+				int speedIn;
+				readFile >> speedIn;
+				snek.setSpeed(speedIn);
+			}
+			else if (line.empty()) {
+
+			}
+			else {
+				throw std::runtime_error("Bad line in settings file: " + line);
+			}
+		}
+	}
+
+	else {
+		saveGame();
 	}
 }
