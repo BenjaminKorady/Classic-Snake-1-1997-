@@ -23,6 +23,11 @@
 #include "Game.h"
 #include "LetterMap.h"
 
+/**
+	Constructs the main game object
+
+	@param wnd
+*/
 Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),                       //  Window
@@ -37,6 +42,9 @@ Game::Game(MainWindow& wnd)
 {
 }
 
+/**
+	Main game loop, this is looped indefinitely until the application has been closed
+*/
 void Game::Go()
 {
 	gfx.BeginFrame();	
@@ -45,6 +53,9 @@ void Game::Go()
 	gfx.EndFrame();
 }
 
+/**
+	Updates the game logic
+*/
 void Game::UpdateModel()
 {     
 	switch (menu.getSelectedItem()) {
@@ -71,9 +82,11 @@ void Game::UpdateModel()
 		menu.returnToMenuOnReturnKeyPress();
     break;
 	}
-
 }
 
+/**
+	Loads next frame contents into the graphics buffer
+*/
 void Game::ComposeFrame()
 {
     drawBackground();
@@ -109,13 +122,16 @@ void Game::ComposeFrame()
 
 
 /**
-Draws the background fill
+	Draws the background fill
 */
 void Game::drawBackground()
 {
 	gfx.DrawRectDim(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, bgColor);
 }
 
+/**
+	Draws the 3 main game components (Board, Snake, Food)
+*/
 void Game::drawGame()
 {
 	brd.draw();
@@ -124,15 +140,16 @@ void Game::drawGame()
 }
 
 /**
-Draws the game over screen
+	Draws the game over screen
 */
 void Game::drawGameOver()
 {	
-	brd.drawString({ 3, 3 }, "Game over!\nYour score:\n" + std::to_string(score), false);
+	Vec2_<int> defaultPos(3, 3);
+	brd.drawString(defaultPos, "Game over!\nYour score:\n" + std::to_string(score), false);
 }
 
 /**
-Resets the game functionality
+	Resets the game's logic back to default values
 */
 void Game::gameReset()
 {
@@ -142,6 +159,9 @@ void Game::gameReset()
 	score = 0;
 }
 
+/**
+	Main gameplay logic
+*/
 void Game::updateGame()
 {
 	// Handle keyboard input
@@ -158,7 +178,7 @@ void Game::updateGame()
 					return;
 				}
 			}
-			else {
+			else {	// game is running
 				if (e.GetCode() == VK_ESCAPE || e.GetCode() == VK_RETURN) {
 					menu.returnToMenu();
 					if (!menu.hasItem(Menu::Item::Continue)) {
@@ -174,6 +194,7 @@ void Game::updateGame()
 
 	if (!isGameOver) {
 		const auto now = std::chrono::steady_clock::now();								// Store current time
+
 		if (snek.isTurnToMove(now) && snek.getDirection() != Vec2_<int>(DIR_ZERO)) {	
 			Vec2_<int> nextLocation = snek.getNextHeadLocation();						// Check where snake is about to go in its next step
 			if (brd.isInsideBoard(nextLocation) && !snek.isInTile(nextLocation)) {		// Snake is not about to collide with the walls or its body
@@ -184,7 +205,7 @@ void Game::updateGame()
 				}
 				snek.move(brd);
 			}
-			else { // Snake dies
+			else { // Snake collides with a wall / body
 				isGameOver = true;
 				if (menu.hasItem(Menu::Item::Continue)) {
 					menu.removeItem(Menu::Item::Continue);
