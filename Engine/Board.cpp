@@ -155,7 +155,7 @@ void Board::drawString(Vec2_<int> loc, std::string input, const bool invert) con
     LetterMap letterCode;                                                           //  A LetterMap object to keep track of where to draw pixels (See LetterMap class for more information)
 	static constexpr int screenWidthLimit = LP_WIDTH + LETTER_SPACING - RIGHT_SIDE_OFFSET;   //  Boundary of where it is possible to draw
 
-    //  Draws a black rectangle in the background if the string is to be inverted
+    //  Draws a black background if the string is to be inverted
     if (invert) {
         drawLargePixelRectangle({loc.x - 2*LETTER_SPACING, loc.y - LINE_SPACING}, screenWidthLimit, LetterMap::height + 2 * LINE_SPACING);
     }
@@ -171,7 +171,7 @@ void Board::drawString(Vec2_<int> loc, std::string input, const bool invert) con
             goto dontDraw;                                                          //  Skips the drawing part and moves to the next char
         }
         
-        //  Draws the letter based on its mapping stored in LetterMap letterCode
+        //  Draws the letter based on its mapping stored in LetterMap letter code
         if (letterCode.width + loc.x <= screenWidthLimit) {                         //  Checks if the letter is to be drawn within the screen boundaries
             int i = 0;
 			unsigned __int64 currentBit = 0x8000000000000000;	//Start at the left-most-bit (this is equivalent to 0b100000........00 (63 zeros)
@@ -180,7 +180,7 @@ void Board::drawString(Vec2_<int> loc, std::string input, const bool invert) con
                 for (int x = 0; x < letterCode.width; ++x) {                        //  Iterate through the letter's width
                     //  the "map" member variable is an __int64 value where each bit represents a pixel:
                     //  1 = draw a pixel 
-                    //  0 = don't draw
+                    //  0 = don't draw 
                     if (letterCode.map & currentBit) {   // the checked bit position is = 1 -> Draw bit                                   
                         //  If the string is to be inverted, clearLargePixel. Otherwise, drawLargePixel (Since if it was inverted, there is a black background drawn. Therefore, just clear from the background)
                         invert ? clearLargePixel(current) : drawLargePixel(current);    
@@ -202,12 +202,11 @@ void Board::drawString(Vec2_<int> loc, std::string input, const bool invert) con
 
 /**
     Draws the game board and background fill
-
 */
 void Board::draw()  const
 {
     const int PIXEL_SPACING = 1;
-    //Draws grid frame
+    //Draws board frame
 	for (int y = 0; y < LP_HEIGHT; ++y) {
 		for (int x = 0; x < LP_WIDTH; ++x) {
 			Vec2_<int> loc = { x, y };
