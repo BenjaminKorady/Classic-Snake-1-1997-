@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Snake: Board Class Reference</title>
+<title>Classic Snake 1997 (2017 remake): Board Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Snake
+   <div id="projectname">Classic Snake 1997 (2017 remake)
    </div>
   </td>
  </tr>
@@ -59,7 +59,9 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="class_board-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -69,61 +71,62 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="_board_8h_source.html">Board.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_board_1_1_grid.html">Grid</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_board_1_1_large_pixel.html">LargePixel</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_board_1_1_tile.html">Tile</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a46374cb53089d5abbf7609234dca4828"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#a46374cb53089d5abbf7609234dca4828">Board</a> (<a class="el" href="class_graphics.html">Graphics</a> &amp;gfx)</td></tr>
 <tr class="separator:a46374cb53089d5abbf7609234dca4828"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bfb1c528ae857f74b9ff3b3ba8d1911"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#a3bfb1c528ae857f74b9ff3b3ba8d1911">DrawPixel</a> (const <a class="el" href="class_pixel_location.html">PixelLocation</a> &amp;loc)</td></tr>
-<tr class="separator:a3bfb1c528ae857f74b9ff3b3ba8d1911"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13216aad741156a095cf4509026a6649"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#a13216aad741156a095cf4509026a6649">DrawBoard</a> ()</td></tr>
-<tr class="separator:a13216aad741156a095cf4509026a6649"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af00a708a0b6f2744b4494bd0d5fe0221"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#af00a708a0b6f2744b4494bd0d5fe0221">isInsideBoard</a> (const <a class="el" href="class_pixel_location.html">PixelLocation</a> loc) const</td></tr>
-<tr class="separator:af00a708a0b6f2744b4494bd0d5fe0221"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d3679094c432ee171d9f8bdabc72489"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#a6d3679094c432ee171d9f8bdabc72489">draw</a> () const</td></tr>
+<tr class="separator:a6d3679094c432ee171d9f8bdabc72489"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf20c62b2d74b7b19791c6f7a204a4e2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#acf20c62b2d74b7b19791c6f7a204a4e2">isInsideBoard</a> (const <a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; location) const</td></tr>
+<tr class="separator:acf20c62b2d74b7b19791c6f7a204a4e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75208f6465c4cd7be1f34ebaa4789814"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#a75208f6465c4cd7be1f34ebaa4789814">drawString</a> (<a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; location, std::string input, const bool invert) const</td></tr>
+<tr class="separator:a75208f6465c4cd7be1f34ebaa4789814"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0128c1a493c70058b8f6fbe0177c0e10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#a0128c1a493c70058b8f6fbe0177c0e10">drawLargePixel</a> (const <a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; &amp;location, int pixelSpacing=DEFAULT_PIXEL_SPACING) const</td></tr>
+<tr class="separator:a0128c1a493c70058b8f6fbe0177c0e10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18c36276ec7374a2efb83d02dd33fd99"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#a18c36276ec7374a2efb83d02dd33fd99">drawLargePixelRectangle</a> (const <a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; &amp;location, const int width, const int height, int pixelSpacing=DEFAULT_PIXEL_SPACING) const</td></tr>
+<tr class="separator:a18c36276ec7374a2efb83d02dd33fd99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e0357e40768d9b291a2c3df62617641"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#a1e0357e40768d9b291a2c3df62617641">clearLargePixel</a> (const <a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; &amp;location, int pixelSpacing=DEFAULT_PIXEL_SPACING) const</td></tr>
+<tr class="separator:a1e0357e40768d9b291a2c3df62617641"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1978cfe4ff980eafc913e42bc3b2749"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#af1978cfe4ff980eafc913e42bc3b2749">clearLargePixelRectangle</a> (const <a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; &amp;location, const int width, const int height, int pixelSpacing=DEFAULT_PIXEL_SPACING) const</td></tr>
+<tr class="separator:af1978cfe4ff980eafc913e42bc3b2749"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a67905f3b441a8605aeb50d8978415aa0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#a67905f3b441a8605aeb50d8978415aa0">getWidth</a> ()</td></tr>
+<tr class="separator:a67905f3b441a8605aeb50d8978415aa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14466e56568d523e5f4d0d695ccbcce1"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#a14466e56568d523e5f4d0d695ccbcce1">getHeight</a> ()</td></tr>
+<tr class="separator:a14466e56568d523e5f4d0d695ccbcce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d4ed12a2814366f57721800f8c9732a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_board.html#a2d4ed12a2814366f57721800f8c9732a">convertToGridLocation</a> (<a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; tileLocation)</td></tr>
+<tr class="separator:a2d4ed12a2814366f57721800f8c9732a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a492fe7c6d55d277f69dc67c2c08539ac"><td class="memItemLeft" align="right" valign="top"><a id="a492fe7c6d55d277f69dc67c2c08539ac"></a>
-static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>CELLS_X</b> = 20</td></tr>
-<tr class="separator:a492fe7c6d55d277f69dc67c2c08539ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3b92faba492e95825f4018d41a0d977"><td class="memItemLeft" align="right" valign="top"><a id="ad3b92faba492e95825f4018d41a0d977"></a>
-static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>CELLS_Y</b> = 11</td></tr>
-<tr class="separator:ad3b92faba492e95825f4018d41a0d977"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae512439f91443ec636ea6633a72ada06"><td class="memItemLeft" align="right" valign="top"><a id="ae512439f91443ec636ea6633a72ada06"></a>
-static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>SCREEN_WIDTH</b> = Graphics::ScreenWidth</td></tr>
-<tr class="separator:ae512439f91443ec636ea6633a72ada06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdf9873415951e78df3fbae321381fd5"><td class="memItemLeft" align="right" valign="top"><a id="acdf9873415951e78df3fbae321381fd5"></a>
-static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>SCREEN_HEIGHT</b> = Graphics::ScreenHeight</td></tr>
-<tr class="separator:acdf9873415951e78df3fbae321381fd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01a6846968fd31e332f19e1978f27e0d"><td class="memItemLeft" align="right" valign="top"><a id="a01a6846968fd31e332f19e1978f27e0d"></a>
-static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>CELL_SIZE</b> = 3</td></tr>
-<tr class="separator:a01a6846968fd31e332f19e1978f27e0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51e465bda972205b4c2e1e3b0fab6732"><td class="memItemLeft" align="right" valign="top"><a id="a51e465bda972205b4c2e1e3b0fab6732"></a>
-static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>CELL_LARGE_PIXEL_OFFSET</b> = 1</td></tr>
-<tr class="separator:a51e465bda972205b4c2e1e3b0fab6732"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6915825e595c8a98ee5d083212a4f4c8"><td class="memItemLeft" align="right" valign="top"><a id="a6915825e595c8a98ee5d083212a4f4c8"></a>
-static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>CELL_INC_OFFSET</b> = CELL_SIZE + CELL_LARGE_PIXEL_OFFSET</td></tr>
-<tr class="separator:a6915825e595c8a98ee5d083212a4f4c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae781948bea97fe9c0469b10b0f61bf7d"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>GRID_WIDTH</b></td></tr>
-<tr class="separator:ae781948bea97fe9c0469b10b0f61bf7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff34c4b148c4ea0ee9fe7254a529ceee"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>GRID_HEIGHT</b></td></tr>
-<tr class="separator:aff34c4b148c4ea0ee9fe7254a529ceee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a619774ab886154a3d5a74cf98ac42c69"><td class="memItemLeft" align="right" valign="top"><a id="a619774ab886154a3d5a74cf98ac42c69"></a>
-static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>LARGE_PIXEL_DIMENSION</b> = SCREEN_WIDTH / GRID_WIDTH</td></tr>
-<tr class="separator:a619774ab886154a3d5a74cf98ac42c69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9697a8aec0c7287651f758590e286c2"><td class="memItemLeft" align="right" valign="top"><a id="ae9697a8aec0c7287651f758590e286c2"></a>
-static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>LARGE_PIXEL_OFFSET</b> = 2</td></tr>
-<tr class="separator:ae9697a8aec0c7287651f758590e286c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40ede8b5ef707e33c5e5423376ba0680"><td class="memItemLeft" align="right" valign="top"><a id="a40ede8b5ef707e33c5e5423376ba0680"></a>
-static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>unusedPixelsX</b> = SCREEN_WIDTH - (LARGE_PIXEL_DIMENSION) * GRID_WIDTH</td></tr>
-<tr class="separator:a40ede8b5ef707e33c5e5423376ba0680"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e101f3a2d9dc6f1b001bb7764d58ff7"><td class="memItemLeft" align="right" valign="top"><a id="a4e101f3a2d9dc6f1b001bb7764d58ff7"></a>
-static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>unusedPixelsY</b> = SCREEN_HEIGHT - (LARGE_PIXEL_DIMENSION) * GRID_HEIGHT</td></tr>
-<tr class="separator:a4e101f3a2d9dc6f1b001bb7764d58ff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbe6557326ae72a1c48db1b07a0bca9e"><td class="memItemLeft" align="right" valign="top"><a id="acbe6557326ae72a1c48db1b07a0bca9e"></a>
+static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_PIXEL_SPACING</b> = 1</td></tr>
+<tr class="separator:acbe6557326ae72a1c48db1b07a0bca9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7408e65b7843b4af05564b7f5f5600a"><td class="memItemLeft" align="right" valign="top"><a id="aa7408e65b7843b4af05564b7f5f5600a"></a>
+static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>LETTER_SPACING</b> = 1</td></tr>
+<tr class="separator:aa7408e65b7843b4af05564b7f5f5600a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7190d860f3c27bc07ff181e196ea4b2"><td class="memItemLeft" align="right" valign="top"><a id="ac7190d860f3c27bc07ff181e196ea4b2"></a>
+static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>LP_WIDTH</b> = 83</td></tr>
+<tr class="separator:ac7190d860f3c27bc07ff181e196ea4b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad933314e9cc3b3efd6fafe032130e75d"><td class="memItemLeft" align="right" valign="top"><a id="ad933314e9cc3b3efd6fafe032130e75d"></a>
+static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>LP_HEIGHT</b> = 47</td></tr>
+<tr class="separator:ad933314e9cc3b3efd6fafe032130e75d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Manages the gaming board</p>
 <dl class="section author"><dt>Author</dt><dd>: Benjamin Korady </dd></dl>
-<dl class="section version"><dt>Version</dt><dd>: 1.0 11/02/2017 </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>: 1.1 22/10/2017 </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a46374cb53089d5abbf7609234dca4828"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a46374cb53089d5abbf7609234dca4828">&#9670;&nbsp;</a></span>Board()</h2>
@@ -151,17 +154,137 @@ static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>unuse
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a13216aad741156a095cf4509026a6649"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13216aad741156a095cf4509026a6649">&#9670;&nbsp;</a></span>DrawBoard()</h2>
+<a id="a1e0357e40768d9b291a2c3df62617641"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e0357e40768d9b291a2c3df62617641">&#9670;&nbsp;</a></span>clearLargePixel()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Board::DrawBoard </td>
+          <td class="memname">void Board::clearLargePixel </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>loc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pixelSpacing</em> = <code>DEFAULT_PIXEL_SPACING</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Draws a green / background color pixel</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">loc</td><td>The location on the screen where the pixel is to be drawn </td></tr>
+    <tr><td class="paramname">pixelSpacing</td><td>The spacing - optional (in monitor pixels) between each large pixel (defaults to 1) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af1978cfe4ff980eafc913e42bc3b2749"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1978cfe4ff980eafc913e42bc3b2749">&#9670;&nbsp;</a></span>clearLargePixelRectangle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Board::clearLargePixelRectangle </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>locIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pixelSpacing</em> = <code>DEFAULT_PIXEL_SPACING</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Clears a rectangle of large pixels</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">locIn</td><td>The location on the screen where the pixel is to be drawn (top left corner of the rectangle) </td></tr>
+    <tr><td class="paramname">width</td><td>The width of the rectangle to be drawn </td></tr>
+    <tr><td class="paramname">height</td><td>The height of the rectangle to be drawn </td></tr>
+    <tr><td class="paramname">pixelSpacing</td><td>The spacing - optional (in monitor pixels) between each large pixel (defaults to 1) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2d4ed12a2814366f57721800f8c9732a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d4ed12a2814366f57721800f8c9732a">&#9670;&nbsp;</a></span>convertToGridLocation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; Board::convertToGridLocation </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt;&#160;</td>
+          <td class="paramname"><em>tileLocation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Converts a location of a tile (of the grid) to its corresponding top-left corner Large Pixel of the grid (game board)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tileLocation</td><td>The location of the tile in grid-coordinates (tile coordinates) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>gridLocation Location in large pixels on the grid </dd></dl>
+
+</div>
+</div>
+<a id="a6d3679094c432ee171d9f8bdabc72489"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d3679094c432ee171d9f8bdabc72489">&#9670;&nbsp;</a></span>draw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Board::draw </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -169,33 +292,191 @@ static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>unuse
 
 </div>
 </div>
-<a id="a3bfb1c528ae857f74b9ff3b3ba8d1911"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3bfb1c528ae857f74b9ff3b3ba8d1911">&#9670;&nbsp;</a></span>DrawPixel()</h2>
+<a id="a0128c1a493c70058b8f6fbe0177c0e10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0128c1a493c70058b8f6fbe0177c0e10">&#9670;&nbsp;</a></span>drawLargePixel()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Board::DrawPixel </td>
+          <td class="memname">void Board::drawLargePixel </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_pixel_location.html">PixelLocation</a> &amp;&#160;</td>
-          <td class="paramname"><em>loc</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>loc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pixelSpacing</em> = <code>DEFAULT_PIXEL_SPACING</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Draws a large pixel to the screen (9 pc monitor pixels = 1 phone screen pixel) <a href="http://i.imgur.com/RkFVcAk.png">http://i.imgur.com/RkFVcAk.png</a></p>
+<p>Draws a large pixel to the screen (9 pc monitor pixels = 1 phone screen pixel, including offset) <a href="http://i.imgur.com/RkFVcAk.png">http://i.imgur.com/RkFVcAk.png</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">loc</td><td>The location on the screen where the pixel is to be drawn </td></tr>
+    <tr><td class="paramname">loc</td><td>Location in Large Pixel units </td></tr>
+    <tr><td class="paramname">pixelSpacing</td><td>Optional spacing between pixels (defaults to 1) The location on the screen where the pixel is to be drawn </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="af00a708a0b6f2744b4494bd0d5fe0221"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af00a708a0b6f2744b4494bd0d5fe0221">&#9670;&nbsp;</a></span>isInsideBoard()</h2>
+<a id="a18c36276ec7374a2efb83d02dd33fd99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18c36276ec7374a2efb83d02dd33fd99">&#9670;&nbsp;</a></span>drawLargePixelRectangle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Board::drawLargePixelRectangle </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>locIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pixelSpacing</em> = <code>DEFAULT_PIXEL_SPACING</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Draws a rectangle of large pixels</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">locIn</td><td>The location on the screen where the pixel is to be drawn (top left corner of the rectangle) </td></tr>
+    <tr><td class="paramname">width</td><td>The width of the rectangle to be drawn </td></tr>
+    <tr><td class="paramname">height</td><td>The height of the rectangle to be drawn </td></tr>
+    <tr><td class="paramname">pixelSpacing</td><td>The spacing - optional (in monitor pixels) between each large pixel (defaults to 1) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a75208f6465c4cd7be1f34ebaa4789814"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75208f6465c4cd7be1f34ebaa4789814">&#9670;&nbsp;</a></span>drawString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Board::drawString </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt;&#160;</td>
+          <td class="paramname"><em>loc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>invert</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Draws a string to the screen</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">loc</td><td>The location where the string is to be drawn </td></tr>
+    <tr><td class="paramname">input</td><td>The string that is to be drawn </td></tr>
+    <tr><td class="paramname">invert</td><td>invert the pixel colors </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a14466e56568d523e5f4d0d695ccbcce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14466e56568d523e5f4d0d695ccbcce1">&#9670;&nbsp;</a></span>getHeight()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Board::getHeight </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns height of the game board (in monitor pixels)</p>
+<dl class="section return"><dt>Returns</dt><dd>int Height (in monitor pixels) </dd></dl>
+
+</div>
+</div>
+<a id="a67905f3b441a8605aeb50d8978415aa0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67905f3b441a8605aeb50d8978415aa0">&#9670;&nbsp;</a></span>getWidth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Board::getWidth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns width of the game board (in monitor pixels)</p>
+<dl class="section return"><dt>Returns</dt><dd>int Width (in monitor pixels) </dd></dl>
+
+</div>
+</div>
+<a id="acf20c62b2d74b7b19791c6f7a204a4e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf20c62b2d74b7b19791c6f7a204a4e2">&#9670;&nbsp;</a></span>isInsideBoard()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -203,7 +484,7 @@ static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>unuse
         <tr>
           <td class="memname">bool Board::isInsideBoard </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_pixel_location.html">PixelLocation</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt;&#160;</td>
           <td class="paramname"><em>loc</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -220,54 +501,9 @@ static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>unuse
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="aff34c4b148c4ea0ee9fe7254a529ceee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff34c4b148c4ea0ee9fe7254a529ceee">&#9670;&nbsp;</a></span>GRID_HEIGHT</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr int Board::GRID_HEIGHT</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= CELLS_Y * CELL_SIZE + (CELLS_Y - 1) * CELL_LARGE_PIXEL_OFFSET + 2 * CELL_LARGE_PIXEL_OFFSET</div><div class="line">                                       + 2 * CELL_LARGE_PIXEL_OFFSET</div></div><!-- fragment -->
-</div>
-</div>
-<a id="ae781948bea97fe9c0469b10b0f61bf7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae781948bea97fe9c0469b10b0f61bf7d">&#9670;&nbsp;</a></span>GRID_WIDTH</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr int Board::GRID_WIDTH</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= CELLS_X * CELL_SIZE + (CELLS_X-1) * CELL_LARGE_PIXEL_OFFSET + 2 * CELL_LARGE_PIXEL_OFFSET</div><div class="line">                                      + 2 * CELL_LARGE_PIXEL_OFFSET</div></div><!-- fragment -->
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="_board_8h_source.html">Board.h</a></li>
-<li>Board.cpp</li>
+<li>C:/Users/Ben/source/repos/Classic-Snake-1-1997-/Engine/<a class="el" href="_board_8h_source.html">Board.h</a></li>
+<li>C:/Users/Ben/source/repos/Classic-Snake-1-1997-/Engine/Board.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

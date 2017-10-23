@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['board',['Board',['../class_board.html',1,'Board'],['../class_board.html#a46374cb53089d5abbf7609234dca4828',1,'Board::Board()']]]
+  ['additem',['addItem',['../class_menu.html#a231a7324aa00d8559524564f75f28541',1,'Menu']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Snake: Snake Class Reference</title>
+<title>Classic Snake 1997 (2017 remake): Snake Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Snake
+   <div id="projectname">Classic Snake 1997 (2017 remake)
    </div>
   </td>
  </tr>
@@ -67,34 +67,311 @@ $(function() {
 <div class="title">Snake Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_snake_8h_source.html">Snake.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a956bd91b03fb8c0bb2a8787ba653cf8d"><td class="memItemLeft" align="right" valign="top"><a id="a956bd91b03fb8c0bb2a8787ba653cf8d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>moveBy</b> (const <a class="el" href="class_pixel_location.html">PixelLocation</a> &amp;deltaLoc, <a class="el" href="class_board.html">Board</a> &amp;brd)</td></tr>
-<tr class="separator:a956bd91b03fb8c0bb2a8787ba653cf8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a959eeb2c461a36a9e51de931d6917a75"><td class="memItemLeft" align="right" valign="top"><a id="a959eeb2c461a36a9e51de931d6917a75"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>grow</b> ()</td></tr>
+<tr class="memitem:aa9cbcdb4b25d84cbf83509039cac8d01"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_snake.html#aa9cbcdb4b25d84cbf83509039cac8d01">Snake</a> ()</td></tr>
+<tr class="separator:aa9cbcdb4b25d84cbf83509039cac8d01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80d88f3c36fbdc7562f6500a29e5320d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_snake.html#a80d88f3c36fbdc7562f6500a29e5320d">reset</a> ()</td></tr>
+<tr class="separator:a80d88f3c36fbdc7562f6500a29e5320d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0467d2ce0f73c79ba8a083cbb7ffc11e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_snake.html#a0467d2ce0f73c79ba8a083cbb7ffc11e">move</a> (<a class="el" href="class_board.html">Board</a> &amp;brd)</td></tr>
+<tr class="separator:a0467d2ce0f73c79ba8a083cbb7ffc11e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a959eeb2c461a36a9e51de931d6917a75"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_snake.html#a959eeb2c461a36a9e51de931d6917a75">grow</a> ()</td></tr>
 <tr class="separator:a959eeb2c461a36a9e51de931d6917a75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc3035ef6074a4cc8467f36836f8fcfc"><td class="memItemLeft" align="right" valign="top"><a id="adc3035ef6074a4cc8467f36836f8fcfc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>draw</b> (<a class="el" href="class_board.html">Board</a> &amp;brd) const</td></tr>
+<tr class="memitem:a588281a1a35185966b8dd587295e2197"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_snake.html#a588281a1a35185966b8dd587295e2197">setSpeed</a> (int speed)</td></tr>
+<tr class="separator:a588281a1a35185966b8dd587295e2197"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ee6aedc4741af43437641964ca3ed71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_snake.html#a0ee6aedc4741af43437641964ca3ed71">handleKeyPressEvent</a> (const <a class="el" href="class_keyboard_1_1_event.html">Keyboard::Event</a> e)</td></tr>
+<tr class="separator:a0ee6aedc4741af43437641964ca3ed71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cc849d79611903ec776bf8523470c4a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_snake.html#a5cc849d79611903ec776bf8523470c4a">isInTile</a> (const <a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; &amp;tileLocation) const</td></tr>
+<tr class="separator:a5cc849d79611903ec776bf8523470c4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab10deed90dfd909d66aad65943808207"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_snake.html#ab10deed90dfd909d66aad65943808207">getNextHeadLocation</a> () const</td></tr>
+<tr class="separator:ab10deed90dfd909d66aad65943808207"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04982fc163b1e5e7a3dfe2f10f02352b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_snake.html#a04982fc163b1e5e7a3dfe2f10f02352b">getDirection</a> () const</td></tr>
+<tr class="separator:a04982fc163b1e5e7a3dfe2f10f02352b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7772a7b4723a9d9bb14bf415c10fce2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_snake.html#af7772a7b4723a9d9bb14bf415c10fce2">getSpeed</a> () const</td></tr>
+<tr class="separator:af7772a7b4723a9d9bb14bf415c10fce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc3035ef6074a4cc8467f36836f8fcfc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_snake.html#adc3035ef6074a4cc8467f36836f8fcfc">draw</a> (<a class="el" href="class_board.html">Board</a> &amp;brd) const</td></tr>
 <tr class="separator:adc3035ef6074a4cc8467f36836f8fcfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71d9b9edb90aab30269a0fae800a325f"><td class="memItemLeft" align="right" valign="top"><a id="a71d9b9edb90aab30269a0fae800a325f"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isInLocation</b> (const <a class="el" href="class_pixel_location.html">PixelLocation</a> &amp;loc) const</td></tr>
-<tr class="separator:a71d9b9edb90aab30269a0fae800a325f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a470d6d5c440ab7b1261977abeddcbb08"><td class="memItemLeft" align="right" valign="top"><a id="a470d6d5c440ab7b1261977abeddcbb08"></a>
-<a class="el" href="class_pixel_location.html">PixelLocation</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getNextHeadLocation</b> (const <a class="el" href="class_pixel_location.html">PixelLocation</a> deltaLoc) const</td></tr>
-<tr class="separator:a470d6d5c440ab7b1261977abeddcbb08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78829d37e45f9780bac0e57c7c9f5e9c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_snake.html#a78829d37e45f9780bac0e57c7c9f5e9c">isTurnToMove</a> (std::chrono::steady_clock::time_point now) const</td></tr>
+<tr class="separator:a78829d37e45f9780bac0e57c7c9f5e9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a53b9c54b0a9f2e07eee5d06b481839f7"><td class="memItemLeft" align="right" valign="top"><a id="a53b9c54b0a9f2e07eee5d06b481839f7"></a>
-static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>MOVE_PERIOD</b> = 20</td></tr>
-<tr class="separator:a53b9c54b0a9f2e07eee5d06b481839f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a840b0403cbe1f5f1e9177f0370395037"><td class="memItemLeft" align="right" valign="top"><a id="a840b0403cbe1f5f1e9177f0370395037"></a>
+static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>MaxSpeed</b> = 9</td></tr>
+<tr class="separator:a840b0403cbe1f5f1e9177f0370395037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcdb66e0400d64175ff83302656fa050"><td class="memItemLeft" align="right" valign="top"><a id="adcdb66e0400d64175ff83302656fa050"></a>
+static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>MinSpeed</b> = 1</td></tr>
+<tr class="separator:adcdb66e0400d64175ff83302656fa050"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Handles the <a class="el" href="class_snake.html">Snake</a> logic</p>
+<dl class="section author"><dt>Author</dt><dd>Benjamin Korady </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.1 21/10/2017 </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="aa9cbcdb4b25d84cbf83509039cac8d01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9cbcdb4b25d84cbf83509039cac8d01">&#9670;&nbsp;</a></span>Snake()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Snake::Snake </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructs the snake object and calls <a class="el" href="class_snake.html#a80d88f3c36fbdc7562f6500a29e5320d">reset()</a> to initialize it to default values </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="adc3035ef6074a4cc8467f36836f8fcfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc3035ef6074a4cc8467f36836f8fcfc">&#9670;&nbsp;</a></span>draw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Snake::draw </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_board.html">Board</a> &amp;&#160;</td>
+          <td class="paramname"><em>brd</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Draws all of the snake's segments and the spacing between them to the board</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">board</td><td>object for the snake to be drawn to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a04982fc163b1e5e7a3dfe2f10f02352b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04982fc163b1e5e7a3dfe2f10f02352b">&#9670;&nbsp;</a></span>getDirection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; Snake::getDirection </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns snake's current direction</p>
+<dl class="section return"><dt>Returns</dt><dd>direction </dd></dl>
+
+</div>
+</div>
+<a id="ab10deed90dfd909d66aad65943808207"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab10deed90dfd909d66aad65943808207">&#9670;&nbsp;</a></span>getNextHeadLocation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; Snake::getNextHeadLocation </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the location where the snake is going to be after its next move</p>
+<dl class="section return"><dt>Returns</dt><dd>The next position of the snake's head </dd></dl>
+
+</div>
+</div>
+<a id="af7772a7b4723a9d9bb14bf415c10fce2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7772a7b4723a9d9bb14bf415c10fce2">&#9670;&nbsp;</a></span>getSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Snake::getSpeed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns snake's speed level (1-9)</p>
+<dl class="section return"><dt>Returns</dt><dd>speed level </dd></dl>
+
+</div>
+</div>
+<a id="a959eeb2c461a36a9e51de931d6917a75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a959eeb2c461a36a9e51de931d6917a75">&#9670;&nbsp;</a></span>grow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Snake::grow </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Grows the snake by 1 segment at the tail. </p>
+
+</div>
+</div>
+<a id="a0ee6aedc4741af43437641964ca3ed71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ee6aedc4741af43437641964ca3ed71">&#9670;&nbsp;</a></span>handleKeyPressEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Snake::handleKeyPressEvent </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_keyboard_1_1_event.html">Keyboard::Event</a>&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Listens for keyboard input and loads a direction into the queue based on keys pressed Controls: Arrow Keys or WASD</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>Key press event </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5cc849d79611903ec776bf8523470c4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cc849d79611903ec776bf8523470c4a">&#9670;&nbsp;</a></span>isInTile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Snake::isInTile </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_vec2__.html">Vec2_</a>&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>tileLocation</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>States whether or not the input location collides with any of the snake's body segments</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tileLocation</td><td>Input location in Tile units </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
+
+</div>
+</div>
+<a id="a78829d37e45f9780bac0e57c7c9f5e9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78829d37e45f9780bac0e57c7c9f5e9c">&#9670;&nbsp;</a></span>isTurnToMove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Snake::isTurnToMove </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::steady_clock::time_point&#160;</td>
+          <td class="paramname"><em>now</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>States whether or not the snake can move (Has enough time passed since the last movement?) The required frames idle are based on the snake's movement speed;</p>
+<dl class="section return"><dt>Returns</dt><dd>bool is it the snake's turn to move </dd></dl>
+
+</div>
+</div>
+<a id="a0467d2ce0f73c79ba8a083cbb7ffc11e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0467d2ce0f73c79ba8a083cbb7ffc11e">&#9670;&nbsp;</a></span>move()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Snake::move </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_board.html">Board</a> &amp;&#160;</td>
+          <td class="paramname"><em>brd</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Moves the snake in the next direction in queue</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">brd</td><td><a class="el" href="class_board.html">Board</a> object reference on which the snake is to move </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a80d88f3c36fbdc7562f6500a29e5320d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80d88f3c36fbdc7562f6500a29e5320d">&#9670;&nbsp;</a></span>reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Snake::reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initializes snake to default values, resets its segments, buffered moves, and direction </p>
+
+</div>
+</div>
+<a id="a588281a1a35185966b8dd587295e2197"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a588281a1a35185966b8dd587295e2197">&#9670;&nbsp;</a></span>setSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Snake::setSpeed </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>speedLevelIn</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the snake's movePeriod based on input speedLevel.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">speedLevel</td><td>Expected values are 1-9, uses default 3 otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="_snake_8h_source.html">Snake.h</a></li>
-<li>Snake.cpp</li>
+<li>C:/Users/Ben/source/repos/Classic-Snake-1-1997-/Engine/<a class="el" href="_snake_8h_source.html">Snake.h</a></li>
+<li>C:/Users/Ben/source/repos/Classic-Snake-1-1997-/Engine/Snake.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

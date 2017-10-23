@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['chiliexception',['ChiliException',['../class_chili_exception.html',1,'']]],
-  ['color',['Color',['../class_color.html',1,'']]]
+  ['board',['Board',['../class_board.html',1,'Board'],['../class_board.html#a46374cb53089d5abbf7609234dca4828',1,'Board::Board()']]]
 ];

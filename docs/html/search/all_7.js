@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['isinsideboard',['isInsideBoard',['../class_board.html#af00a708a0b6f2744b4494bd0d5fe0221',1,'Board']]]
+  ['handlekeypressevent',['handleKeyPressEvent',['../class_snake.html#a0ee6aedc4741af43437641964ca3ed71',1,'Snake']]],
+  ['hasitem',['hasItem',['../class_menu.html#ac8777bc6f40e4f372b8f10483f745521',1,'Menu']]],
+  ['hwndkey',['HWNDKey',['../class_h_w_n_d_key.html',1,'']]]
 ];

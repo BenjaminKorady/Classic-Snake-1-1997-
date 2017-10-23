@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Snake: Game Class Reference</title>
+<title>Classic Snake 1997 (2017 remake): Game Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Snake
+   <div id="projectname">Classic Snake 1997 (2017 remake)
    </div>
   </td>
  </tr>
@@ -65,11 +65,12 @@ $(function() {
 <div class="title">Game Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_game_8h_source.html">Game.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac7d110c84639f35b32098bcc22966446"><td class="memItemLeft" align="right" valign="top"><a id="ac7d110c84639f35b32098bcc22966446"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Game</b> (class <a class="el" href="class_main_window.html">MainWindow</a> &amp;wnd)</td></tr>
+<tr class="memitem:ac7d110c84639f35b32098bcc22966446"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game.html#ac7d110c84639f35b32098bcc22966446">Game</a> (class <a class="el" href="class_main_window.html">MainWindow</a> &amp;wnd)</td></tr>
 <tr class="separator:ac7d110c84639f35b32098bcc22966446"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb28875d74d25fa9e0dcdbe37c6ad89c"><td class="memItemLeft" align="right" valign="top"><a id="abb28875d74d25fa9e0dcdbe37c6ad89c"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Game</b> (const <a class="el" href="class_game.html">Game</a> &amp;)=delete</td></tr>
@@ -77,13 +78,62 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4d0c0503733cc50b0b5cb8d7ef1237ec"><td class="memItemLeft" align="right" valign="top"><a id="a4d0c0503733cc50b0b5cb8d7ef1237ec"></a>
 <a class="el" href="class_game.html">Game</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="class_game.html">Game</a> &amp;)=delete</td></tr>
 <tr class="separator:a4d0c0503733cc50b0b5cb8d7ef1237ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7f625a10c7d19d4d38a31f400c77ddc"><td class="memItemLeft" align="right" valign="top"><a id="ac7f625a10c7d19d4d38a31f400c77ddc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Go</b> ()</td></tr>
+<tr class="memitem:ac7f625a10c7d19d4d38a31f400c77ddc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game.html#ac7f625a10c7d19d4d38a31f400c77ddc">Go</a> ()</td></tr>
 <tr class="separator:ac7f625a10c7d19d4d38a31f400c77ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Main game logic</p>
+<p>Note: This code uses the basic logic from the Beginner C++ <a class="el" href="class_game.html">Game</a> Programming DirectX [<a class="el" href="class_snake.html">Snake</a> <a class="el" href="class_game.html">Game</a>] Tutorial 14a/b by ChiliTomatoNoodle on YouTube <a href="https://www.youtube.com/watch?v=KTyemy82Zqk">https://www.youtube.com/watch?v=KTyemy82Zqk</a> <a href="https://www.youtube.com/watch?v=DoO_NEksf3c">https://www.youtube.com/watch?v=DoO_NEksf3c</a></p>
+<dl class="section author"><dt>Author</dt><dd>Benamin Korady </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.1 23/10/2017 </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ac7d110c84639f35b32098bcc22966446"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7d110c84639f35b32098bcc22966446">&#9670;&nbsp;</a></span>Game()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::Game </td>
+          <td>(</td>
+          <td class="paramtype">class <a class="el" href="class_main_window.html">MainWindow</a> &amp;&#160;</td>
+          <td class="paramname"><em>wnd</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructs the main game object</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">wnd</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ac7f625a10c7d19d4d38a31f400c77ddc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7f625a10c7d19d4d38a31f400c77ddc">&#9670;&nbsp;</a></span>Go()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game::Go </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Main game loop, this is looped indefinitely until the application has been closed </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="_game_8h_source.html">Game.h</a></li>
-<li>Game.cpp</li>
+<li>C:/Users/Ben/source/repos/Classic-Snake-1-1997-/Engine/<a class="el" href="_game_8h_source.html">Game.h</a></li>
+<li>C:/Users/Ben/source/repos/Classic-Snake-1-1997-/Engine/Game.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

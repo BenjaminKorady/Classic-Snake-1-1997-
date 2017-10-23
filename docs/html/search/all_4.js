@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['food',['Food',['../class_food.html',1,'Food'],['../class_food.html#a75d4d7f76fd495cc8133302ca9fdc485',1,'Food::Food()'],['../class_food.html#abf88eb6961b943a2d481c08eca91cc2d',1,'Food::Food(PixelLocation loc)']]]
+  ['event',['Event',['../class_mouse_1_1_event.html',1,'Mouse::Event'],['../class_keyboard_1_1_event.html',1,'Keyboard::Event']]],
+  ['exception',['Exception',['../class_main_window_1_1_exception.html',1,'MainWindow::Exception'],['../class_graphics_1_1_exception.html',1,'Graphics::Exception']]]
 ];
